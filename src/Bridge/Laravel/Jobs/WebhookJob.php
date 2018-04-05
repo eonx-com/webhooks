@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhook\Bridge\Laravel\Jobs;
 
+use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\External\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
+use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
-use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\External\HttpClient\Interfaces\ResponseInterface;
 
 class WebhookJob implements WebhookJobInterface, ShouldQueue
 {
@@ -36,24 +36,20 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
     /**
      * Handle webhook event job.
      *
-     * @return \EoneoPay\External\HttpClient\Interfaces\ResponseInterface|null
+     * @return \EoneoPay\External\HttpClient\Interfaces\ResponseInterface
      */
     public function handle(): ?ResponseInterface
     {
-        if ($this->event) {
-            $postData = [
-                'auth' => [
-                    $this->event->getUsername(),
-                    $this->event->getPassword(),
-                    $this->event->getAuthType()
-                ],
-                'body' => $this->event->getPayload()->serialize()
-            ];
+        $postData = [
+            'auth' => [
+                $this->event->getUsername(),
+                $this->event->getPassword(),
+                $this->event->getAuthType()
+            ],
+            'body' => $this->event->getPayload()->serialize()
+        ];
 
-            // make request
-            return $this->httpClient->request('POST', $this->event->getUrl(), $postData);
-        }
-
-        return null;
+        // make request
+        return $this->httpClient->request('POST', $this->event->getUrl(), $postData);
     }
 }
