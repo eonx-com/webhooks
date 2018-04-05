@@ -1,9 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhook;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookHttpEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookSlackEvent;
+use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEvent;
+use EoneoPay\Webhook\Bridge\Laravel\Payloads\WebhookJsonPayload;
+use EoneoPay\Webhook\Bridge\Laravel\Payloads\WebhookXmlPayload;
+use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
 use Illuminate\Bus\Dispatcher as IlluminateJobDispatcher;
 use Illuminate\Container\Container as IlluminateContainer;
 use Illuminate\Contracts\Container\Container as IlluminateContainerContract;
@@ -129,28 +132,41 @@ abstract class WebhookTestCase extends TestCase
 
 
     /**
-     * Get webhook Slack event object.
+     * Get webhook Slack event.
      *
-     * @return WebhookSlackEvent
+     * @return WebhookEventInterface
      */
-    final protected static function getSlackEvent(): WebhookSlackEvent
+    final protected static function getSlackEvent(): WebhookEventInterface
     {
-        return new WebhookSlackEvent([
-            'url' => self::$slackUrl,
-            'payload' => self::$slackPayload
-        ]);
+        return new WebhookEvent(
+            self::$slackUrl,
+            new WebhookJsonPayload(self::$slackPayload)
+        );
     }
 
     /**
-     * Get webhook http event object.
+     * Get webhook http event.
      *
-     * @return WebhookHttpEvent
+     * @return WebhookEventInterface
      */
-    final protected static function getHttpEvent(): WebhookHttpEvent
+    final protected static function getHttpEvent(): WebhookEventInterface
     {
-        return new WebhookHttpEvent([
-            'url' => self::$httpUrl,
-            'payload' => self::$httpPayload
-        ]);
+        return new WebhookEvent(
+            self::$httpUrl,
+            new WebhookJsonPayload(self::$httpPayload)
+        );
+    }
+
+    /**
+     * Get webhook xml event.
+     *
+     * @return WebhookEventInterface
+     */
+    final protected static function getXmlEvent(): WebhookEventInterface
+    {
+        return new WebhookEvent(
+            self::$httpUrl,
+            new WebhookXmlPayload(self::$httpPayload)
+        );
     }
 }

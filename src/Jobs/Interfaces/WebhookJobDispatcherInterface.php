@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace EoneoPay\Webhook\Jobs\Interfaces;
 
@@ -7,7 +8,7 @@ interface WebhookJobDispatcherInterface
     /**
      * Dispatch a command to its handler.
      *
-     * @param $command
+     * @param mixed $command
      * @return mixed
      */
     public function dispatch($command);

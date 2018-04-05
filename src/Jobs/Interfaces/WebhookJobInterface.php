@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace EoneoPay\Webhook\Jobs\Interfaces;
 
@@ -11,5 +12,5 @@ interface WebhookJobInterface
      *
      * @return \EoneoPay\External\HttpClient\Interfaces\ResponseInterface
      */
-    public function handle(): ResponseInterface;
+    public function handle(): ?ResponseInterface;
 }

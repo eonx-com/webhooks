@@ -1,12 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace EoneoPay\Webhook\Bridge\Laravel\Listeners;
 
 use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookHttpEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookSlackEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookHttpEventJob;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookSlackEventJob;
+use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJob;
+use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
 use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
 use EoneoPay\Webhook\Listeners\Interfaces\WebhookEventListenerInterface;
 
@@ -31,22 +30,14 @@ class WebhookEventListener implements WebhookEventListenerInterface
     }
 
     /**
-     * Handle an event.
+     * Handle a webhook event.
      *
-     * @param mixed $event
-     *
-     * @return mixed|null
+     * @param WebhookEventInterface $event
+     * @return mixed
      */
-    public function handle($event)
+    public function handle(WebhookEventInterface $event)
     {
-        if ($event instanceof WebhookSlackEvent) :
-            // add Slack job to the queue
-            return $this->dispatcher->dispatch(new WebhookSlackEventJob($this->httpClient, $event));
-        elseif ($event instanceof WebhookHttpEvent) :
-            // add HTTP job to the queue
-            return $this->dispatcher->dispatch(new WebhookHttpEventJob($this->httpClient, $event));
-        endif;
-
-        return null;
+        // dispatch webhook job
+        return $this->dispatcher->dispatch(new WebhookJob($this->httpClient, $event));
     }
 }

@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace EoneoPay\Webhook\Listeners\Interfaces;
+
+use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
 
 interface WebhookEventListenerInterface
 {
     /**
-     * Handle an event.
+     * Handle a webhook event.
      *
-     * @param $event
-     *
-     * @return mixed|null
+     * @param WebhookEventInterface $event
+     * @return mixed
      */
-    public function handle($event);
+    public function handle(WebhookEventInterface $event);
 }

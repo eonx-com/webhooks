@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Listeners;
 
@@ -58,6 +59,28 @@ class WebhookEventListenerTest extends WebhookTestCase
     }
 
     /**
+     * Test handle webhook xml event.
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
+     */
+    public function testHandleXmlEvent(): void
+    {
+        $this->mockDispatcher->shouldReceive('dispatch')->andReturn(['ok'])
+            ->with(Mockery::type(WebhookJobInterface::class));
+
+        $this->webhookEventListener = new WebhookEventListener(
+            $this->mockClient,
+            $this->mockDispatcher
+        );
+
+        self::assertNotNull($this->webhookEventListener);
+        self::assertNotEmpty($this->webhookEventListener->handle(self::getXmlEvent()));
+        self::assertInternalType('array', $this->webhookEventListener->handle(self::getXmlEvent()));
+    }
+
+    /**
      * Test handle webhook Slack event.
      *
      * @return void
@@ -77,26 +100,5 @@ class WebhookEventListenerTest extends WebhookTestCase
         self::assertNotNull($this->webhookEventListener);
         self::assertNotEmpty($this->webhookEventListener->handle(self::getSlackEvent()));
         self::assertInternalType('array', $this->webhookEventListener->handle(self::getSlackEvent()));
-    }
-
-    /**
-     * Test handle webhook invalid event.
-     *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
-     */
-    public function testHandleInvalidEvent(): void
-    {
-        $this->mockDispatcher->shouldReceive('dispatch')->andReturn(null)
-            ->with(Mockery::type(WebhookJobInterface::class));
-
-        $this->webhookEventListener = new WebhookEventListener(
-            $this->mockClient,
-            $this->mockDispatcher
-        );
-
-        self::assertNotNull($this->webhookEventListener);
-        self::assertNull($this->webhookEventListener->handle('fake-event'));
     }
 }
