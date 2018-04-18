@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Events\Interfaces;
+namespace EoneoPay\Webhooks\Events\Interfaces;
 
-use EoneoPay\Webhook\Payloads\Interfaces\WebhookPayloadInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\WebhookPayloadInterface;
 
 interface WebhookEventInterface
 {

@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Jobs;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Jobs;
 
-use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\External\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\External\HttpClient\Response;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJob;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJobDispatcher;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Externals\HttpClient\Response;
+use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJob;
+use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJobDispatcher;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobInterface;
 use Illuminate\Bus\Dispatcher as IlluminateJobDispatcher;
 use Mockery;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 class WebhookJobDispatcherTest extends WebhookTestCase
 {

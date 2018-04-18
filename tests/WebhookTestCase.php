@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook;
+namespace Tests\EoneoPay\Webhooks;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Payloads\WebhookJsonPayload;
-use EoneoPay\Webhook\Bridge\Laravel\Payloads\WebhookXmlPayload;
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEvent;
+use EoneoPay\Webhooks\Bridge\Laravel\Payloads\WebhookJsonPayload;
+use EoneoPay\Webhooks\Bridge\Laravel\Payloads\WebhookXmlPayload;
+use EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface;
 use Illuminate\Bus\Dispatcher as IlluminateJobDispatcher;
 use Illuminate\Container\Container as IlluminateContainer;
 use Illuminate\Contracts\Container\Container as IlluminateContainerContract;

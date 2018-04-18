@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Events;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Events;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEventDispatcher;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEventDispatcher;
 use Illuminate\Events\Dispatcher as IlluminateDispatcher;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 class WebhookEventDispatcherTest extends WebhookTestCase
 {
     /**
      * Webhook event dispatcher
      *
-     * @var \EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEventDispatcher
+     * @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEventDispatcher
      */
     protected $eventDispatcher;
 

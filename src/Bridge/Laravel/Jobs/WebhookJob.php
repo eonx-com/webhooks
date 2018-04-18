@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Jobs;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Jobs;
 
-use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\External\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,7 +18,7 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
     /** @var WebhookEventInterface */
     protected $event;
 
-    /** @var \EoneoPay\External\HttpClient\Interfaces\ClientInterface */
+    /** @var \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface */
     protected $httpClient;
 
     /**
@@ -36,7 +36,7 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
     /**
      * Handle webhook event job.
      *
-     * @return \EoneoPay\External\HttpClient\Interfaces\ResponseInterface
+     * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface
      */
     public function handle(): ?ResponseInterface
     {

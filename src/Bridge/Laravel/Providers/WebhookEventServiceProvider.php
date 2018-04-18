@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Providers;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Providers;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Listeners\WebhookEventListener;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEvent;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
 use Laravel\Lumen\Providers\EventServiceProvider;
 
 class WebhookEventServiceProvider extends EventServiceProvider

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Jobs\Interfaces;
+namespace EoneoPay\Webhooks\Jobs\Interfaces;
 
 interface WebhookJobDispatcherInterface
 {

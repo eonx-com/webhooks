@@ -1,12 +1,15 @@
 {
-  "name": "eoneopay/webhook",
+  "name": "eoneopay/webhooks",
   "description": "The EoneoPay Webhook",
-  "keywords": ["eoneopay", "webhook"],
+  "keywords": [
+    "eoneopay",
+    "webhooks"
+  ],
   "license": "MIT",
   "type": "package",
   "require": {
     "php": ">=7.1",
-    "eoneopay/external": "dev-master",
+    "eoneopay/externals": "dev-master",
     "illuminate/redis": "^5.5",
     "guzzlehttp/guzzle": "^6.0.0"
   },
@@ -22,10 +25,14 @@
     "squizlabs/php_codesniffer": "3.*"
   },
   "autoload": {
-    "psr-4": { "EoneoPay\\Webhook\\": "src/" }
+    "psr-4": {
+      "EoneoPay\\Webhooks\\": "src/"
+    }
   },
   "autoload-dev": {
-    "psr-4": { "Tests\\EoneoPay\\Webhook\\": "tests/" }
+    "psr-4": {
+      "Tests\\EoneoPay\\Webhooks\\": "tests/"
+    }
   },
   "provide": {
     "php-http/client-implementation": "1.0"

@@ -1,24 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Listeners;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 
-use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\Webhook\Bridge\Laravel\Listeners\WebhookEventListener;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobInterface;
 use Mockery;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 class WebhookEventListenerTest extends WebhookTestCase
 {
-    /** @var  \EoneoPay\External\HttpClient\Interfaces\ClientInterface */
+    /** @var  \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface */
     private $mockClient;
 
-    /** @var \EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface */
+    /** @var \EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface */
     private $mockDispatcher;
 
-    /** @var \EoneoPay\Webhook\Bridge\Laravel\Listeners\WebhookEventListener */
+    /** @var \EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener */
     private $webhookEventListener;
 
     /**

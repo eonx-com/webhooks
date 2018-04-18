@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Events;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
 
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
-use EoneoPay\Webhook\Payloads\Interfaces\WebhookPayloadInterface;
+use EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\WebhookPayloadInterface;
 
 class WebhookEvent implements WebhookEventInterface
 {

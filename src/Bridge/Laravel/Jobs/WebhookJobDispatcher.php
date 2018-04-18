@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Jobs;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Jobs;
 
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
 use Illuminate\Bus\Dispatcher as IlluminateDispatcher;
 
 class WebhookJobDispatcher implements WebhookJobDispatcherInterface

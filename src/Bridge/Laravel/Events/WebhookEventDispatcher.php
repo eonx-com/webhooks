@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Events;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
 
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventDispatcherInterface;
+use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
 use Illuminate\Contracts\Events\Dispatcher as IlluminateDispatcher;
 
 class WebhookEventDispatcher implements WebhookEventDispatcherInterface

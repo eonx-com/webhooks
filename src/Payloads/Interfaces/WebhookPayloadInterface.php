@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Payloads\Interfaces;
+namespace EoneoPay\Webhooks\Payloads\Interfaces;
 
 interface WebhookPayloadInterface
 {

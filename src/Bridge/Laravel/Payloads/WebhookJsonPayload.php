@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Payloads;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Payloads;
 
 use EoneoPay\Utils\Repository;
-use EoneoPay\Webhook\Payloads\Interfaces\WebhookJsonPayloadInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\WebhookJsonPayloadInterface;
 
 class WebhookJsonPayload extends Repository implements WebhookJsonPayloadInterface
 {

@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Jobs\Interfaces;
+namespace EoneoPay\Webhooks\Jobs\Interfaces;
 
-use EoneoPay\External\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 
 interface WebhookJobInterface
 {
     /**
      * Handle a job.
      *
-     * @return \EoneoPay\External\HttpClient\Interfaces\ResponseInterface
+     * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface
      */
     public function handle(): ?ResponseInterface;
 }

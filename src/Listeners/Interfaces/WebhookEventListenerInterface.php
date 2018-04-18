@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Listeners\Interfaces;
+namespace EoneoPay\Webhooks\Listeners\Interfaces;
 
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
+use EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface;
 
 interface WebhookEventListenerInterface
 {
