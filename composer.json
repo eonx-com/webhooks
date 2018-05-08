@@ -1,22 +1,20 @@
 {
   "name": "eoneopay/webhooks",
-  "description": "The EoneoPay Webhook",
-  "keywords": [
-    "eoneopay",
-    "webhooks"
-  ],
-  "license": "MIT",
+  "description": "Package to allow payloads to be sent based on event triggers",
+  "keywords": ["eoneopay", "webhook"],
+  "license": "BSD-3-Clause",
   "type": "package",
   "require": {
     "php": ">=7.1",
     "eoneopay/externals": "dev-master",
+    "eoneopay/utils": "dev-master",
     "illuminate/redis": "^5.5",
     "guzzlehttp/guzzle": "^6.0.0"
   },
   "require-dev": {
+    "eoneopay/standards": "dev-master",
     "laravel/lumen-framework": "^5.5",
     "mockery/mockery": "^1.0",
-    "eoneopay/standards": "dev-master",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.9",
     "phpunit/phpunit": "^7.0",
@@ -25,25 +23,13 @@
     "squizlabs/php_codesniffer": "3.*"
   },
   "autoload": {
-    "psr-4": {
-      "EoneoPay\\Webhooks\\": "src/"
-    }
+    "psr-4": { "EoneoPay\\Webhook\\": "src/" }
   },
   "autoload-dev": {
-    "psr-4": {
-      "Tests\\EoneoPay\\Webhooks\\": "tests/"
-    }
+    "psr-4": { "Tests\\EoneoPay\\Webhook\\": "tests/" }
   },
   "provide": {
     "php-http/client-implementation": "1.0"
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "EoneoPay\\Webhook\\Bridge\\Laravel\\Providers\\WebhookServiceProvider",
-        "EoneoPay\\Webhook\\Bridge\\Laravel\\Providers\\WebhookEventServiceProvider"
-      ]
-    }
   },
   "optimize-autoloader": true,
   "minimum-stability": "dev",

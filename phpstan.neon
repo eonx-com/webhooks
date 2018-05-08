@@ -1,8 +1,8 @@
 parameters:
     ignoreErrors:
-        - '#Property Tests\\EoneoPay\\Webhooks\\WebhookTestCase::\$app \(Illuminate\\Contracts\\Foundation\\Application\) does not accept Illuminate\\Container\\Container.#'
-        - '#Method Tests\\EoneoPay\\Webhooks\\WebhookTestCase::getApplication\(\) should return Illuminate\\Contracts\\Foundation\\Application but returns Illuminate\\Container\\Container.#'
-        - '#Property Tests\\EoneoPay\\Webhooks\\Bridge\\Laravel\\Listeners\\WebhookEventListenerTest::\$mockClient \(EoneoPay\\Externals\\HttpClient\\Interfaces\\ClientInterface\) does not accept Mockery\\MockInterface.#'
-        - '#Property Tests\\EoneoPay\\Webhooks\\Bridge\\Laravel\\Listeners\\WebhookEventListenerTest::\$mockDispatcher \(EoneoPay\\Webhooks\\Jobs\\Interfaces\\WebhookJobDispatcherInterface\) does not accept Mockery\\MockInterface.#'
+        - '#Call to an undefined method EoneoPay\\Webhook\\Jobs\\Interfaces\\WebhookJobDispatcherInterface::shouldReceive\(\).#'
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
-        - '#Call to an undefined method EoneoPay\\Webhooks\\Jobs\\Interfaces\\WebhookJobDispatcherInterface::shouldReceive\(\).#'
+        - '#Method Tests\\EoneoPay\\Webhook\\WebhookTestCase::getApplication\(\) should return Illuminate\\Contracts\\Foundation\\Application but returns Illuminate\\Container\\Container.#'
+        - '#Property Tests\\EoneoPay\\Webhook\\Bridge\\Laravel\\Listeners\\WebhookEventListenerTest::\$mockClient \(EoneoPay\\Externals\\HttpClient\\Interfaces\\ClientInterface\) does not accept Mockery\\MockInterface.#'
+        - '#Property Tests\\EoneoPay\\Webhook\\Bridge\\Laravel\\Listeners\\WebhookEventListenerTest::\$mockDispatcher \(EoneoPay\\Webhook\\Jobs\\Interfaces\\WebhookJobDispatcherInterface\) does not accept Mockery\\MockInterface.#'
+        - '#Property Tests\\EoneoPay\\Webhook\\WebhookTestCase::\$app \(Illuminate\\Contracts\\Foundation\\Application\) does not accept Illuminate\\Container\\Container.#'

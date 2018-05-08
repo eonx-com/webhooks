@@ -1,34 +1,38 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Bridge\Laravel\Jobs;
+namespace EoneoPay\Webhook\Bridge\Laravel\Jobs;
 
-use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
-use Illuminate\Bus\Dispatcher as IlluminateDispatcher;
+use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
+use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use Illuminate\Bus\Dispatcher as IlluminateJobDispatcher;
 
 class WebhookJobDispatcher implements WebhookJobDispatcherInterface
 {
-    /** @var IlluminateDispatcher  */
-    private $dispatcher;
+    /**
+     * @var \Illuminate\Bus\Dispatcher
+     */
+    private $jobDispatcher;
 
     /**
      * Constructor.
      *
-     * @param \Illuminate\Bus\Dispatcher $dispatcher
+     * @param \Illuminate\Bus\Dispatcher $jobDispatcher
      */
-    public function __construct(IlluminateDispatcher $dispatcher)
+    public function __construct(IlluminateJobDispatcher $jobDispatcher)
     {
-        $this->dispatcher = $dispatcher;
+        $this->jobDispatcher = $jobDispatcher;
     }
 
     /**
-     * Dispatch a command to handler.
+     * Dispatch a job to handler.
      *
-     * @param mixed $command
+     * @param \EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface $job
+     *
      * @return mixed
      */
-    public function dispatch($command)
+    public function dispatch(WebhookJobInterface $job)
     {
-        return $this->dispatcher->dispatch($command);
+        return $this->jobDispatcher->dispatch($job);
     }
 }

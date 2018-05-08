@@ -1,37 +1,38 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
+namespace EoneoPay\Webhook\Bridge\Laravel\Events;
 
-use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
-use Illuminate\Contracts\Events\Dispatcher as IlluminateDispatcher;
+use EoneoPay\Webhook\Events\Interfaces\EventInterface;
+use EoneoPay\Webhook\Events\Interfaces\WebhookEventDispatcherInterface;
+use Illuminate\Contracts\Events\Dispatcher as IlluminateEventDispatcher;
 
 class WebhookEventDispatcher implements WebhookEventDispatcherInterface
 {
-    /** @var \Illuminate\Contracts\Events\Dispatcher */
-    private $dispatcher;
+    /**
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    private $eventDispatcher;
 
     /**
      * EventDispatcher constructor.
      *
-     * @param \Illuminate\Contracts\Events\Dispatcher $dispatcher
+     * @param \Illuminate\Contracts\Events\Dispatcher $eventDispatcher
      */
-    public function __construct(IlluminateDispatcher $dispatcher)
+    public function __construct(IlluminateEventDispatcher $eventDispatcher)
     {
-        $this->dispatcher = $dispatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * Fire an event and call the listeners.
+     * Dispatch an event.
      *
-     * @param  string|mixed  $event
-     * @param  mixed  $payload
-     * @param  bool  $halt
+     * @param \EoneoPay\Webhook\Events\Interfaces\EventInterface $event
      *
      * @return array|null
      */
-    public function dispatch($event, $payload = null, ?bool $halt = null): ?array
+    public function dispatch(EventInterface $event): ?array
     {
-        return $this->dispatcher->dispatch($event, $payload ?? [], $halt ?? false);
+        return $this->eventDispatcher->dispatch($event);
     }
 }

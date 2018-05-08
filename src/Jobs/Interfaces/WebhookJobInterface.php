@@ -1,16 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Jobs\Interfaces;
+namespace EoneoPay\Webhook\Jobs\Interfaces;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 
 interface WebhookJobInterface
 {
     /**
-     * Handle a job.
+     * Handle webhook event job.
      *
-     * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface
+     * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface|null
+     *
+     * @throws \EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException
      */
     public function handle(): ?ResponseInterface;
 }

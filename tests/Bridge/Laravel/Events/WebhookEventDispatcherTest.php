@@ -1,18 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Events;
+namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Events;
 
-use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEventDispatcher;
+use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEventDispatcher;
 use Illuminate\Events\Dispatcher as IlluminateDispatcher;
-use Tests\EoneoPay\Webhooks\WebhookTestCase;
+use Tests\EoneoPay\Webhook\WebhookTestCase;
 
+/**
+ * @covers \EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEventDispatcher
+ */
 class WebhookEventDispatcherTest extends WebhookTestCase
 {
     /**
      * Webhook event dispatcher
      *
-     * @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEventDispatcher
+     * @var \EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEventDispatcher
      */
     protected $eventDispatcher;
 
@@ -37,7 +40,6 @@ class WebhookEventDispatcherTest extends WebhookTestCase
      */
     public function testDispatch(): void
     {
-        self::assertInternalType('array', $this->eventDispatcher->dispatch('test-event', []));
-        self::assertNull($this->eventDispatcher->dispatch('test-event', [], true));
+        self::assertInternalType('array', $this->eventDispatcher->dispatch(self::getSlackEvent()));
     }
 }

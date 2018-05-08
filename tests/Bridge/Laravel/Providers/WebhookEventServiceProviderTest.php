@@ -1,12 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Providers;
+namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Providers;
 
-use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEvent;
-use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider;
-use Tests\EoneoPay\Webhooks\WebhookTestCase;
+use EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookEventServiceProvider;
+use EoneoPay\Webhook\Events\Interfaces\EventInterface;
+use Tests\EoneoPay\Webhook\WebhookTestCase;
 
+/**
+ * @covers \EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookEventServiceProvider
+ */
 class WebhookEventServiceProviderTest extends WebhookTestCase
 {
     /**
@@ -21,6 +24,6 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
         // register provider
         $provider->register();
         // assertions
-        self::assertArrayHasKey(WebhookEvent::class, $provider->listens());
+        self::assertArrayHasKey(EventInterface::class, $provider->listens());
     }
 }

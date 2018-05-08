@@ -4,7 +4,7 @@
 Use [Composer](https://getcomposer.org/) to install the package in your project:
 
 ```
-composer require eoneopay/webhook
+composer require eoneopay/webhooks
 ```
 
 ## Integration
@@ -13,7 +13,7 @@ To integrate the package into your [Laravel](https://laravel.com) or [Lumen](htt
 you need to register the following service providers:
 
 ```
-\EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider
-\EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider
+\EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookServiceProvider
+\EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookEventServiceProvider
 ```
 
