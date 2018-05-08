@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhook;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Payloads\WebhookJsonPayload;
-use EoneoPay\Webhook\Bridge\Laravel\Payloads\WebhookXmlPayload;
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventInterface;
+use EoneoPay\Webhook\Bridge\Laravel\Events\Http\JsonEvent;
+use EoneoPay\Webhook\Bridge\Laravel\Events\Http\XmlEvent;
+use EoneoPay\Webhook\Events\Interfaces\EventInterface;
 use Illuminate\Bus\Dispatcher as IlluminateJobDispatcher;
 use Illuminate\Container\Container as IlluminateContainer;
 use Illuminate\Contracts\Container\Container as IlluminateContainerContract;
@@ -15,6 +14,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Events\Dispatcher as IlluminateDispatcher;
 use Mockery;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
+ */
 abstract class WebhookTestCase extends TestCase
 {
     /**
@@ -57,7 +59,7 @@ abstract class WebhookTestCase extends TestCase
     protected static $slackUrl = 'https://hooks.slack.com/services//T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX';
 
     /**
-     * The applcation.
+     * The application.
      *
      * @var Application
      */
@@ -73,7 +75,7 @@ abstract class WebhookTestCase extends TestCase
      */
     protected function getApplication()
     {
-        if (null !== $this->app) {
+        if ($this->app !== null) {
             return $this->app;
         }
 
@@ -108,8 +110,7 @@ abstract class WebhookTestCase extends TestCase
      *
      * @return self
      *
-     * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
-     * @see                                  https://laravel.com/api/5.5/Illuminate/Foundation/Testing/TestCase.html#method_expectsJobs
+     * @see https://laravel.com/api/5.5/Illuminate/Foundation/Testing/TestCase.html#method_expectsJobs
      */
     protected function expectsJobs($jobs): self
     {
@@ -130,43 +131,23 @@ abstract class WebhookTestCase extends TestCase
         return $this;
     }
 
-
     /**
-     * Get webhook Slack event.
+     * Get Slack webhook event.
      *
-     * @return WebhookEventInterface
+     * @return EventInterface
      */
-    final protected static function getSlackEvent(): WebhookEventInterface
+    final protected static function getSlackEvent(): EventInterface
     {
-        return new WebhookEvent(
-            self::$slackUrl,
-            new WebhookJsonPayload(self::$slackPayload)
-        );
+        return new JsonEvent(self::$slackUrl, 'POST', self::$slackPayload, []);
     }
 
     /**
-     * Get webhook http event.
+     * Get XML webhook event.
      *
-     * @return WebhookEventInterface
+     * @return EventInterface
      */
-    final protected static function getHttpEvent(): WebhookEventInterface
+    final protected static function getXmlEvent(): EventInterface
     {
-        return new WebhookEvent(
-            self::$httpUrl,
-            new WebhookJsonPayload(self::$httpPayload)
-        );
-    }
-
-    /**
-     * Get webhook xml event.
-     *
-     * @return WebhookEventInterface
-     */
-    final protected static function getXmlEvent(): WebhookEventInterface
-    {
-        return new WebhookEvent(
-            self::$httpUrl,
-            new WebhookXmlPayload(self::$httpPayload)
-        );
+        return new XmlEvent(self::$httpUrl, 'POST', self::$httpPayload, []);
     }
 }

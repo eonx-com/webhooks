@@ -6,10 +6,11 @@ namespace EoneoPay\Webhook\Jobs\Interfaces;
 interface WebhookJobDispatcherInterface
 {
     /**
-     * Dispatch a command to its handler.
+     * Dispatch a job to handler.
      *
-     * @param mixed $command
+     * @param WebhookJobInterface $job
+     *
      * @return mixed
      */
-    public function dispatch($command);
+    public function dispatch(WebhookJobInterface $job);
 }

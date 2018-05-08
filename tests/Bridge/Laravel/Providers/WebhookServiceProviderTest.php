@@ -7,6 +7,9 @@ use EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookServiceProvider;
 use EoneoPay\Webhook\Events\Interfaces\WebhookEventDispatcherInterface;
 use Tests\EoneoPay\Webhook\WebhookTestCase;
 
+/**
+ * @covers \EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookServiceProvider
+ */
 class WebhookServiceProviderTest extends WebhookTestCase
 {
     /**
