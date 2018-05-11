@@ -5,8 +5,9 @@ namespace EoneoPay\Webhook\Bridge\Laravel\Events\Http;
 
 use EoneoPay\Utils\Arr;
 use EoneoPay\Webhook\Bridge\Laravel\Events\Event;
+use EoneoPay\Webhook\Events\Interfaces\Http\JsonEventInterface;
 
-class JsonEvent extends Event
+class JsonEvent extends Event implements JsonEventInterface
 {
     /**
      * JsonEvent constructor.
