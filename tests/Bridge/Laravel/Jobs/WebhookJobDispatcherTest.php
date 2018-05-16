@@ -15,13 +15,14 @@ use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 class WebhookJobDispatcherTest extends WebhookTestCase
 {
-    /** @var WebhookJobDispatcher */
+    /** @var \EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJobDispatcher */
     private $jobDispatcher;
 
     /**
      * Setup.
      *
      * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
     protected function setUp()
     {

@@ -5,5 +5,5 @@ namespace EoneoPay\Webhooks\Payloads\Interfaces;
 
 interface WebhookJsonPayloadInterface extends WebhookPayloadInterface
 {
-    //
+
 }

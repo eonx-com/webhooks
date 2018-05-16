@@ -32,7 +32,7 @@ class WebhookEventListener implements WebhookEventListenerInterface
     /**
      * Handle a webhook event.
      *
-     * @param WebhookEventInterface $event
+     * @param \EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface $event
      * @return mixed
      */
     public function handle(WebhookEventInterface $event)

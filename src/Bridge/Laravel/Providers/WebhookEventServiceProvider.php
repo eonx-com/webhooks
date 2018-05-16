@@ -12,7 +12,7 @@ class WebhookEventServiceProvider extends EventServiceProvider
     /**
      * The event listener mappings for the application.
      *
-     * @var array
+     * @var mixed[]
      */
     protected $listen = [
         WebhookEvent::class => [

@@ -8,7 +8,7 @@ use Illuminate\Bus\Dispatcher as IlluminateDispatcher;
 
 class WebhookJobDispatcher implements WebhookJobDispatcherInterface
 {
-    /** @var IlluminateDispatcher  */
+    /** @var \Illuminate\Bus\Dispatcher  */
     private $dispatcher;
 
     /**

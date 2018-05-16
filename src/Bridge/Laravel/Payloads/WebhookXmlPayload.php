@@ -14,7 +14,7 @@ class WebhookXmlPayload extends Repository implements WebhookXmlPayloadInterface
     /**
      * WebhookXmlPayload constructor.
      *
-     * @param array|null $data
+     * @param mixed[]|null $data
      * @param null|string $rootNode
      */
     public function __construct(?array $data = null, ?string $rootNode = null)

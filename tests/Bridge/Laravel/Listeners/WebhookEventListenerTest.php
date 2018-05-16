@@ -27,6 +27,7 @@ class WebhookEventListenerTest extends WebhookTestCase
      * @return void
      *
      * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
     protected function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {

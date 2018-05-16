@@ -20,7 +20,7 @@ abstract class WebhookTestCase extends TestCase
     /**
      * Http event payload.
      *
-     * @var array
+     * @var mixed[]
      */
     protected static $slackPayload = [
         'username' => 'TestBot',
@@ -36,7 +36,7 @@ abstract class WebhookTestCase extends TestCase
     /**
      * Slack event payload.
      *
-     * @var array
+     * @var string[]
      */
     protected static $httpPayload = [
         'ping' => 'OK'
@@ -57,9 +57,9 @@ abstract class WebhookTestCase extends TestCase
     protected static $slackUrl = 'https://hooks.slack.com/services//T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX';
 
     /**
-     * The applcation.
+     * The application.
      *
-     * @var Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
     private $app;
 
@@ -70,10 +70,12 @@ abstract class WebhookTestCase extends TestCase
      * Get Illuminate application.
      *
      * @return \Illuminate\Contracts\Foundation\Application
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
     protected function getApplication()
     {
-        if (null !== $this->app) {
+        if ($this->app !== null) {
             return $this->app;
         }
 
@@ -104,7 +106,7 @@ abstract class WebhookTestCase extends TestCase
     /**
      * Specify list of jobs expected to be mocked.
      *
-     * @param array|string $jobs Jobs
+     * @param mixed[]|string $jobs Jobs
      *
      * @return self
      *
@@ -134,7 +136,7 @@ abstract class WebhookTestCase extends TestCase
     /**
      * Get webhook Slack event.
      *
-     * @return WebhookEventInterface
+     * @return \EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface
      */
     final protected static function getSlackEvent(): WebhookEventInterface
     {
@@ -147,7 +149,7 @@ abstract class WebhookTestCase extends TestCase
     /**
      * Get webhook http event.
      *
-     * @return WebhookEventInterface
+     * @return \EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface
      */
     final protected static function getHttpEvent(): WebhookEventInterface
     {
@@ -160,7 +162,7 @@ abstract class WebhookTestCase extends TestCase
     /**
      * Get webhook xml event.
      *
-     * @return WebhookEventInterface
+     * @return \EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface
      */
     final protected static function getXmlEvent(): WebhookEventInterface
     {

@@ -17,7 +17,7 @@ interface WebhookEventInterface
     /**
      * Get payload.
      *
-     * @return WebhookPayloadInterface
+     * @return \EoneoPay\Webhooks\Payloads\Interfaces\WebhookPayloadInterface
      */
     public function getPayload(): WebhookPayloadInterface;
 

@@ -20,14 +20,14 @@ class WebhookEvent implements WebhookEventInterface
     /** @var null|string Authentication type */
     private $authType;
 
-    /** @var WebhookPayloadInterface The payload */
+    /** @var \EoneoPay\Webhooks\Payloads\Interfaces\WebhookPayloadInterface The payload */
     private $payload;
 
     /**
      * WebhookEvent constructor.
      *
      * @param string $url
-     * @param WebhookPayloadInterface $payload
+     * @param \EoneoPay\Webhooks\Payloads\Interfaces\WebhookPayloadInterface $payload
      * @param null|string $username
      * @param null|string $password
      * @param null|string $authType
@@ -59,7 +59,7 @@ class WebhookEvent implements WebhookEventInterface
     /**
      * Get payload.
      *
-     * @return WebhookPayloadInterface
+     * @return \EoneoPay\Webhooks\Payloads\Interfaces\WebhookPayloadInterface
      */
     public function getPayload(): WebhookPayloadInterface
     {

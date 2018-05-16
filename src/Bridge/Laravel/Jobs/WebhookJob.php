@@ -15,7 +15,7 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
 {
     use InteractsWithQueue, Queueable;
 
-    /** @var WebhookEventInterface */
+    /** @var \EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface */
     protected $event;
 
     /** @var \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface */
@@ -24,8 +24,8 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
     /**
      * WebhookJob constructor.
      *
-     * @param ClientInterface $httpClient
-     * @param WebhookEventInterface $event
+     * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
+     * @param \EoneoPay\Webhooks\Events\Interfaces\WebhookEventInterface $event
      */
     public function __construct(ClientInterface $httpClient, WebhookEventInterface $event)
     {
