@@ -1,0 +1,7 @@
+parameters:
+    ignoreErrors:
+        - '#Call to an undefined method EoneoPay\\Webhooks\\Jobs\\Interfaces\\WebhookJobDispatcherInterface::shouldReceive\(\).#'
+        - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
+        - '#Property Tests\\EoneoPay\\Webhooks\\Bridge\\Laravel\\Listeners\\WebhookEventListenerTest::\$mockClient \(EoneoPay\\Externals\\HttpClient\\Interfaces\\ClientInterface\) does not accept Mockery\\MockInterface.#'
+        - '#Property Tests\\EoneoPay\\Webhooks\\Bridge\\Laravel\\Listeners\\WebhookEventListenerTest::\$mockDispatcher \(EoneoPay\\Webhooks\\Jobs\\Interfaces\\WebhookJobDispatcherInterface\) does not accept Mockery\\MockInterface.#'
+        - '/Parameter #1 \$app of class [A-Z][\w\\]+ constructor expects Illuminate\\(Contracts\\)?Foundation\\Application, Illuminate\\Container\\Container given./'

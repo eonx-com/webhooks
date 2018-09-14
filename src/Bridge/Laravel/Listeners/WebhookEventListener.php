@@ -1,52 +1,48 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Listeners;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 
-use EoneoPay\External\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookHttpEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookSlackEvent;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookHttpEventJob;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookSlackEventJob;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
-use EoneoPay\Webhook\Listeners\Interfaces\WebhookEventListenerInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJob;
+use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
+use EoneoPay\Webhooks\Listeners\Interfaces\WebhookEventListenerInterface;
 
 class WebhookEventListener implements WebhookEventListenerInterface
 {
-    /** @var \EoneoPay\External\HttpClient\Interfaces\ClientInterface */
+    /**
+     * @var \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface
+     */
     private $httpClient;
 
-    /** @var \EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface */
-    private $dispatcher;
+    /**
+     * @var \EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface
+     */
+    private $jobDispatcher;
 
     /**
      *  Constructor.
      *
-     * @param \EoneoPay\External\HttpClient\Interfaces\ClientInterface $httpClient
-     * @param \EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface $dispatcher
+     * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
+     * @param \EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface $jobDispatcher
      */
-    public function __construct(ClientInterface $httpClient, WebhookJobDispatcherInterface $dispatcher)
+    public function __construct(ClientInterface $httpClient, WebhookJobDispatcherInterface $jobDispatcher)
     {
         $this->httpClient = $httpClient;
-        $this->dispatcher = $dispatcher;
+        $this->jobDispatcher = $jobDispatcher;
     }
 
     /**
-     * Handle an event.
+     * Handle a webhook event.
      *
-     * @param mixed $event
+     * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function handle($event)
+    public function handle(EventInterface $event)
     {
-        if ($event instanceof WebhookSlackEvent) :
-            // add Slack job to the queue
-            return $this->dispatcher->dispatch(new WebhookSlackEventJob($this->httpClient, $event));
-        elseif ($event instanceof WebhookHttpEvent) :
-            // add HTTP job to the queue
-            return $this->dispatcher->dispatch(new WebhookHttpEventJob($this->httpClient, $event));
-        endif;
-
-        return null;
+        // dispatch webhook job
+        return $this->jobDispatcher->dispatch(new WebhookJob($this->httpClient, $event));
     }
 }
