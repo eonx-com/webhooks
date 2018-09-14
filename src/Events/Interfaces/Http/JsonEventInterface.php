@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Events\Interfaces\Http;
+namespace EoneoPay\Webhooks\Events\Interfaces\Http;
 
-use EoneoPay\Webhook\Events\Interfaces\EventInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 
 interface JsonEventInterface extends EventInterface
 {
-    //
 }

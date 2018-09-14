@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Events\Interfaces\Http;
+namespace EoneoPay\Webhooks\Events\Interfaces\Http;
 
-use EoneoPay\Webhook\Events\Interfaces\EventInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 
 interface XmlEventInterface extends EventInterface
 {
@@ -12,7 +12,7 @@ interface XmlEventInterface extends EventInterface
      *
      * @param null|string $rootNode Xml root node
      *
-     * @return \EoneoPay\Webhook\Events\Interfaces\Http\XmlEventInterface
+     * @return \EoneoPay\Webhooks\Events\Interfaces\Http\XmlEventInterface
      */
     public function setRootNode(?string $rootNode = null): XmlEventInterface;
 }

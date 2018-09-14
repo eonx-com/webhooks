@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Providers;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Providers;
 
-use EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookEventServiceProvider;
-use EoneoPay\Webhook\Events\Interfaces\EventInterface;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider;
+use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
- * @covers \EoneoPay\Webhook\Bridge\Laravel\Providers\WebhookEventServiceProvider
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider
  */
 class WebhookEventServiceProviderTest extends WebhookTestCase
 {

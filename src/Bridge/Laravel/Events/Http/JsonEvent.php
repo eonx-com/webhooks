@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Events\Http;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Events\Http;
 
 use EoneoPay\Utils\Arr;
-use EoneoPay\Webhook\Bridge\Laravel\Events\Event;
-use EoneoPay\Webhook\Events\Interfaces\Http\JsonEventInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\Event;
+use EoneoPay\Webhooks\Events\Interfaces\Http\JsonEventInterface;
 
 class JsonEvent extends Event implements JsonEventInterface
 {
@@ -14,8 +14,8 @@ class JsonEvent extends Event implements JsonEventInterface
      *
      * @param null|string $url
      * @param null|string $method
-     * @param array|null $payload
-     * @param array|null $headers
+     * @param mixed[]|null $payload
+     * @param mixed[]|null $headers
      */
     public function __construct(
         ?string $url = null,
@@ -33,7 +33,7 @@ class JsonEvent extends Event implements JsonEventInterface
     /**
      * Serialize json event.
      *
-     * @return array
+     * @return mixed[]
      */
     public function serialize(): array
     {
@@ -46,9 +46,9 @@ class JsonEvent extends Event implements JsonEventInterface
     /**
      * Merge json headers.
      *
-     * @param array|null $headers
+     * @param mixed[]|null $headers
      *
-     * @return array
+     * @return mixed[]
      */
     private function mergeHeaders(?array $headers = []): array
     {

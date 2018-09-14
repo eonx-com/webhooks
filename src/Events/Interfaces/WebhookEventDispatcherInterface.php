@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Events\Interfaces;
+namespace EoneoPay\Webhooks\Events\Interfaces;
 
 interface WebhookEventDispatcherInterface
 {
     /**
      * Dispatch an event.
      *
-     * @param \EoneoPay\Webhook\Events\Interfaces\EventInterface $event
+     * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      *
-     * @return array|null
+     * @return mixed[]|null
      */
     public function dispatch(EventInterface $event): ?array;
 }

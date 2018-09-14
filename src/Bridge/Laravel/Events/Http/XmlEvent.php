@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Events\Http;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Events\Http;
 
 use EoneoPay\Utils\Arr;
-use EoneoPay\Webhook\Bridge\Laravel\Events\Event;
-use EoneoPay\Webhook\Events\Interfaces\Http\XmlEventInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\Event;
+use EoneoPay\Webhooks\Events\Interfaces\Http\XmlEventInterface;
 
 class XmlEvent extends Event implements XmlEventInterface
 {
@@ -14,8 +14,8 @@ class XmlEvent extends Event implements XmlEventInterface
      *
      * @param null|string $url
      * @param null|string $method
-     * @param array|null $payload
-     * @param array|null $headers
+     * @param mixed[]|null $payload
+     * @param mixed[]|null $headers
      * @param null|string $rootNode
      */
     public function __construct(
@@ -39,7 +39,7 @@ class XmlEvent extends Event implements XmlEventInterface
      *
      * @param null|string $rootNode Xml root node
      *
-     * @return \EoneoPay\Webhook\Events\Interfaces\Http\XmlEventInterface
+     * @return \EoneoPay\Webhooks\Events\Interfaces\Http\XmlEventInterface
      */
     public function setRootNode(?string $rootNode = null): XmlEventInterface
     {
@@ -51,7 +51,7 @@ class XmlEvent extends Event implements XmlEventInterface
     /**
      * Serialize xml event.
      *
-     * @return array
+     * @return mixed[]
      */
     public function serialize(): array
     {
@@ -64,9 +64,9 @@ class XmlEvent extends Event implements XmlEventInterface
     /**
      * Merge xml headers.
      *
-     * @param array|null $headers
+     * @param mixed[]|null $headers
      *
-     * @return array
+     * @return mixed[]
      */
     private function mergeHeaders(?array $headers = []): array
     {

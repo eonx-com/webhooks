@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Providers;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Providers;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\WebhookEventDispatcher;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJobDispatcher;
-use EoneoPay\Webhook\Events\Interfaces\WebhookEventDispatcherInterface;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEventDispatcher;
+use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJobDispatcher;
+use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
 use Illuminate\Support\ServiceProvider;
 
 class WebhookServiceProvider extends ServiceProvider

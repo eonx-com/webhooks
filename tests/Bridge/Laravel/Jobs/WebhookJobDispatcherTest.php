@@ -1,47 +1,30 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Jobs;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Jobs;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Externals\HttpClient\Response;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJob;
-use EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJobDispatcher;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJob;
+use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJobDispatcher;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobInterface;
 use Illuminate\Bus\Dispatcher as IlluminateJobDispatcher;
 use Mockery;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
- * @covers \EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJob
- * @covers \EoneoPay\Webhook\Bridge\Laravel\Jobs\WebhookJobDispatcher
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJob
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJobDispatcher
  *
  * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
  */
 class WebhookJobDispatcherTest extends WebhookTestCase
 {
     /**
-     * @var WebhookJobDispatcher
+     * @var \EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJobDispatcher
      */
     private $jobDispatcher;
-
-    /**
-     * Setup.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // construct Webhook job dispatcher
-        $this->jobDispatcher = new WebhookJobDispatcher(
-            new IlluminateJobDispatcher(
-                $this->getApplication()
-            )
-        );
-    }
 
     /**
      * Test dispatch json event job.
@@ -117,5 +100,22 @@ class WebhookJobDispatcherTest extends WebhookTestCase
         self::assertInstanceOf(ResponseInterface::class, $response);
         self::assertTrue($response->isSuccessful());
         self::assertEquals('200', $response->getStatusCode());
+    }
+
+    /**
+     * Setup.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // construct Webhook job dispatcher
+        $this->jobDispatcher = new WebhookJobDispatcher(
+            new IlluminateJobDispatcher(
+                $this->getApplication()
+            )
+        );
     }
 }

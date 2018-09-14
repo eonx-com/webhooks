@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Events\Http;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Events\Http;
 
-use EoneoPay\Webhook\Bridge\Laravel\Events\Http\JsonEvent;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\Http\JsonEvent;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
- * @covers \EoneoPay\Webhook\Bridge\Laravel\Events\Event
- * @covers \EoneoPay\Webhook\Bridge\Laravel\Events\Http\JsonEvent
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Events\Event
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Events\Http\JsonEvent
  */
 class JsonEventTest extends WebhookTestCase
 {

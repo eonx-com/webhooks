@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Events\Interfaces;
+namespace EoneoPay\Webhooks\Events\Interfaces;
 
 interface EventInterface
 {
@@ -22,21 +22,21 @@ interface EventInterface
     /**
      * Get headers.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getHeaders(): array;
 
     /**
      * Get payload.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getPayload(): array;
 
     /**
      * Serialize event.
      *
-     * @return array
+     * @return mixed[]
      */
     public function serialize(): array;
 }

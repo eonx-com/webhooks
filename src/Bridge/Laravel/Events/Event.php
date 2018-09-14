@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Events;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
 
 use EoneoPay\Utils\Collection;
-use EoneoPay\Webhook\Events\Interfaces\EventInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 
 abstract class Event implements EventInterface
 {
@@ -18,8 +18,8 @@ abstract class Event implements EventInterface
      *
      * @param null|string $url
      * @param null|string $method
-     * @param array|null $payload
-     * @param array|null $headers
+     * @param mixed[]|null $payload
+     * @param mixed[]|null $headers
      */
     public function __construct(
         ?string $url = null,
@@ -36,13 +36,20 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get http url.
+     * Serialize event.
      *
-     * @return string
+     * @return mixed[]
      */
-    public function getUrl(): string
+    abstract public function serialize(): array;
+
+    /**
+     * Get event headers.
+     *
+     * @return mixed[]
+     */
+    public function getHeaders(): array
     {
-        return $this->collection->get('url');
+        return $this->collection->get('headers')->toArray() ?? [];
     }
 
     /**
@@ -56,19 +63,9 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get event headers.
-     *
-     * @return array
-     */
-    public function getHeaders(): array
-    {
-        return $this->collection->get('headers')->toArray() ?? [];
-    }
-
-    /**
      * Get event payload.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getPayload(): array
     {
@@ -76,9 +73,12 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Serialize event.
+     * Get http url.
      *
-     * @return array
+     * @return string
      */
-    abstract public function serialize(): array;
+    public function getUrl(): string
+    {
+        return $this->collection->get('url');
+    }
 }

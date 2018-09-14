@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhook\Bridge\Laravel\Listeners;
+namespace Tests\EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
-use EoneoPay\Webhook\Bridge\Laravel\Listeners\WebhookEventListener;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobInterface;
 use Mockery;
-use Tests\EoneoPay\Webhook\WebhookTestCase;
+use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
- * @covers \EoneoPay\Webhook\Bridge\Laravel\Listeners\WebhookEventListener
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener
  *
  * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
  */
@@ -23,26 +23,33 @@ class WebhookEventListenerTest extends WebhookTestCase
     private $mockClient;
 
     /**
-     * @var \EoneoPay\Webhook\Jobs\Interfaces\WebhookJobDispatcherInterface
+     * @var \EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface
      */
     private $mockDispatcher;
 
     /**
-     * @var \EoneoPay\Webhook\Bridge\Laravel\Listeners\WebhookEventListener
+     * @var \EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener
      */
     private $webhookEventListener;
 
     /**
-     * Setup: Mock http client and event dispatcher.
+     * Test handle webhook Slack event.
      *
      * @return void
      */
-    protected function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    public function testHandleSlackEvent(): void
     {
-        parent::setUp();
+        $this->mockDispatcher->shouldReceive('dispatch')->andReturn(['ok'])
+            ->with(Mockery::type(WebhookJobInterface::class));
 
-        $this->mockClient = Mockery::mock(ClientInterface::class);
-        $this->mockDispatcher = Mockery::mock(WebhookJobDispatcherInterface::class);
+        $this->webhookEventListener = new WebhookEventListener(
+            $this->mockClient,
+            $this->mockDispatcher
+        );
+
+        self::assertNotNull($this->webhookEventListener);
+        self::assertNotEmpty($this->webhookEventListener->handle(self::getSlackEvent()));
+        self::assertInternalType('array', $this->webhookEventListener->handle(self::getSlackEvent()));
     }
 
     /**
@@ -66,22 +73,15 @@ class WebhookEventListenerTest extends WebhookTestCase
     }
 
     /**
-     * Test handle webhook Slack event.
+     * Setup: Mock http client and event dispatcher.
      *
      * @return void
      */
-    public function testHandleSlackEvent(): void
+    protected function setUp(): void
     {
-        $this->mockDispatcher->shouldReceive('dispatch')->andReturn(['ok'])
-            ->with(Mockery::type(WebhookJobInterface::class));
+        parent::setUp();
 
-        $this->webhookEventListener = new WebhookEventListener(
-            $this->mockClient,
-            $this->mockDispatcher
-        );
-
-        self::assertNotNull($this->webhookEventListener);
-        self::assertNotEmpty($this->webhookEventListener->handle(self::getSlackEvent()));
-        self::assertInternalType('array', $this->webhookEventListener->handle(self::getSlackEvent()));
+        $this->mockClient = Mockery::mock(ClientInterface::class);
+        $this->mockDispatcher = Mockery::mock(WebhookJobDispatcherInterface::class);
     }
 }

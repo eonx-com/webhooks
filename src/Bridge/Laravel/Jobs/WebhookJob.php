@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhook\Bridge\Laravel\Jobs;
+namespace EoneoPay\Webhooks\Bridge\Laravel\Jobs;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\Webhook\Events\Interfaces\EventInterface;
-use EoneoPay\Webhook\Jobs\Interfaces\WebhookJobInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
+use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,7 +16,7 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
     use InteractsWithQueue, Queueable;
 
     /**
-     * @var \EoneoPay\Webhook\Events\Interfaces\EventInterface
+     * @var \EoneoPay\Webhooks\Events\Interfaces\EventInterface
      */
     protected $event;
 
@@ -29,7 +29,7 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
      * WebhookJob constructor.
      *
      * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
-     * @param \EoneoPay\Webhook\Events\Interfaces\EventInterface $event
+     * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      */
     public function __construct(ClientInterface $httpClient, EventInterface $event)
     {
