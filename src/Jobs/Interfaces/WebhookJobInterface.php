@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Jobs\Interfaces;
 
+use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 
 interface WebhookJobInterface
@@ -10,9 +11,9 @@ interface WebhookJobInterface
     /**
      * Handle webhook event job.
      *
-     * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface|null
+     * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
      *
-     * @throws \EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException
+     * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface|null
      */
-    public function handle(): ?ResponseInterface;
+    public function handle(ClientInterface $httpClient): ?ResponseInterface;
 }

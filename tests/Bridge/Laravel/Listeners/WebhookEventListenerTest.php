@@ -43,7 +43,6 @@ class WebhookEventListenerTest extends WebhookTestCase
             ->with(Mockery::type(WebhookJobInterface::class));
 
         $this->webhookEventListener = new WebhookEventListener(
-            $this->mockClient,
             $this->mockDispatcher
         );
 
@@ -63,7 +62,6 @@ class WebhookEventListenerTest extends WebhookTestCase
             ->with(Mockery::type(WebhookJobInterface::class));
 
         $this->webhookEventListener = new WebhookEventListener(
-            $this->mockClient,
             $this->mockDispatcher
         );
 

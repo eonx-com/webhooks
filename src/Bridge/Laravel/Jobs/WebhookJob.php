@@ -21,33 +21,28 @@ class WebhookJob implements WebhookJobInterface, ShouldQueue
     protected $event;
 
     /**
-     * @var \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface
-     */
-    protected $httpClient;
-
-    /**
      * WebhookJob constructor.
      *
-     * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      */
-    public function __construct(ClientInterface $httpClient, EventInterface $event)
+    public function __construct(EventInterface $event)
     {
-        $this->httpClient = $httpClient;
         $this->event = $event;
     }
 
     /**
      * Handle webhook event job.
      *
+     * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
+     *
      * @return \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface|null
      *
      * @throws \EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException
      */
-    public function handle(): ?ResponseInterface
+    public function handle(ClientInterface $httpClient): ?ResponseInterface
     {
         // make request
-        return $this->httpClient->request(
+        return $httpClient->request(
             $this->event->getMethod(),
             $this->event->getUrl(),
             $this->event->serialize()

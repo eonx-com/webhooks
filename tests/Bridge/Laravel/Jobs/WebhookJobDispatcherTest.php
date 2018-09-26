@@ -50,7 +50,6 @@ class WebhookJobDispatcherTest extends WebhookTestCase
         );
 
         $job = new WebhookJob(
-            $this->getApplication()->get(ClientInterface::class),
             self::getSlackEvent()
         );
 
@@ -88,7 +87,6 @@ class WebhookJobDispatcherTest extends WebhookTestCase
         );
 
         $job = new WebhookJob(
-            $this->getApplication()->get(ClientInterface::class),
             self::getXmlEvent()
         );
 
