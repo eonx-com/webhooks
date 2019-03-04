@@ -6,11 +6,11 @@ namespace EoneoPay\Webhooks\Events\Interfaces;
 interface EventInterface
 {
     /**
-     * Get URL.
+     * Get headers.
      *
-     * @return string
+     * @return string[]
      */
-    public function getUrl(): string;
+    public function getHeaders(): array;
 
     /**
      * Get method.
@@ -20,23 +20,16 @@ interface EventInterface
     public function getMethod(): string;
 
     /**
-     * Get headers.
-     *
-     * @return mixed[]
-     */
-    public function getHeaders(): array;
-
-    /**
      * Get payload.
      *
-     * @return mixed[]
+     * @return string|null
      */
-    public function getPayload(): array;
+    public function getPayload(): ?string;
 
     /**
-     * Serialize event.
+     * Get URL.
      *
-     * @return mixed[]
+     * @return string
      */
-    public function serialize(): array;
+    public function getUrl(): string;
 }

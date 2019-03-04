@@ -3,23 +3,23 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
 
+use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
-use Illuminate\Contracts\Events\Dispatcher as IlluminateEventDispatcher;
 
-class WebhookEventDispatcher implements WebhookEventDispatcherInterface
+final class WebhookEventDispatcher implements WebhookEventDispatcherInterface
 {
     /**
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var \EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface
      */
     private $eventDispatcher;
 
     /**
      * EventDispatcher constructor.
      *
-     * @param \Illuminate\Contracts\Events\Dispatcher $eventDispatcher
+     * @param \EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(IlluminateEventDispatcher $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -29,10 +29,10 @@ class WebhookEventDispatcher implements WebhookEventDispatcherInterface
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      *
-     * @return mixed[]|null
+     * @return void
      */
-    public function dispatch(EventInterface $event): ?array
+    public function dispatch(EventInterface $event): void
     {
-        return $this->eventDispatcher->dispatch($event);
+        $this->eventDispatcher->dispatch($event);
     }
 }

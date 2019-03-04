@@ -11,6 +11,7 @@
     "php": ">=7.1",
     "eoneopay/externals": "dev-master",
     "eoneopay/utils": "dev-master",
+    "ext-json": "*",
     "illuminate/redis": "^5.5",
     "guzzlehttp/guzzle": "^6.0.0"
   },
