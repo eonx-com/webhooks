@@ -10,26 +10,26 @@ interface SubscriptionInterface
      *
      * @return string
      */
-    public function getSerializationFormat(): string;
+    public function getWebhookSerializationFormat(): string;
 
     /**
      * The URL to be used for sending the webhook payload.
      *
      * @return string
      */
-    public function getUrl(): string;
+    public function getWebhookUrl(): string;
 
     /**
      * The HTTP verb to be used as part of the webhook request.
      *
      * @return string
      */
-    public function getMethod(): string;
+    public function getWebhookMethod(): string;
 
     /**
      * Any headers to be added to the webhook request.
      *
      * @return string[]
      */
-    public function getHeaders(): array;
+    public function getWebhookHeaders(): array;
 }
