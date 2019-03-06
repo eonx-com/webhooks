@@ -1,11 +1,22 @@
 # EoneoPay Webhook Library
 
+This library adds support for firing webhooks asyncronously to external subscribers.
+
 ## Installation
 Use [Composer](https://getcomposer.org/) to install the package in your project:
 
 ```
 composer require eoneopay/webhooks
 ```
+
+## Usage
+
+Inject the `\EoneoPay\Webhooks\Webhooks\Interface\WebhookInterface` service into your
+application where a webhook needs to be fired. The send method on this interface accepts
+a `WebhookDataInterface` implementation that represents a specific webhook to be fired.
+
+For each of the different webhooks you will fire inside your application you will need
+to create a class that implements `WebhookDataInterface`.
 
 ## Integration
 #### Laravel
