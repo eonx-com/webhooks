@@ -17,6 +17,13 @@ use EoneoPay\Webhooks\Webhook\Webhook;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class WebhookServiceProvider
+ *
+ * @package EoneoPay\Webhooks\Bridge\Laravel\Providers
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) ServiceProvider coupling because of bindings
+ */
 class WebhookServiceProvider extends ServiceProvider
 {
     /**

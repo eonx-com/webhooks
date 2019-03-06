@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
@@ -87,7 +88,12 @@ class WebhookServiceProviderTest extends WebhookTestCase
         $app->bind(EventDispatcherInterface::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
         $app->bind(HttpClientInterface::class, HttpClientStub::class);
-        $app->instance(EntityManagerInterface::class, $this->createMock(EntityManagerInterface::class));
+
+        $doctrine = $this->createMock(EntityManagerInterface::class);
+        $registry = $this->createMock(ManagerRegistry::class);
+        $registry->method('getManager')
+            ->willReturn($doctrine);
+        $app->instance('registry', $registry);
 
         $this->provider = new WebhookServiceProvider($this->getApplication());
         $this->provider->register();
