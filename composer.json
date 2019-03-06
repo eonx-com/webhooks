@@ -9,6 +9,7 @@
   "type": "package",
   "require": {
     "php": ">=7.1",
+    "doctrine/orm": "^2.6.3",
     "eoneopay/externals": "dev-master",
     "eoneopay/utils": "dev-master",
     "ext-json": "*",

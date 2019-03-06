@@ -7,7 +7,7 @@ use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Externals\HttpClient\Response;
 
-class ClientStub implements ClientInterface
+class HttpClientStub implements ClientInterface
 {
     /**
      * @var mixed[]

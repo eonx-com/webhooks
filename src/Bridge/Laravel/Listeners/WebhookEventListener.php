@@ -3,24 +3,24 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 
 final class WebhookEventListener
 {
     /**
-     * @var \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface
+     * @var \EoneoPay\Webhooks\Client\Interfaces\ClientInterface
      */
-    private $httpClient;
+    private $client;
 
     /**
-     * Constructor.
+     * WebhookEventListener constructor.
      *
-     * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
+     * @param \EoneoPay\Webhooks\Client\Interfaces\ClientInterface $client
      */
-    public function __construct(ClientInterface $httpClient)
+    public function __construct(ClientInterface $client)
     {
-        $this->httpClient = $httpClient;
+        $this->client = $client;
     }
 
     /**
@@ -32,13 +32,6 @@ final class WebhookEventListener
      */
     public function handle(EventInterface $event): void
     {
-        $this->httpClient->request(
-            $event->getMethod(),
-            $event->getUrl(),
-            [
-                'body' => $event->getPayload(),
-                'headers' => $event->getHeaders()
-            ]
-        );
+        $this->client->send($event);
     }
 }

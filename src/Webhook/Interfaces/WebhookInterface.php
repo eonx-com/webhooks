@@ -10,12 +10,9 @@ interface WebhookInterface
      * for hitting all webhook subscriptions that match the event and its
      * subscribers.
      *
-     * @param string $eventConstant
-     * @param int $sequence
-     * @param mixed[] $payload
-     * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriberInterface[] $subscribers
+     * @param \EoneoPay\Webhooks\Webhook\Interfaces\WebhookDataInterface $webhookData
      *
      * @return void
      */
-    public function send(string $eventConstant, int $sequence, array $payload, array $subscribers): void;
+    public function send(WebhookDataInterface $webhookData): void;
 }

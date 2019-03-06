@@ -3,18 +3,21 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
+use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
-use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
+use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventCreatorInterface;
 use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
+use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
 use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
-use Tests\EoneoPay\Webhooks\Stubs\ClientStub;
 use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\HttpClientStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
@@ -39,10 +42,12 @@ class WebhookServiceProviderTest extends WebhookTestCase
     public function getRegisteredInterfaces(): array
     {
         return [
-            [WebhookInterface::class],
+            [ClientInterface::class],
             [EventCreatorInterface::class],
             [WebhookEventDispatcherInterface::class],
-            [WebhookEventListener::class]
+            [WebhookEventListener::class],
+            [WebhookInterface::class],
+            [WebhookPersisterInterface::class]
         ];
     }
 
@@ -81,7 +86,8 @@ class WebhookServiceProviderTest extends WebhookTestCase
         $app->bind(SubscriptionRetrieverInterface::class, SubscriptionRetrieverStub::class);
         $app->bind(EventDispatcherInterface::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
-        $app->bind(ClientInterface::class, ClientStub::class);
+        $app->bind(HttpClientInterface::class, HttpClientStub::class);
+        $app->instance(EntityManagerInterface::class, $this->createMock(EntityManagerInterface::class));
 
         $this->provider = new WebhookServiceProvider($this->getApplication());
         $this->provider->register();

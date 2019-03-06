@@ -11,7 +11,6 @@ interface EventCreatorInterface
      * Creates a new Event instance.
      *
      * @param string $event
-     * @param int $sequence
      * @param mixed[] $payload
      * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface $subscription
      *
@@ -19,7 +18,6 @@ interface EventCreatorInterface
      */
     public function create(
         string $event,
-        int $sequence,
         array $payload,
         SubscriptionInterface $subscription
     ): EventInterface;

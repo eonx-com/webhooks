@@ -11,17 +11,7 @@ final class Event implements EventInterface, ShouldQueue
     /**
      * @var string
      */
-    private $url;
-
-    /**
-     * @var string
-     */
-    private $method;
-
-    /**
-     * @var null|string
-     */
-    private $payload;
+    private $format;
 
     /**
      * @var string[]
@@ -29,31 +19,65 @@ final class Event implements EventInterface, ShouldQueue
     private $headers;
 
     /**
+     * @var string
+     */
+    private $method;
+
+    /**
+     * @var mixed[]
+     */
+    private $payload;
+
+    /**
+     * @var int
+     */
+    private $sequence;
+
+    /**
+     * @var string
+     */
+    private $url;
+
+    /**
      * Event constructor.
      *
      * @param string $url
+     * @param int $sequence
+     * @param string $format
      * @param null|string $method
-     * @param string|null $payload
+     * @param mixed[]|null $payload
      * @param mixed[]|null $headers
      */
     public function __construct(
         string $url,
+        int $sequence,
+        string $format,
         ?string $method = null,
-        ?string $payload = null,
+        ?array $payload = null,
         ?array $headers = null
     ) {
         $this->url = $url;
+        $this->sequence = $sequence;
+        $this->format = $format;
         $this->method = $method ?? 'POST';
-        $this->payload = $payload;
+        $this->payload = $payload ?? [];
         $this->headers = $headers ?? [];
     }
 
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getFormat(): string
     {
-        return $this->url;
+        return $this->format;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
     }
 
     /**
@@ -67,7 +91,7 @@ final class Event implements EventInterface, ShouldQueue
     /**
      * @inheritdoc
      */
-    public function getPayload(): ?string
+    public function getPayload(): array
     {
         return $this->payload;
     }
@@ -75,8 +99,16 @@ final class Event implements EventInterface, ShouldQueue
     /**
      * @inheritdoc
      */
-    public function getHeaders(): array
+    public function getSequence(): int
     {
-        return $this->headers;
+        return $this->sequence;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }

@@ -6,6 +6,7 @@ namespace EoneoPay\Webhooks\Webhook;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventCreatorInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
+use EoneoPay\Webhooks\Webhook\Interfaces\WebhookDataInterface;
 use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
 
 final class Webhook implements WebhookInterface
@@ -45,12 +46,19 @@ final class Webhook implements WebhookInterface
     /**
      * @inheritdoc
      */
-    public function send(string $eventConstant, int $sequence, array $payload, array $subscribers): void
+    public function send(WebhookDataInterface $webhookData): void
     {
-        $subscriptions = $this->retriever->getSubscriptionsForSubscribers($eventConstant, $subscribers);
+        $subscriptions = $this->retriever->getSubscriptionsForSubscribers(
+            $webhookData->getEvent(),
+            $webhookData->getSubscribers()
+        );
 
         foreach ($subscriptions as $subscription) {
-            $event = $this->eventCreator->create($eventConstant, $sequence, $payload, $subscription);
+            $event = $this->eventCreator->create(
+                $webhookData->getEvent(),
+                $webhookData->getPayload(),
+                $subscription
+            );
 
             $this->dispatcher->dispatch($event);
         }

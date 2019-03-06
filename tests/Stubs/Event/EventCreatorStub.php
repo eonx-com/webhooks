@@ -10,20 +10,19 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 class EventCreatorStub implements EventCreatorInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Events\Interfaces\EventInterface
+     * @var \EoneoPay\Webhooks\Events\Interfaces\EventInterface[]
      */
-    private $event;
+    private $events;
 
     /**
      * @inheritdoc
      */
     public function create(
         string $event,
-        int $sequence,
         array $payload,
         SubscriptionInterface $subscription
     ): EventInterface {
-        return $this->event;
+        return \array_shift($this->events);
     }
 
     /**
@@ -33,8 +32,8 @@ class EventCreatorStub implements EventCreatorInterface
      *
      * @return void
      */
-    public function setEvent(EventInterface $event): void
+    public function addEvent(EventInterface $event): void
     {
-        $this->event = $event;
+        $this->events[] = $event;
     }
 }

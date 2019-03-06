@@ -9,7 +9,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Event\EventStub;
 use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriberStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
+use Tests\EoneoPay\Webhooks\Stubs\Webhooks\WebhookDataStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -44,12 +44,20 @@ class WebhookTest extends TestCase
      */
     public function testSend(): void
     {
-        $event = new EventStub();
-        $this->eventCreator->setEvent($event);
+        $event1 = new EventStub();
+        $this->eventCreator->addEvent($event1);
+        $event2 = new EventStub();
+        $this->eventCreator->addEvent($event2);
 
-        $this->webhook->send('webhook.event', 2, ['payload' => 'here'], [new SubscriberStub()]);
+        $data = new WebhookDataStub('event', ['payload' => 'here'], [
+            new SubscriberStub(),
+            new SubscriberStub()
+        ]);
 
-        static::assertContains($event, $this->dispatcher->getDispatched());
+        $this->webhook->send($data);
+
+        static::assertContains($event1, $this->dispatcher->getDispatched());
+        static::assertContains($event2, $this->dispatcher->getDispatched());
     }
 
     /**
@@ -62,10 +70,6 @@ class WebhookTest extends TestCase
         parent::setUp();
 
         $this->retriever = new SubscriptionRetrieverStub();
-        $this->retriever->setToReturn([
-            new SubscriptionStub()
-        ]);
-
         $this->dispatcher = new EventDispatcherStub();
         $this->eventCreator = new EventCreatorStub();
 
