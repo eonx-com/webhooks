@@ -14,6 +14,7 @@ use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
 use EoneoPay\Webhooks\Webhook\Webhook;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
 class WebhookServiceProvider extends ServiceProvider
@@ -30,6 +31,8 @@ class WebhookServiceProvider extends ServiceProvider
         $this->app->singleton(WebhookEventDispatcherInterface::class, WebhookEventDispatcher::class);
         $this->app->singleton(WebhookEventListener::class);
         $this->app->singleton(WebhookInterface::class, Webhook::class);
-        $this->app->singleton(WebhookPersisterInterface::class, WebhookPersister::class);
+        $this->app->singleton(WebhookPersisterInterface::class, function (Container $app): WebhookPersisterInterface {
+            return new WebhookPersister($app->make('registry')->getManager());
+        });
     }
 }
