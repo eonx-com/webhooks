@@ -3,82 +3,112 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
 
-use EoneoPay\Utils\Collection;
 use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-abstract class Event implements EventInterface
+final class Event implements EventInterface, ShouldQueue
 {
     /**
-     * @var \EoneoPay\Utils\Collection
+     * @var string
      */
-    protected $collection;
+    private $format;
+
+    /**
+     * @var string[]
+     */
+    private $headers;
+
+    /**
+     * @var string
+     */
+    private $method;
+
+    /**
+     * @var mixed[]
+     */
+    private $payload;
+
+    /**
+     * @var int
+     */
+    private $sequence;
+
+    /**
+     * @var string
+     */
+    private $url;
 
     /**
      * Event constructor.
      *
-     * @param null|string $url
+     * @param string $url
+     * @param int $sequence
+     * @param string $format
      * @param null|string $method
      * @param mixed[]|null $payload
      * @param mixed[]|null $headers
      */
     public function __construct(
-        ?string $url = null,
+        string $url,
+        int $sequence,
+        string $format,
         ?string $method = null,
-        ?array $payload = [],
-        ?array $headers = []
+        ?array $payload = null,
+        ?array $headers = null
     ) {
-        $this->collection = new Collection([
-            'url' => $url ?? null,
-            'method' => $method ?? 'POST',
-            'headers' => $headers ?? [],
-            'payload' => $payload ?? []
-        ]);
+        $this->url = $url;
+        $this->sequence = $sequence;
+        $this->format = $format;
+        $this->method = $method ?? 'POST';
+        $this->payload = $payload ?? [];
+        $this->headers = $headers ?? [];
     }
 
     /**
-     * Serialize event.
-     *
-     * @return mixed[]
+     * @inheritdoc
      */
-    abstract public function serialize(): array;
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
 
     /**
-     * Get event headers.
-     *
-     * @return mixed[]
+     * @inheritdoc
      */
     public function getHeaders(): array
     {
-        return $this->collection->get('headers')->toArray() ?? [];
+        return $this->headers;
     }
 
     /**
-     * Get http method.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getMethod(): string
     {
-        return $this->collection->get('method');
+        return $this->method;
     }
 
     /**
-     * Get event payload.
-     *
-     * @return mixed[]
+     * @inheritdoc
      */
     public function getPayload(): array
     {
-        return $this->collection->get('payload')->toArray();
+        return $this->payload;
     }
 
     /**
-     * Get http url.
-     *
-     * @return string
+     * @inheritdoc
+     */
+    public function getSequence(): int
+    {
+        return $this->sequence;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getUrl(): string
     {
-        return $this->collection->get('url');
+        return $this->url;
     }
 }

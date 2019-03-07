@@ -3,26 +3,24 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 
-use EoneoPay\Webhooks\Bridge\Laravel\Jobs\WebhookJob;
+use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
-use EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface;
-use EoneoPay\Webhooks\Listeners\Interfaces\WebhookEventListenerInterface;
 
-class WebhookEventListener implements WebhookEventListenerInterface
+final class WebhookEventListener
 {
     /**
-     * @var \EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface
+     * @var \EoneoPay\Webhooks\Client\Interfaces\ClientInterface
      */
-    private $jobDispatcher;
+    private $client;
 
     /**
-     *  Constructor.
+     * WebhookEventListener constructor.
      *
-     * @param \EoneoPay\Webhooks\Jobs\Interfaces\WebhookJobDispatcherInterface $jobDispatcher
+     * @param \EoneoPay\Webhooks\Client\Interfaces\ClientInterface $client
      */
-    public function __construct(WebhookJobDispatcherInterface $jobDispatcher)
+    public function __construct(ClientInterface $client)
     {
-        $this->jobDispatcher = $jobDispatcher;
+        $this->client = $client;
     }
 
     /**
@@ -30,11 +28,10 @@ class WebhookEventListener implements WebhookEventListenerInterface
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      *
-     * @return mixed
+     * @return void
      */
-    public function handle(EventInterface $event)
+    public function handle(EventInterface $event): void
     {
-        // dispatch webhook job
-        return $this->jobDispatcher->dispatch(new WebhookJob($event));
+        $this->client->send($event);
     }
 }

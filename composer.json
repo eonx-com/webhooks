@@ -9,8 +9,10 @@
   "type": "package",
   "require": {
     "php": ">=7.1",
+    "doctrine/orm": "^2.6.3",
     "eoneopay/externals": "dev-master",
     "eoneopay/utils": "dev-master",
+    "ext-json": "*",
     "illuminate/redis": "^5.5",
     "guzzlehttp/guzzle": "^6.0.0"
   },

@@ -10,7 +10,7 @@ interface WebhookEventDispatcherInterface
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventInterface $event
      *
-     * @return mixed[]|null
+     * @return void
      */
-    public function dispatch(EventInterface $event): ?array;
+    public function dispatch(EventInterface $event): void;
 }
