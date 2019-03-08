@@ -25,7 +25,7 @@ class SubscriptionStub implements SubscriptionInterface
     /**
      * @inheritdoc
      */
-    public function getWebhookHeaders(): array
+    public function getHeaders(): array
     {
         return ['authorization' => 'Bearer ABC123'];
     }
@@ -33,7 +33,7 @@ class SubscriptionStub implements SubscriptionInterface
     /**
      * @inheritdoc
      */
-    public function getWebhookMethod(): string
+    public function getMethod(): string
     {
         return 'POST';
     }
@@ -41,7 +41,7 @@ class SubscriptionStub implements SubscriptionInterface
     /**
      * @inheritdoc
      */
-    public function getWebhookSerializationFormat(): string
+    public function getSerializationFormat(): string
     {
         return $this->format;
     }
@@ -49,7 +49,7 @@ class SubscriptionStub implements SubscriptionInterface
     /**
      * @inheritdoc
      */
-    public function getWebhookUrl(): string
+    public function getUrl(): string
     {
         return 'https://127.0.0.1/webhook';
     }

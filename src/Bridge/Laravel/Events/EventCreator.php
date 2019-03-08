@@ -36,12 +36,12 @@ final class EventCreator implements EventCreatorInterface
         $sequence = $this->persister->save($event, $payload, $subscription);
 
         return new Event(
-            $subscription->getWebhookUrl(),
+            $subscription->getUrl(),
             $sequence,
-            $subscription->getWebhookSerializationFormat(),
-            $subscription->getWebhookMethod(),
+            $subscription->getSerializationFormat(),
+            $subscription->getMethod(),
             $payload,
-            $subscription->getWebhookHeaders()
+            $subscription->getHeaders()
         );
     }
 }

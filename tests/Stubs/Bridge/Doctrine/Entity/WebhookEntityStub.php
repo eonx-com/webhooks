@@ -53,9 +53,9 @@ class WebhookEntityStub implements WebhookEntityInterface
     {
         $this->data['event'] = $event;
         $this->data['payload'] = $payload;
-        $this->data['format'] = $subscription->getWebhookSerializationFormat();
-        $this->data['headers'] = $subscription->getWebhookHeaders();
-        $this->data['method'] = $subscription->getWebhookMethod();
-        $this->data['url'] = $subscription->getWebhookUrl();
+        $this->data['format'] = $subscription->getSerializationFormat();
+        $this->data['headers'] = $subscription->getHeaders();
+        $this->data['method'] = $subscription->getMethod();
+        $this->data['url'] = $subscription->getUrl();
     }
 }
