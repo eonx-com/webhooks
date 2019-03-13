@@ -7,6 +7,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
+use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
+use EoneoPay\Externals\Logger\Logger;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
@@ -88,6 +90,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
         $app->bind(EventDispatcherInterface::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
         $app->bind(HttpClientInterface::class, HttpClientStub::class);
+        $app->bind(LoggerInterface::class, Logger::class);
 
         $doctrine = $this->createMock(EntityManagerInterface::class);
         $registry = $this->createMock(ManagerRegistry::class);
