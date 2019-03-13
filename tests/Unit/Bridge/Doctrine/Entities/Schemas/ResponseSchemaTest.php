@@ -5,6 +5,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\Schemas;
 
 use EoneoPay\Externals\HttpClient\Response;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas\ResponseSchemaStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 class ResponseSchemaTest extends TestCase
@@ -19,8 +20,9 @@ class ResponseSchemaTest extends TestCase
         $response = new Response(null, 204);
 
         $schema = new ResponseSchemaStub();
-        $schema->populate(1, $response);
+        $schema->populate(new WebhookEntityStub(1), $response);
 
         static::assertSame($response, $schema->getResponse());
+        static::assertSame(1, $schema->getSequence());
     }
 }

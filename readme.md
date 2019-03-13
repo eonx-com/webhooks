@@ -34,7 +34,10 @@ Additionally:
 - Implement `EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface` as
   a new entity, and use the 
   `EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookSchema` trait.
-- Any Entities that can subscribe to webhooks need to implement `EoneoPay\Webhooks\Subscription\Interfaces\SubscriberInterface`
+- Implement `EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface` 
+  as a new entity and use the 
+  `EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookResponseSchema` trait.
+- Any Entities (ie, Users) that can subscribe to webhooks need to implement `EoneoPay\Webhooks\Subscription\Interfaces\SubscriberInterface`
 - Your entities that represent a webhook subscription need to implement `EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface`
 - Add `EoneoPay\Externals\Bridge\Laravel\ORM\ResolveTargetEntityExtension` to
   `config/doctrine.php` under the `extensions` key
@@ -49,7 +52,8 @@ return [
     // The App\Entity\User\Webhook class should point to the implementation of your
     // WebhookEntityInterface.
     'replacements' => [
-        \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface::class => \App\Entity\User\Webhook::class
+        \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface::class => \App\Entity\User\Webhook::class,
+        \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface::class => \App\Entity\User\WebhookResponse::class
     ] 
 ];
 ```
