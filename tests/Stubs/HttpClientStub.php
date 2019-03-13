@@ -21,7 +21,7 @@ class HttpClientStub implements ClientInterface
     {
         $this->requests[] = \compact('method', 'uri', 'options');
 
-        return new Response();
+        return new Response(null, 204);
     }
 
     /**

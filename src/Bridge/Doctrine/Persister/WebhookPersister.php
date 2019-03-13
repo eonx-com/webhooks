@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
-use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
+use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\WebhookHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
@@ -12,32 +13,38 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 final class WebhookPersister implements WebhookPersisterInterface
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\WebhookHandlerInterface
      */
-    private $doctrine;
+    private $webhookHandler;
 
     /**
-     * WebhookPersister constructor.
-     *
-     * @param \Doctrine\ORM\EntityManagerInterface $doctrine
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface
      */
-    public function __construct(EntityManagerInterface $doctrine)
-    {
-        $this->doctrine = $doctrine;
+    private $responseHandler;
+
+    /**
+     * Constructor
+     *
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\WebhookHandlerInterface $webhookHandler
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface $responseHandler
+     */
+    public function __construct(
+        WebhookHandlerInterface $webhookHandler,
+        ResponseHandlerInterface $responseHandler
+    ) {
+        $this->webhookHandler = $webhookHandler;
+        $this->responseHandler = $responseHandler;
     }
 
     /**
      * @inheritdoc
-     *
-     * @throws \Doctrine\ORM\ORMException
      */
     public function save(string $event, array $payload, SubscriptionInterface $subscription): int
     {
-        $webhook = $this->createNewWebhook();
+        $webhook = $this->webhookHandler->createNewWebhook();
         $webhook->populate($event, $payload, $subscription);
 
-        $this->doctrine->persist($webhook);
-        $this->doctrine->flush();
+        $this->webhookHandler->save($webhook);
 
         if ($webhook->getSequence() === null) {
             throw new WebhookSequenceMissingException('The webhook didnt return a usable sequence number');
@@ -47,18 +54,15 @@ final class WebhookPersister implements WebhookPersisterInterface
     }
 
     /**
-     * Creates a new real instance of WebhookEntityInterface
-     *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface
+     * @inheritdoc
      */
-    private function createNewWebhook(): WebhookEntityInterface
+    public function update(int $sequence, ResponseInterface $response): void
     {
-        /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface $instance
-         */
-        $instance = $this->doctrine->getClassMetadata(WebhookEntityInterface::class)
-            ->newInstance();
+        $webhook = $this->webhookHandler->getWebhook($sequence);
 
-        return $instance;
+        $webhookResponse = $this->responseHandler->createNewWebhookResponse();
+        $webhookResponse->populate($webhook, $response);
+
+        $this->responseHandler->save($webhookResponse);
     }
 }

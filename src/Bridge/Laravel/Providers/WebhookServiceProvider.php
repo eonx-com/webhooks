@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Providers;
 
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\WebhookHandlerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\EventCreator;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookEventDispatcher;
@@ -38,8 +42,15 @@ class WebhookServiceProvider extends ServiceProvider
         $this->app->singleton(WebhookEventDispatcherInterface::class, WebhookEventDispatcher::class);
         $this->app->singleton(WebhookEventListener::class);
         $this->app->singleton(WebhookInterface::class, Webhook::class);
-        $this->app->singleton(WebhookPersisterInterface::class, function (Container $app): WebhookPersisterInterface {
-            return new WebhookPersister($app->make('registry')->getManager());
+        $this->app->singleton(WebhookHandlerInterface::class, function (Container $app): WebhookHandlerInterface {
+            return new WebhookHandler($app->make('registry')->getManager());
         });
+        $this->app->singleton(
+            ResponseHandlerInterface::class,
+            function (Container $app): ResponseHandlerInterface {
+                return new ResponseHandler($app->make('registry')->getManager());
+            }
+        );
+        $this->app->singleton(WebhookPersisterInterface::class, WebhookPersister::class);
     }
 }

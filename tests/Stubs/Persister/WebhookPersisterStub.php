@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
+use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
@@ -19,11 +20,24 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     private $saved = [];
 
     /**
+     * @var mixed[]
+     */
+    private $updates = [];
+
+    /**
      * @return mixed[]
      */
     public function getSaved(): array
     {
         return $this->saved;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getUpdates(): array
+    {
+        return $this->updates;
     }
 
     /**
@@ -46,5 +60,13 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     public function setNextSequence(int $seq): void
     {
         $this->nextSequence = $seq;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function update(int $sequence, ResponseInterface $response): void
+    {
+        $this->updates[] = \compact('sequence', 'response');
     }
 }

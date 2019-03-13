@@ -17,7 +17,7 @@ class WebhookEntityStub implements WebhookEntityInterface
     /**
      * WebhookEntityStub constructor.
      *
-     * @param int $sequence
+     * @param null|int $sequence
      */
     public function __construct(?int $sequence)
     {

@@ -3,31 +3,35 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
+use EoneoPay\Externals\HttpClient\Response;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\WebhookHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister
+ */
 class WebhookPersisterTest extends TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $classMetadata;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $doctrine;
-
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister
      */
     private $persister;
+
+    /**
+     * @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub
+     */
+    private $responseHandler;
+
+    /**
+     * @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\WebhookHandlerStub
+     */
+    private $webhookHandler;
 
     /**
      * tests Save
@@ -36,21 +40,16 @@ class WebhookPersisterTest extends TestCase
      */
     public function testSave(): void
     {
-        $this->classMetadata
-            ->method('newInstance')
-            ->willReturnCallback(function (): WebhookEntityInterface {
-                return new WebhookEntityStub(1);
-            });
+        $stub = new WebhookEntityStub(1);
 
-        $this->doctrine->expects(static::once())
-            ->method('persist')
-            ->with(static::isInstanceOf(WebhookEntityInterface::class));
-        $this->doctrine->expects(static::once())
-            ->method('flush');
+        $this->webhookHandler->setNextWebhook($stub);
 
         $sequence = $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
 
         static::assertEquals(1, $sequence);
+        static::assertContains($stub, $this->webhookHandler->getSaved());
+        static::assertEquals('event', $stub->getData()['event']);
+        static::assertEquals(['payload' => 'here'], $stub->getData()['payload']);
     }
 
     /**
@@ -62,21 +61,29 @@ class WebhookPersisterTest extends TestCase
     {
         $this->expectException(WebhookSequenceMissingException::class);
 
-        $this->classMetadata
-            ->method('newInstance')
-            ->willReturnCallback(function (): WebhookEntityInterface {
-                return new WebhookEntityStub(null);
-            });
+        $stub = new WebhookEntityStub(null);
+        $this->webhookHandler->setNextWebhook($stub);
 
-        $this->doctrine->expects(static::once())
-            ->method('persist')
-            ->with(static::isInstanceOf(WebhookEntityInterface::class));
-        $this->doctrine->expects(static::once())
-            ->method('flush');
+        $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
+    }
 
-        $sequence = $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
+    /**
+     * tests Save without a sequence being returned
+     *
+     * @return void
+     */
+    public function testUpdate(): void
+    {
+        $stub = new WebhookEntityStub(null);
+        $this->webhookHandler->setNextWebhook($stub);
 
-        static::assertEquals(1, $sequence);
+        $responseStub = new WebhookResponseEntityStub();
+        $this->responseHandler->setNextResponse($responseStub);
+
+        $this->persister->update(1, new Response(null, 204));
+
+        static::assertContains($responseStub, $this->responseHandler->getSaved());
+        static::assertSame($stub, $responseStub->getData()['webhook']);
     }
 
     /**
@@ -88,14 +95,9 @@ class WebhookPersisterTest extends TestCase
     {
         parent::setUp();
 
-        $this->classMetadata = $this->createMock(ClassMetadataInfo::class);
+        $this->webhookHandler = new WebhookHandlerStub();
+        $this->responseHandler = new ResponseHandlerStub();
 
-        $this->doctrine = $this->createMock(EntityManagerInterface::class);
-        $this->doctrine
-            ->method('getClassMetadata')
-            ->with(WebhookEntityInterface::class)
-            ->willReturn($this->classMetadata);
-
-        $this->persister = new WebhookPersister($this->doctrine);
+        $this->persister = new WebhookPersister($this->webhookHandler, $this->responseHandler);
     }
 }
