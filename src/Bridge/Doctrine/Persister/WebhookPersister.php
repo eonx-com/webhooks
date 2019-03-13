@@ -5,6 +5,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
+use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
@@ -37,6 +38,10 @@ final class WebhookPersister implements WebhookPersisterInterface
 
         $this->doctrine->persist($webhook);
         $this->doctrine->flush();
+
+        if ($webhook->getSequence() === null) {
+            throw new WebhookSequenceMissingException('The webhook didnt return a usable sequence number');
+        }
 
         return $webhook->getSequence();
     }

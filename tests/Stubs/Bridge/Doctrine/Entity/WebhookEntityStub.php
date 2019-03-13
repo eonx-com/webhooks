@@ -19,7 +19,7 @@ class WebhookEntityStub implements WebhookEntityInterface
      *
      * @param int $sequence
      */
-    public function __construct(int $sequence)
+    public function __construct(?int $sequence)
     {
         $this->data = \collect([
             'sequence' => $sequence
@@ -41,7 +41,7 @@ class WebhookEntityStub implements WebhookEntityInterface
      *
      * @return int
      */
-    public function getSequence(): int
+    public function getSequence(): ?int
     {
         return $this->data->get('sequence');
     }
