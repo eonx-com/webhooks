@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Unit\Exceptions;
 use EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException
+ */
 class UnknownSerialisationFormatExceptionTest extends TestCase
 {
     /**

@@ -8,6 +8,7 @@ use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 use EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException;
+use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 
 class Client implements ClientInterface
 {
@@ -15,6 +16,11 @@ class Client implements ClientInterface
      * @var \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface
      */
     private $httpClient;
+
+    /**
+     * @var \EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface
+     */
+    private $webhookPersister;
 
     /**
      * @var \EoneoPay\Utils\Interfaces\XmlConverterInterface
@@ -26,13 +32,16 @@ class Client implements ClientInterface
      *
      * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $httpClient
      * @param \EoneoPay\Utils\Interfaces\XmlConverterInterface $xmlConverter
+     * @param \EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface $webhookPersister
      */
     public function __construct(
         HttpClientInterface $httpClient,
-        XmlConverterInterface $xmlConverter
+        XmlConverterInterface $xmlConverter,
+        WebhookPersisterInterface $webhookPersister
     ) {
         $this->httpClient = $httpClient;
         $this->xmlConverter = $xmlConverter;
+        $this->webhookPersister = $webhookPersister;
     }
 
     /**
@@ -44,7 +53,7 @@ class Client implements ClientInterface
 
         $serialisedPayload = $this->serialisePayload($payload, $event->getFormat());
 
-        $this->httpClient->request(
+        $response = $this->httpClient->request(
             $event->getMethod(),
             $event->getUrl(),
             [
@@ -52,6 +61,8 @@ class Client implements ClientInterface
                 'headers' => $this->buildHeaders($event)
             ]
         );
+
+        $this->webhookPersister->update($event->getSequence(), $response);
     }
 
     /**

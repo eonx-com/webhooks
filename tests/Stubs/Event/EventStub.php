@@ -13,6 +13,11 @@ class EventStub implements EventInterface
     private $format;
 
     /**
+     * @var mixed[]
+     */
+    private $headers;
+
+    /**
      * @var int
      */
     private $sequence;
@@ -22,10 +27,14 @@ class EventStub implements EventInterface
      *
      * @param string|null $format
      * @param int|null $sequence
+     * @param mixed[]|null $headers
      */
-    public function __construct(?string $format = null, ?int $sequence = null)
+    public function __construct(?string $format = null, ?int $sequence = null, ?array $headers = null)
     {
         $this->format = $format ?? 'json';
+        $this->headers = $headers ?? [
+            'Authorization' => 'Bearer TOKEN'
+        ];
         $this->sequence = $sequence ?? 1;
     }
 
@@ -42,9 +51,7 @@ class EventStub implements EventInterface
      */
     public function getHeaders(): array
     {
-        return [
-            'Authorization' => 'Bearer TOKEN'
-        ];
+        return $this->headers;
     }
 
     /**

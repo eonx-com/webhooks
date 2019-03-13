@@ -13,9 +13,9 @@ interface WebhookEntityInterface
      * In an implementation, typically this would be the
      * autoincrement primary key.
      *
-     * @return int
+     * @return int|null
      */
-    public function getSequence(): int;
+    public function getSequence(): ?int;
 
     /**
      * Populates a WebhookEntity with data.
