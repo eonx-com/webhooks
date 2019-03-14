@@ -11,6 +11,7 @@ use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
 use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
@@ -47,9 +48,11 @@ class WebhookServiceProviderTest extends WebhookTestCase
         return [
             [ClientInterface::class],
             [EventCreatorInterface::class],
+            [EventDispatcherInterface::class],
             [WebhookEventDispatcherInterface::class],
             [WebhookEventListener::class],
             [WebhookInterface::class],
+            [ResponseHandlerInterface::class],
             [WebhookPersisterInterface::class]
         ];
     }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Providers;
 
+use EoneoPay\Externals\Bridge\Laravel\EventDispatcher;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
@@ -42,6 +43,7 @@ class WebhookServiceProvider extends ServiceProvider
     {
         $this->app->singleton(ClientInterface::class, Client::class);
         $this->app->singleton(EventCreatorInterface::class, EventCreator::class);
+        $this->app->singleton(EventDispatcherInterface::class, EventDispatcher::class);
         $this->app->singleton(
             WebhookEventDispatcherInterface::class,
             function (Container $app): WebhookEventDispatcherInterface {
