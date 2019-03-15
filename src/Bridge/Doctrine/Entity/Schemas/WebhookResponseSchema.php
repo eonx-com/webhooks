@@ -20,7 +20,7 @@ trait WebhookResponseSchema
     /**
      * @ORM\Column(type="json")
      *
-     * @var mixed[]
+     * @var \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface
      */
     protected $response;
 
