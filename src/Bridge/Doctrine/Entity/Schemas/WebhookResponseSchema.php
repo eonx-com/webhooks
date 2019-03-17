@@ -8,7 +8,7 @@ use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
 
 /**
- * @method mixed[]|null getResponse()
+ * @method ResponseInterface|null getResponse()
  * @method string|null getResponseId()
  * @method int|null getSequence()
  * @method $this setResponse(array $response)
