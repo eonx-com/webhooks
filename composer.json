@@ -10,7 +10,7 @@
   "require": {
     "php": ">=7.1",
     "doctrine/orm": "^2.6.3",
-    "eoneopay/externals": "dev-master",
+    "eoneopay/externals": "^1.0",
     "eoneopay/utils": "dev-master",
     "ext-json": "*",
     "illuminate/redis": "^5.5",
@@ -40,7 +40,9 @@
   "provide": {
     "php-http/client-implementation": "1.0"
   },
-  "optimize-autoloader": true,
+  "config": {
+    "optimize-autoloader": true
+  },
   "minimum-stability": "dev",
   "prefer-stable": true
 }
