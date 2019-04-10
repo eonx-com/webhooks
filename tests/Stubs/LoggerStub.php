@@ -16,7 +16,7 @@ class LoggerStub implements LoggerInterface
     /**
      * @inheritdoc
      */
-    public function debug(string $message, ?array $context = null): bool
+    public function alert($message, array $context = [])
     {
         $this->logs[] = \compact('message', 'context');
 
@@ -26,7 +26,38 @@ class LoggerStub implements LoggerInterface
     /**
      * @inheritdoc
      */
-    public function error(string $message, ?array $context = null): bool
+    public function critical($message, array $context = [])
+    {
+        $this->logs[] = \compact('message', 'context');
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function debug($message, ?array $context = null): bool
+    {
+        $this->logs[] = \compact('message', 'context');
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function emergency($message, array $context = [])
+    {
+
+        $this->logs[] = \compact('message', 'context');
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function error($message, ?array $context = null): bool
     {
         $this->logs[] = \compact('message', 'context');
 
@@ -54,7 +85,7 @@ class LoggerStub implements LoggerInterface
     /**
      * @inheritdoc
      */
-    public function info(string $message, ?array $context = null): bool
+    public function info($message, ?array $context = null): bool
     {
         $this->logs[] = \compact('message', 'context');
 
@@ -64,7 +95,7 @@ class LoggerStub implements LoggerInterface
     /**
      * @inheritdoc
      */
-    public function notice(string $message, ?array $context = null): bool
+    public function log($level, $message, array $context = [])
     {
         $this->logs[] = \compact('message', 'context');
 
@@ -74,7 +105,17 @@ class LoggerStub implements LoggerInterface
     /**
      * @inheritdoc
      */
-    public function warning(string $message, ?array $context = null): bool
+    public function notice($message, ?array $context = null): bool
+    {
+        $this->logs[] = \compact('message', 'context');
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function warning($message, ?array $context = null): bool
     {
         $this->logs[] = \compact('message', 'context');
 
