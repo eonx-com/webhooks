@@ -33,13 +33,13 @@ class EventStub implements EventInterface
     {
         $this->format = $format ?? 'json';
         $this->headers = $headers ?? [
-            'Authorization' => 'Bearer TOKEN'
-        ];
+                'Authorization' => 'Bearer TOKEN'
+            ];
         $this->sequence = $sequence ?? 1;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFormat(): string
     {
@@ -47,7 +47,7 @@ class EventStub implements EventInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHeaders(): array
     {
@@ -55,7 +55,7 @@ class EventStub implements EventInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): string
     {
@@ -63,7 +63,7 @@ class EventStub implements EventInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPayload(): array
     {
@@ -71,7 +71,7 @@ class EventStub implements EventInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSequence(): int
     {
@@ -79,7 +79,7 @@ class EventStub implements EventInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUrl(): string
     {

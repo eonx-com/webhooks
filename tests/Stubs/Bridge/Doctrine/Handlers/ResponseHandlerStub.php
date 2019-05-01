@@ -19,7 +19,7 @@ class ResponseHandlerStub implements ResponseHandlerInterface
     private $saved = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createNewWebhookResponse(): WebhookResponseEntityInterface
     {
@@ -35,7 +35,7 @@ class ResponseHandlerStub implements ResponseHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(WebhookResponseEntityInterface $webhook): void
     {

@@ -15,16 +15,6 @@ class HttpClientStub implements ClientInterface
     private $requests = [];
 
     /**
-     * @inheritdoc
-     */
-    public function request(string $method, string $uri, ?array $options = null): ResponseInterface
-    {
-        $this->requests[] = \compact('method', 'uri', 'options');
-
-        return new Response(null, 204);
-    }
-
-    /**
      * Return requests
      *
      * @return mixed[]
@@ -32,5 +22,15 @@ class HttpClientStub implements ClientInterface
     public function getRequests(): array
     {
         return $this->requests;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function request(string $method, string $uri, ?array $options = null): ResponseInterface
+    {
+        $this->requests[] = \compact('method', 'uri', 'options');
+
+        return new Response(null, 204);
     }
 }

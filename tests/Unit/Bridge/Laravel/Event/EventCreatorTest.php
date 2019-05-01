@@ -37,12 +37,12 @@ class EventCreatorTest extends TestCase
 
         $result = $this->creator->create('event', ['purple' => 'payload'], $subscription);
 
-        static::assertEquals(99, $result->getSequence());
-        static::assertEquals('https://127.0.0.1/webhook', $result->getUrl());
-        static::assertEquals(['purple' => 'payload'], $result->getPayload());
-        static::assertEquals(['authorization' => 'Bearer ABC123'], $result->getHeaders());
-        static::assertEquals('POST', $result->getMethod());
-        static::assertEquals('json', $result->getFormat());
+        static::assertSame(99, $result->getSequence());
+        static::assertSame('https://127.0.0.1/webhook', $result->getUrl());
+        static::assertSame(['purple' => 'payload'], $result->getPayload());
+        static::assertSame(['authorization' => 'Bearer ABC123'], $result->getHeaders());
+        static::assertSame('POST', $result->getMethod());
+        static::assertSame('json', $result->getFormat());
     }
 
     /**

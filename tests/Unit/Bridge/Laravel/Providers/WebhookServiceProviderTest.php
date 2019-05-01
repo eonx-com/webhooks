@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
@@ -20,9 +18,11 @@ use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
 use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
+use Illuminate\Container\Container;
 use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\HttpClientStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence\ManagerRegistryStub;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
@@ -33,9 +33,9 @@ use Tests\EoneoPay\Webhooks\WebhookTestCase;
 class WebhookServiceProviderTest extends WebhookTestCase
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider
+     * @var \Illuminate\Container\Container|null
      */
-    private $provider;
+    private $app;
 
     /**
      * Returns interfaces that should be registered in the
@@ -46,62 +46,58 @@ class WebhookServiceProviderTest extends WebhookTestCase
     public function getRegisteredInterfaces(): array
     {
         return [
-            [ClientInterface::class],
-            [EventCreatorInterface::class],
-            [EventDispatcherInterface::class],
-            [WebhookEventDispatcherInterface::class],
-            [WebhookEventListener::class],
-            [WebhookInterface::class],
-            [ResponseHandlerInterface::class],
-            [WebhookPersisterInterface::class]
+            'ClientInterface' => [ClientInterface::class],
+            'EventCreatorInterface' => [EventCreatorInterface::class],
+            'EventDispatcherInterface' => [EventDispatcherInterface::class],
+            'WebhookEventDispatcherInterface' => [WebhookEventDispatcherInterface::class],
+            'WebhookEventListener' => [WebhookEventListener::class],
+            'WebhookInterface' => [WebhookInterface::class],
+            'ResponseHandlerInterface' => [ResponseHandlerInterface::class],
+            'WebhookPersisterInterface' => [WebhookPersisterInterface::class]
         ];
     }
 
     /**
      * Test provider register container.
      *
-     * @dataProvider getRegisteredInterfaces
-     *
      * @param string $interface
      *
      * @return void
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @dataProvider getRegisteredInterfaces
      */
     public function testRegister(string $interface): void
     {
         $app = $this->getApplication();
 
-        self::assertInstanceOf(
-            $interface,
-            $app->get($interface)
-        );
+        self::assertInstanceOf($interface, $app->get($interface));
     }
 
     /**
-     * Test case Setup
+     * Get application instance
      *
-     * @return void
+     * @return \Illuminate\Container\Container
      */
-    protected function setUp(): void
+    private function getApplication(): Container
     {
-        parent::setUp();
+        // If app already exists, return
+        if (($this->app instanceof Container) === true) {
+            return $this->app;
+        }
 
-        $app = $this->getApplication();
+        $app = $this->createApplication();
         $app->bind(SubscriptionRetrieverInterface::class, SubscriptionRetrieverStub::class);
         $app->bind(EventDispatcherInterface::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
         $app->bind(HttpClientInterface::class, HttpClientStub::class);
         $app->bind(LoggerInterface::class, Logger::class);
 
-        $doctrine = $this->createMock(EntityManagerInterface::class);
-        $registry = $this->createMock(ManagerRegistry::class);
-        $registry->method('getManager')
-            ->willReturn($doctrine);
-        $app->instance('registry', $registry);
+        $app->bind('registry', ManagerRegistryStub::class);
 
-        $this->provider = new WebhookServiceProvider($this->getApplication());
-        $this->provider->register();
+        /** @noinspection PhpParamsInspection Lumen application is a foundation application */
+        $provider = new WebhookServiceProvider($app);
+        $provider->register();
+
+        return $this->app = $app;
     }
 }

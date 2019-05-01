@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Handlers;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -17,38 +16,14 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class WebhookHandlerTest extends TestCase
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $classMetadata;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $doctrine;
-
-    /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler
-     */
-    private $repository;
-
-    /**
-     * create new
+     * Create new webhook from interface
      *
      * @return void
      */
     public function testCreateNew(): void
     {
-        $stub = new WebhookEntityStub(1);
-
-        $this->classMetadata
-            ->method('newInstance')
-            ->willReturnCallback(function () use ($stub): WebhookEntityInterface {
-                return $stub;
-            });
-
-        $result = $this->repository->createNewWebhook();
-
-        static::assertSame($stub, $result);
+        // Webhook stub should be returned by EntityManager stub
+        static::assertInstanceOf(WebhookEntityStub::class, $this->createInstance()->createNewWebhook());
     }
 
     /**
@@ -60,14 +35,7 @@ class WebhookHandlerTest extends TestCase
     {
         $stub = new WebhookEntityStub(1);
 
-        $this->doctrine->expects(static::once())
-            ->method('find')
-            ->with(WebhookEntityInterface::class, 1)
-            ->willReturn($stub);
-
-        $result = $this->repository->getWebhook(1);
-
-        static::assertSame($stub, $result);
+        static::assertSame($stub, $this->createInstance($stub)->getWebhook(1));
     }
 
     /**
@@ -79,12 +47,7 @@ class WebhookHandlerTest extends TestCase
     {
         $this->expectException(WebhookSequenceNotFoundException::class);
 
-        $this->doctrine->expects(static::once())
-            ->method('find')
-            ->with(WebhookEntityInterface::class, 1)
-            ->willReturn(null);
-
-        $this->repository->getWebhook(1);
+        $this->createInstance()->getWebhook(1);
     }
 
     /**
@@ -94,32 +57,21 @@ class WebhookHandlerTest extends TestCase
      */
     public function testSave(): void
     {
-        $this->doctrine->expects(static::once())
-            ->method('persist')
-            ->with(static::isInstanceOf(WebhookEntityInterface::class));
-        $this->doctrine->expects(static::once())
-            ->method('flush');
+        $this->createInstance()->save(new WebhookEntityStub(null));
 
-        $this->repository->save(new WebhookEntityStub(null));
+        // If no exception is thrown it's all good
+        $this->addToAssertionCount(1);
     }
 
     /**
-     * Set up
+     * Create handler instance
      *
-     * @return void
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null $entity
+     *
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler
      */
-    protected function setUp(): void
+    private function createInstance(?WebhookEntityInterface $entity = null): WebhookHandler
     {
-        parent::setUp();
-
-        $this->classMetadata = $this->createMock(ClassMetadataInfo::class);
-
-        $this->doctrine = $this->createMock(EntityManagerInterface::class);
-        $this->doctrine
-            ->method('getClassMetadata')
-            ->with(WebhookEntityInterface::class)
-            ->willReturn($this->classMetadata);
-
-        $this->repository = new WebhookHandler($this->doctrine);
+        return new WebhookHandler(new EntityManagerStub($entity));
     }
 }

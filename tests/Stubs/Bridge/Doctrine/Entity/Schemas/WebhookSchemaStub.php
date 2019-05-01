@@ -11,7 +11,7 @@ class WebhookSchemaStub extends Entity
     use WebhookSchema;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toArray(): array
     {
@@ -19,7 +19,7 @@ class WebhookSchemaStub extends Entity
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getIdProperty(): string
     {

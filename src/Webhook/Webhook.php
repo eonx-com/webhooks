@@ -44,7 +44,7 @@ final class Webhook implements WebhookInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function send(WebhookDataInterface $webhookData): void
     {

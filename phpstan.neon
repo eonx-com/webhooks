@@ -1,4 +1,8 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
 parameters:
     ignoreErrors:
-        - '/Parameter #1 \$app of class [A-Z][\w\\]+ constructor expects Illuminate\\(Contracts\\)?Foundation\\Application, Illuminate\\Container\\Container given./'
-        - '/Parameter #1 \$doctrine of class [A-Z][\w\\]+ constructor expects Doctrine\\ORM\\EntityManagerInterface, PHPUnit\\Framework\\MockObject\\MockObject given./'
+        -
+            message: '/Parameter #1 \$app of class [A-Z][\w\\]+ constructor expects Illuminate\\(Contracts\\)?Foundation\\Application, Illuminate\\Container\\Container given./'
+            path: tests/Unit/Bridge/Laravel/Providers/

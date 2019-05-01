@@ -43,11 +43,13 @@ class WebhookEntityStub implements WebhookEntityInterface
      */
     public function getSequence(): ?int
     {
-        return $this->data->get('sequence');
+        $sequence = $this->data->get('sequence');
+
+        return \is_int($sequence) ? $sequence : null;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function populate(string $event, array $payload, SubscriptionInterface $subscription): void
     {

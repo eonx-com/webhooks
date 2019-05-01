@@ -14,7 +14,7 @@ class WebhookEventDispatcherStub implements WebhookEventDispatcherInterface
     private $dispatched = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch(EventInterface $event): void
     {

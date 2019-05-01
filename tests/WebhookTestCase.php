@@ -57,11 +57,11 @@ abstract class WebhookTestCase extends TestCase
     private $app;
 
     /**
-     * Get Illuminate application.
+     * Create Illuminate application
      *
      * @return \Illuminate\Container\Container
      */
-    protected function getApplication(): IlluminateContainer
+    protected function createApplication(): IlluminateContainer
     {
         if ($this->app !== null) {
             return $this->app;
@@ -71,23 +71,15 @@ abstract class WebhookTestCase extends TestCase
         $app = new IlluminateContainer();
 
         // Bind container itself
-        $app->bind(
-            IlluminateContainerContract::class,
-            function () use ($app) {
-                return $app;
-            }
-        );
+        $app->bind(IlluminateContainerContract::class, static function () use ($app) {
+            return $app;
+        });
 
         // Bind event dispatcher
-        $app->bind(
-            IlluminateDispatcherContract::class,
-            function () use ($app) {
-                return new IlluminateDispatcher($app);
-            }
-        );
+        $app->bind(IlluminateDispatcherContract::class, static function () use ($app) {
+            return new IlluminateDispatcher($app);
+        });
 
-        $this->app = $app;
-
-        return $this->app;
+        return $this->app = $app;
     }
 }

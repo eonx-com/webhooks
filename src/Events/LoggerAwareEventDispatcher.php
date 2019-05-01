@@ -36,7 +36,7 @@ final class LoggerAwareEventDispatcher implements WebhookEventDispatcherInterfac
     /**
      * This class will log each webhook to the supplied logger.
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch(EventInterface $event): void
     {

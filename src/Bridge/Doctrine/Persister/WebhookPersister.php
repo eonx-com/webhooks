@@ -13,14 +13,14 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 final class WebhookPersister implements WebhookPersisterInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\WebhookHandlerInterface
-     */
-    private $webhookHandler;
-
-    /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface
      */
     private $responseHandler;
+
+    /**
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\WebhookHandlerInterface
+     */
+    private $webhookHandler;
 
     /**
      * Constructor
@@ -37,7 +37,7 @@ final class WebhookPersister implements WebhookPersisterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(string $event, array $payload, SubscriptionInterface $subscription): int
     {
@@ -54,7 +54,7 @@ final class WebhookPersister implements WebhookPersisterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update(int $sequence, ResponseInterface $response): void
     {

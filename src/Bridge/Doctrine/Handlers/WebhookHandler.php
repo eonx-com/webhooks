@@ -26,21 +26,20 @@ class WebhookHandler implements WebhookHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createNewWebhook(): WebhookEntityInterface
     {
         /**
          * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface $instance
          */
-        $instance = $this->doctrine->getClassMetadata(WebhookEntityInterface::class)
-            ->newInstance();
+        $instance = $this->doctrine->getClassMetadata(WebhookEntityInterface::class)->newInstance();
 
         return $instance;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @throws \EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException
      */
@@ -65,7 +64,7 @@ class WebhookHandler implements WebhookHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(WebhookEntityInterface $webhook): void
     {

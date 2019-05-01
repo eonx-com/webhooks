@@ -76,7 +76,7 @@ trait WebhookSchema
     protected $webhookId;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function populate(string $event, array $payload, SubscriptionInterface $subscription): void
     {

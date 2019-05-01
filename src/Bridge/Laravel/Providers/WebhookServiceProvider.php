@@ -35,9 +35,9 @@ use Illuminate\Support\ServiceProvider;
 class WebhookServiceProvider extends ServiceProvider
 {
     /**
-     * Register event dispatcher into Laravel application.
+     * @noinspection PhpMissingParentCallCommonInspection Parent implementation is empty
      *
-     * @return void
+     * {@inheritdoc}
      */
     public function register(): void
     {
@@ -46,7 +46,7 @@ class WebhookServiceProvider extends ServiceProvider
         $this->app->singleton(EventDispatcherInterface::class, EventDispatcher::class);
         $this->app->singleton(
             WebhookEventDispatcherInterface::class,
-            function (Container $app): WebhookEventDispatcherInterface {
+            static function (Container $app): WebhookEventDispatcherInterface {
                 $dispatcher = new WebhookEventDispatcher($app->make(EventDispatcherInterface::class));
 
                 return new LoggerAwareEventDispatcher(
@@ -57,12 +57,15 @@ class WebhookServiceProvider extends ServiceProvider
         );
         $this->app->singleton(WebhookEventListener::class);
         $this->app->singleton(WebhookInterface::class, Webhook::class);
-        $this->app->singleton(WebhookHandlerInterface::class, function (Container $app): WebhookHandlerInterface {
-            return new WebhookHandler($app->make('registry')->getManager());
-        });
+        $this->app->singleton(
+            WebhookHandlerInterface::class,
+            static function (Container $app): WebhookHandlerInterface {
+                return new WebhookHandler($app->make('registry')->getManager());
+            }
+        );
         $this->app->singleton(
             ResponseHandlerInterface::class,
-            function (Container $app): ResponseHandlerInterface {
+            static function (Container $app): ResponseHandlerInterface {
                 return new ResponseHandler($app->make('registry')->getManager());
             }
         );

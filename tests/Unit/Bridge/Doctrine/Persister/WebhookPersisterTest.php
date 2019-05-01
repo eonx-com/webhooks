@@ -46,10 +46,10 @@ class WebhookPersisterTest extends TestCase
 
         $sequence = $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
 
-        static::assertEquals(1, $sequence);
+        static::assertSame(1, $sequence);
         static::assertContains($stub, $this->webhookHandler->getSaved());
-        static::assertEquals('event', $stub->getData()['event']);
-        static::assertEquals(['payload' => 'here'], $stub->getData()['payload']);
+        static::assertSame('event', $stub->getData()['event']);
+        static::assertSame(['payload' => 'here'], $stub->getData()['payload']);
     }
 
     /**

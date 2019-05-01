@@ -85,10 +85,10 @@ XML;
 
         $request = \reset($requests);
 
-        static::assertEquals('POST', $request['method']);
-        static::assertEquals('https://localhost/webhook', $request['uri']);
-        static::assertEquals($expectedPayload, $request['options']['body']);
-        static::assertEquals([
+        static::assertSame('POST', $request['method']);
+        static::assertSame('https://localhost/webhook', $request['uri']);
+        static::assertSame($expectedPayload, $request['options']['body']);
+        static::assertSame([
             'Authorization' => 'Bearer TOKEN',
             'Content-Type' => $expectedContentType
         ], $request['options']['headers']);
@@ -98,8 +98,8 @@ XML;
 
         $response = \reset($responses);
 
-        static::assertEquals(204, $response['response']->getStatusCode());
-        static::assertEquals($event->getSequence(), $response['sequence']);
+        static::assertSame(204, $response['response']->getStatusCode());
+        static::assertSame($event->getSequence(), $response['sequence']);
     }
 
     /**

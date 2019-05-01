@@ -19,7 +19,7 @@ class WebhookHandlerStub implements WebhookHandlerInterface
     private $saved = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createNewWebhook(): WebhookEntityInterface
     {
@@ -35,7 +35,7 @@ class WebhookHandlerStub implements WebhookHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getWebhook(int $sequence): WebhookEntityInterface
     {
@@ -43,7 +43,7 @@ class WebhookHandlerStub implements WebhookHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(WebhookEntityInterface $webhook): void
     {
