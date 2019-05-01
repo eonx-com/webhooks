@@ -25,7 +25,7 @@ class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createNewWebhookResponse(): WebhookResponseEntityInterface
     {
@@ -39,7 +39,7 @@ class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(WebhookResponseEntityInterface $response): void
     {

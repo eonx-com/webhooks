@@ -13,20 +13,13 @@ class EventDispatcherStub implements EventDispatcherInterface
     private $dispatched = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch($event, $payload = null, ?bool $halt = null): ?array
     {
         $this->dispatched[] = $event;
 
         return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function listen(array $events, string $listener): void
-    {
     }
 
     /**
@@ -37,5 +30,12 @@ class EventDispatcherStub implements EventDispatcherInterface
     public function getDispatched(): array
     {
         return $this->dispatched;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listen(array $events, string $listener): void
+    {
     }
 }

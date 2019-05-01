@@ -10,13 +10,17 @@ use Laravel\Lumen\Providers\EventServiceProvider;
 class WebhookEventServiceProvider extends EventServiceProvider
 {
     /**
-     * The event listener mappings for the application.
-     *
-     * @var mixed[]
+     * {@inheritdoc}
      */
-    protected $listen = [
-        EventInterface::class => [
-            WebhookEventListener::class
-        ]
-    ];
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        // Set listeners
+        $this->listen = [
+            EventInterface::class => [
+                WebhookEventListener::class
+            ]
+        ];
+    }
 }

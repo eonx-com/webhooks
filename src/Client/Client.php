@@ -45,7 +45,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function send(EventInterface $event): void
     {

@@ -26,7 +26,7 @@ final class EventCreator implements EventCreatorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create(
         string $event,

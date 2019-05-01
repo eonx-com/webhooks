@@ -41,7 +41,7 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(string $event, array $payload, SubscriptionInterface $subscription): int
     {
@@ -63,7 +63,7 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update(int $sequence, ResponseInterface $response): void
     {

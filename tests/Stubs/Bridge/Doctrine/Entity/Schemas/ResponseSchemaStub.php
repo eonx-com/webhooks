@@ -11,7 +11,7 @@ class ResponseSchemaStub extends Entity
     use WebhookResponseSchema;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toArray(): array
     {
@@ -19,7 +19,7 @@ class ResponseSchemaStub extends Entity
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getIdProperty(): string
     {

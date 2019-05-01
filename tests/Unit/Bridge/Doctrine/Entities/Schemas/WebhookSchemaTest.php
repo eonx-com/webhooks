@@ -22,11 +22,11 @@ class WebhookSchemaTest extends TestCase
         $schema = new WebhookSchemaStub();
         $schema->populate('event', $payload, $subscription);
 
-        static::assertEquals('event', $schema->getEvent());
-        static::assertEquals($payload, $schema->getPayload());
-        static::assertEquals('json', $schema->getRequestFormat());
-        static::assertEquals(['authorization' => 'Bearer ABC123'], $schema->getRequestHeaders());
-        static::assertEquals('POST', $schema->getRequestMethod());
-        static::assertEquals('https://127.0.0.1/webhook', $schema->getRequestUrl());
+        static::assertSame('event', $schema->getEvent());
+        static::assertSame($payload, $schema->getPayload());
+        static::assertSame('json', $schema->getRequestFormat());
+        static::assertSame(['authorization' => 'Bearer ABC123'], $schema->getRequestHeaders());
+        static::assertSame('POST', $schema->getRequestMethod());
+        static::assertSame('https://127.0.0.1/webhook', $schema->getRequestUrl());
     }
 }

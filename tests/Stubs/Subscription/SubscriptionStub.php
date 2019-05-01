@@ -23,7 +23,7 @@ class SubscriptionStub implements SubscriptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHeaders(): array
     {
@@ -31,7 +31,7 @@ class SubscriptionStub implements SubscriptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): string
     {
@@ -39,7 +39,7 @@ class SubscriptionStub implements SubscriptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSerializationFormat(): string
     {
@@ -47,7 +47,7 @@ class SubscriptionStub implements SubscriptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUrl(): string
     {

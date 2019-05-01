@@ -39,7 +39,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
 
         static::assertContains($event, $this->innerDispatcher->getDispatched());
         static::assertCount(1, $this->logger->getLogs());
-        static::assertEquals([
+        static::assertSame([
             'message' => 'Dispatching Webhook',
             'context' => [
                 'format' => 'json',
@@ -69,7 +69,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
 
         static::assertContains($event, $this->innerDispatcher->getDispatched());
         static::assertCount(1, $this->logger->getLogs());
-        static::assertEquals([
+        static::assertSame([
             'message' => 'Dispatching Webhook',
             'context' => [
                 'format' => 'json',

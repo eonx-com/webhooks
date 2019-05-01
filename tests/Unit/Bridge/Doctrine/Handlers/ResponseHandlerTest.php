@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Handlers;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -16,38 +15,14 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class ResponseHandlerTest extends TestCase
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $classMetadata;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    private $doctrine;
-
-    /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler
-     */
-    private $repository;
-
-    /**
-     * create new
+     * Create new
      *
      * @return void
      */
     public function testCreateNew(): void
     {
-        $stub = new WebhookResponseEntityStub();
-
-        $this->classMetadata
-            ->method('newInstance')
-            ->willReturnCallback(function () use ($stub): WebhookResponseEntityInterface {
-                return $stub;
-            });
-
-        $result = $this->repository->createNewWebhookResponse();
-
-        static::assertSame($stub, $result);
+        // Webhook stub should be returned by EntityManager stub
+        static::assertInstanceOf(WebhookResponseEntityStub::class, $this->createInstance()->createNewWebhookResponse());
     }
 
     /**
@@ -57,32 +32,21 @@ class ResponseHandlerTest extends TestCase
      */
     public function testSave(): void
     {
-        $this->doctrine->expects(static::once())
-            ->method('persist')
-            ->with(static::isInstanceOf(WebhookResponseEntityInterface::class));
-        $this->doctrine->expects(static::once())
-            ->method('flush');
+        $this->createInstance()->save(new WebhookResponseEntityStub());
 
-        $this->repository->save(new WebhookResponseEntityStub());
+        // If no exception was thrown it's all good
+        $this->addToAssertionCount(1);
     }
 
     /**
-     * Set up
+     * Create handler instance
      *
-     * @return void
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null $entity
+     *
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler
      */
-    protected function setUp(): void
+    private function createInstance(?WebhookEntityInterface $entity = null): ResponseHandler
     {
-        parent::setUp();
-
-        $this->classMetadata = $this->createMock(ClassMetadataInfo::class);
-
-        $this->doctrine = $this->createMock(EntityManagerInterface::class);
-        $this->doctrine
-            ->method('getClassMetadata')
-            ->with(WebhookResponseEntityInterface::class)
-            ->willReturn($this->classMetadata);
-
-        $this->repository = new ResponseHandler($this->doctrine);
+        return new ResponseHandler(new EntityManagerStub($entity));
     }
 }

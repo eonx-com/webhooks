@@ -20,9 +20,11 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
     public function testListens(): void
     {
         // create provider
-        $provider = new WebhookEventServiceProvider($this->getApplication());
+        $provider = new WebhookEventServiceProvider($this->createApplication());
+
         // register provider
         $provider->register();
+
         // assertions
         self::assertArrayHasKey(EventInterface::class, $provider->listens());
     }

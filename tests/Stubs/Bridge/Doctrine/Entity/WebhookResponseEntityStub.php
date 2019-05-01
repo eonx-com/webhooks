@@ -34,7 +34,7 @@ class WebhookResponseEntityStub implements WebhookResponseEntityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function populate(WebhookEntityInterface $webhook, ResponseInterface $response): void
     {

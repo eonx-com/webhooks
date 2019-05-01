@@ -65,7 +65,7 @@ final class Event implements EventInterface, ShouldQueue
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFormat(): string
     {
@@ -73,7 +73,7 @@ final class Event implements EventInterface, ShouldQueue
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHeaders(): array
     {
@@ -81,7 +81,7 @@ final class Event implements EventInterface, ShouldQueue
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): string
     {
@@ -89,7 +89,7 @@ final class Event implements EventInterface, ShouldQueue
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPayload(): array
     {
@@ -97,7 +97,7 @@ final class Event implements EventInterface, ShouldQueue
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSequence(): int
     {
@@ -105,7 +105,7 @@ final class Event implements EventInterface, ShouldQueue
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUrl(): string
     {

@@ -9,11 +9,11 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
 class SubscriptionRetrieverStub implements SubscriptionRetrieverInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSubscriptionsForSubscribers(string $event, array $subscribers): array
     {
-        return \array_map(function (): SubscriptionInterface {
+        return \array_map(static function (): SubscriptionInterface {
             return new SubscriptionStub();
         }, $subscribers);
     }

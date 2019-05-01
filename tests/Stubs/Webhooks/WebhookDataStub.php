@@ -37,7 +37,7 @@ class WebhookDataStub implements WebhookDataInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEvent(): string
     {
@@ -45,7 +45,7 @@ class WebhookDataStub implements WebhookDataInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPayload(): array
     {
@@ -53,7 +53,7 @@ class WebhookDataStub implements WebhookDataInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSubscribers(): array
     {

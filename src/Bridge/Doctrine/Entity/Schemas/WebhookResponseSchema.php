@@ -25,13 +25,6 @@ trait WebhookResponseSchema
     protected $response;
 
     /**
-     * @ORM\Column(type="integer")
-     *
-     * @var int
-     */
-    protected $sequence;
-
-    /**
      * @ORM\Column(type="guid", name="id")
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Id()
@@ -41,11 +34,18 @@ trait WebhookResponseSchema
     protected $responseId;
 
     /**
-     * @inheritdoc
+     * @ORM\Column(type="integer")
+     *
+     * @var int
+     */
+    protected $sequence;
+
+    /**
+     * {@inheritdoc}
      */
     public function populate(WebhookEntityInterface $webhook, ResponseInterface $response): void
     {
         $this->response = $response;
-        $this->sequence = $webhook->getSequence();
+        $this->sequence = (int)$webhook->getSequence();
     }
 }

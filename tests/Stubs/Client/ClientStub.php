@@ -14,18 +14,18 @@ class ClientStub implements ClientInterface
     private $sent = [];
 
     /**
-     * @inheritdoc
-     */
-    public function send(EventInterface $event): void
-    {
-        $this->sent[] = $event;
-    }
-
-    /**
      * @return \EoneoPay\Webhooks\Events\Interfaces\EventInterface[]
      */
     public function getSent(): array
     {
         return $this->sent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function send(EventInterface $event): void
+    {
+        $this->sent[] = $event;
     }
 }
