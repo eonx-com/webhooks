@@ -7,6 +7,7 @@ use EoneoPay\Externals\HttpClient\Response;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas\ResponseSchemaStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
 use Tests\EoneoPay\Webhooks\TestCase;
+use Zend\Diactoros\Response\EmptyResponse;
 
 class ResponseSchemaTest extends TestCase
 {
@@ -17,7 +18,7 @@ class ResponseSchemaTest extends TestCase
      */
     public function testPopulate(): void
     {
-        $response = new Response(null, 204);
+        $response = new Response(new EmptyResponse());
 
         $schema = new ResponseSchemaStub();
         $schema->populate(new WebhookEntityStub(1), $response);

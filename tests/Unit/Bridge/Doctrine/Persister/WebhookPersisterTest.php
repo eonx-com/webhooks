@@ -12,6 +12,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\WebhookHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
+use Zend\Diactoros\Response\EmptyResponse;
 
 /**
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister
@@ -80,7 +81,7 @@ class WebhookPersisterTest extends TestCase
         $responseStub = new WebhookResponseEntityStub();
         $this->responseHandler->setNextResponse($responseStub);
 
-        $this->persister->update(1, new Response(null, 204));
+        $this->persister->update(1, new Response(new EmptyResponse()));
 
         static::assertContains($responseStub, $this->responseHandler->getSaved());
         static::assertSame($stub, $responseStub->getData()['webhook']);

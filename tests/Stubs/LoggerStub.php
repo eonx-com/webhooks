@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs;
 
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
-use Exception;
+use Throwable;
 
 class LoggerStub implements LoggerInterface
 {
@@ -56,9 +56,9 @@ class LoggerStub implements LoggerInterface
     /**
      * {@inheritdoc}
      */
-    public function exception(Exception $exception, ?string $level = null): void
+    public function exception(Throwable $exception, ?string $level = null, ?array $context = null): void
     {
-        $this->logs[] = \compact('exception', 'level');
+        $this->logs[] = \compact('exception', 'level', 'context');
     }
 
     /**
