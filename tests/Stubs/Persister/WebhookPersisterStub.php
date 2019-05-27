@@ -43,9 +43,9 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function save(string $event, array $payload, SubscriptionInterface $subscription): int
+    public function saveRequest(string $activity, array $payload, SubscriptionInterface $subscription): int
     {
-        $this->saved[] = \compact('event', 'payload', 'subscription');
+        $this->saved[] = \compact('activity', 'payload', 'subscription');
 
         return $this->nextSequence;
     }
@@ -65,7 +65,7 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function update(int $sequence, ResponseInterface $response): void
+    public function saveResponse(int $sequence, ResponseInterface $response): void
     {
         $this->updates[] = \compact('sequence', 'response');
     }

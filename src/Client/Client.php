@@ -62,7 +62,7 @@ class Client implements ClientInterface
             ]
         );
 
-        $this->webhookPersister->update($event->getSequence(), $response);
+        $this->webhookPersister->saveResponse($event->getSequence(), $response);
     }
 
     /**

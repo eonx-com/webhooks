@@ -20,48 +20,48 @@ final class WebhookPersister implements WebhookPersisterInterface
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface
      */
-    private $webhookHandler;
+    private $requestHandler;
 
     /**
      * Constructor
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface $webhookHandler
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface $requestHandler
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface $responseHandler
      */
     public function __construct(
-        RequestHandlerInterface $webhookHandler,
+        RequestHandlerInterface $requestHandler,
         ResponseHandlerInterface $responseHandler
     ) {
-        $this->webhookHandler = $webhookHandler;
+        $this->requestHandler = $requestHandler;
         $this->responseHandler = $responseHandler;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save(string $event, array $payload, SubscriptionInterface $subscription): int
+    public function saveRequest(string $activity, array $payload, SubscriptionInterface $subscription): int
     {
-        $webhook = $this->webhookHandler->create();
-        $webhook->populate($event, $payload, $subscription);
+        $request = $this->requestHandler->create();
+        $request->populate($activity, $payload, $subscription);
 
-        $this->webhookHandler->save($webhook);
+        $this->requestHandler->save($request);
 
-        if ($webhook->getSequence() === null) {
-            throw new WebhookSequenceMissingException('The webhook didnt return a usable sequence number');
+        if ($request->getSequence() === null) {
+            throw new WebhookSequenceMissingException('The request handler didnt return a usable sequence number');
         }
 
-        return $webhook->getSequence();
+        return $request->getSequence();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function update(int $sequence, ResponseInterface $response): void
+    public function saveResponse(int $sequence, ResponseInterface $response): void
     {
-        $webhook = $this->webhookHandler->getBySequence($sequence);
+        $request = $this->requestHandler->getBySequence($sequence);
 
         $webhookResponse = $this->responseHandler->createNewWebhookResponse();
-        $webhookResponse->populate($webhook, $response);
+        $webhookResponse->populate($request, $response);
 
         $this->responseHandler->save($webhookResponse);
     }

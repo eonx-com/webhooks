@@ -33,7 +33,7 @@ final class EventCreator implements EventCreatorInterface
         array $payload,
         SubscriptionInterface $subscription
     ): EventInterface {
-        $sequence = $this->persister->save($event, $payload, $subscription);
+        $sequence = $this->persister->saveRequest($event, $payload, $subscription);
 
         return new Event(
             $subscription->getUrl(),

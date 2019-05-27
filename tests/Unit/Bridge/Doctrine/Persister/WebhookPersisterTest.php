@@ -45,7 +45,7 @@ class WebhookPersisterTest extends TestCase
 
         $this->webhookHandler->setNextWebhook($stub);
 
-        $sequence = $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
+        $sequence = $this->persister->saveRequest('event', ['payload' => 'here'], new SubscriptionStub());
 
         static::assertSame(1, $sequence);
         static::assertContains($stub, $this->webhookHandler->getSaved());
@@ -65,7 +65,7 @@ class WebhookPersisterTest extends TestCase
         $stub = new WebhookRequestStub(null);
         $this->webhookHandler->setNextWebhook($stub);
 
-        $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
+        $this->persister->saveRequest('event', ['payload' => 'here'], new SubscriptionStub());
     }
 
     /**
@@ -81,7 +81,7 @@ class WebhookPersisterTest extends TestCase
         $responseStub = new WebhookResponseStub();
         $this->responseHandler->setNextResponse($responseStub);
 
-        $this->persister->update(1, new Response(new EmptyResponse()));
+        $this->persister->saveResponse(1, new Response(new EmptyResponse()));
 
         static::assertContains($responseStub, $this->responseHandler->getSaved());
         static::assertSame($stub, $responseStub->getData()['webhook']);
