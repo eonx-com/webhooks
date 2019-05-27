@@ -3,20 +3,25 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Webhook;
 
-use EoneoPay\Webhooks\Webhook\Webhook;
+use EoneoPay\Webhooks\Activity\ActivityManager;
+use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventCreatorStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventStub;
 use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriberStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
-use Tests\EoneoPay\Webhooks\Stubs\Webhooks\WebhookDataStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Webhook\Webhook
+ * @covers \EoneoPay\Webhooks\Activity\ActivityManager
  */
-class WebhookTest extends TestCase
+class ActivityManagerTest extends TestCase
 {
+    /**
+     * @var \EoneoPay\Webhooks\Activity\ActivityManager
+     */
+    private $activity;
+
     /**
      * @var \Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub
      */
@@ -33,11 +38,6 @@ class WebhookTest extends TestCase
     private $retriever;
 
     /**
-     * @var \EoneoPay\Webhooks\Webhook\Webhook
-     */
-    private $webhook;
-
-    /**
      * Test send method
      *
      * @return void
@@ -49,12 +49,12 @@ class WebhookTest extends TestCase
         $event2 = new EventStub();
         $this->eventCreator->addEvent($event2);
 
-        $data = new WebhookDataStub('event', ['payload' => 'here'], [
+        $data = new ActivityDataStub('event', ['payload' => 'here'], [
             new SubscriberStub(),
             new SubscriberStub()
         ]);
 
-        $this->webhook->send($data);
+        $this->activity->send($data);
 
         static::assertContains($event1, $this->dispatcher->getDispatched());
         static::assertContains($event2, $this->dispatcher->getDispatched());
@@ -73,7 +73,7 @@ class WebhookTest extends TestCase
         $this->dispatcher = new EventDispatcherStub();
         $this->eventCreator = new EventCreatorStub();
 
-        $this->webhook = new Webhook(
+        $this->activity = new ActivityManager(
             $this->retriever,
             $this->dispatcher,
             $this->eventCreator

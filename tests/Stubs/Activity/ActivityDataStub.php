@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhooks\Stubs\Webhooks;
+namespace Tests\EoneoPay\Webhooks\Stubs\Activity;
 
-use EoneoPay\Webhooks\Webhook\Interfaces\WebhookDataInterface;
+use EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface;
 
-class WebhookDataStub implements WebhookDataInterface
+class ActivityDataStub implements ActivityDataInterface
 {
     /**
      * @var string

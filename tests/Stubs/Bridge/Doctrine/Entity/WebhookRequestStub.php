@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Illuminate\Support\Collection;
 
-class WebhookEntityStub implements WebhookEntityInterface
+class WebhookRequestStub implements WebhookRequestInterface
 {
     /**
      * @var \Illuminate\Support\Collection

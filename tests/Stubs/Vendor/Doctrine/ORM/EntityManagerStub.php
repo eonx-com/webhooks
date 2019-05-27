@@ -6,10 +6,10 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\ResultSetMapping;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseEntityStub;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods) This class is implemented from a Doctrine interface
@@ -18,16 +18,16 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseEntitySt
 class EntityManagerStub implements EntityManagerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null
      */
     private $entity;
 
     /**
      * Create entity manager stub
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null $entity
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null $entity
      */
-    public function __construct(?WebhookEntityInterface $entity = null)
+    public function __construct(?WebhookRequestInterface $entity = null)
     {
         $this->entity = $entity;
     }
@@ -148,12 +148,12 @@ class EntityManagerStub implements EntityManagerInterface
     public function getClassMetadata($className): ClassMetadata
     {
         switch ($className) {
-            case WebhookEntityInterface::class:
-                $className = WebhookEntityStub::class;
+            case WebhookRequestInterface::class:
+                $className = WebhookRequestStub::class;
                 break;
 
-            case WebhookResponseEntityInterface::class:
-                $className = WebhookResponseEntityStub::class;
+            case WebhookResponseInterface::class:
+                $className = WebhookResponseStub::class;
                 break;
         }
 

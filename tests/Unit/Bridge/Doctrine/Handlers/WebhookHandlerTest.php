@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Handlers;
 
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler
  */
 class WebhookHandlerTest extends TestCase
 {
@@ -23,7 +23,7 @@ class WebhookHandlerTest extends TestCase
     public function testCreateNew(): void
     {
         // Webhook stub should be returned by EntityManager stub
-        static::assertInstanceOf(WebhookEntityStub::class, $this->createInstance()->createNewWebhook());
+        static::assertInstanceOf(WebhookRequestStub::class, $this->createInstance()->create());
     }
 
     /**
@@ -33,9 +33,9 @@ class WebhookHandlerTest extends TestCase
      */
     public function testGetWebhook(): void
     {
-        $stub = new WebhookEntityStub(1);
+        $stub = new WebhookRequestStub(1);
 
-        static::assertSame($stub, $this->createInstance($stub)->getWebhook(1));
+        static::assertSame($stub, $this->createInstance($stub)->getBySequence(1));
     }
 
     /**
@@ -47,7 +47,7 @@ class WebhookHandlerTest extends TestCase
     {
         $this->expectException(WebhookSequenceNotFoundException::class);
 
-        $this->createInstance()->getWebhook(1);
+        $this->createInstance()->getBySequence(1);
     }
 
     /**
@@ -57,7 +57,7 @@ class WebhookHandlerTest extends TestCase
      */
     public function testSave(): void
     {
-        $this->createInstance()->save(new WebhookEntityStub(null));
+        $this->createInstance()->save(new WebhookRequestStub(null));
 
         // If no exception is thrown it's all good
         $this->addToAssertionCount(1);
@@ -66,12 +66,12 @@ class WebhookHandlerTest extends TestCase
     /**
      * Create handler instance
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null $entity
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null $entity
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\WebhookHandler
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler
      */
-    private function createInstance(?WebhookEntityInterface $entity = null): WebhookHandler
+    private function createInstance(?WebhookRequestInterface $entity = null): RequestHandler
     {
-        return new WebhookHandler(new EntityManagerStub($entity));
+        return new RequestHandler(new EntityManagerStub($entity));
     }
 }

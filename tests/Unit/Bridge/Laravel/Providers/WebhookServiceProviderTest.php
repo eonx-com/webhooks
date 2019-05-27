@@ -9,6 +9,8 @@ use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
+use EoneoPay\Webhooks\Activity\Interfaces\ActivityManagerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
@@ -17,7 +19,6 @@ use EoneoPay\Webhooks\Events\Interfaces\EventCreatorInterface;
 use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
-use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
 use Illuminate\Container\Container;
 use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\HttpClientStub;
@@ -46,13 +47,14 @@ class WebhookServiceProviderTest extends WebhookTestCase
     public function getRegisteredInterfaces(): array
     {
         return [
+            'ActivityManagerInterface' => [ActivityManagerInterface::class],
             'ClientInterface' => [ClientInterface::class],
             'EventCreatorInterface' => [EventCreatorInterface::class],
             'EventDispatcherInterface' => [EventDispatcherInterface::class],
+            'RequestHandlerInterface' => [RequestHandlerInterface::class],
+            'ResponseHandlerInterface' => [ResponseHandlerInterface::class],
             'WebhookEventDispatcherInterface' => [WebhookEventDispatcherInterface::class],
             'WebhookEventListener' => [WebhookEventListener::class],
-            'WebhookInterface' => [WebhookInterface::class],
-            'ResponseHandlerInterface' => [ResponseHandlerInterface::class],
             'WebhookPersisterInterface' => [WebhookPersisterInterface::class]
         ];
     }

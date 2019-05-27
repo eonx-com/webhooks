@@ -5,7 +5,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
 
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
 
 /**
  * @method ResponseInterface|null getResponse()
@@ -43,9 +43,9 @@ trait WebhookResponseSchema
     /**
      * {@inheritdoc}
      */
-    public function populate(WebhookEntityInterface $webhook, ResponseInterface $response): void
+    public function populate(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
     {
         $this->response = $response;
-        $this->sequence = (int)$webhook->getSequence();
+        $this->sequence = (int)$webhookRequest->getSequence();
     }
 }

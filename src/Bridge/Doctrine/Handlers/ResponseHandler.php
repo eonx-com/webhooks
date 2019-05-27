@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 
 class ResponseHandler implements ResponseHandlerInterface
@@ -27,12 +27,12 @@ class ResponseHandler implements ResponseHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function createNewWebhookResponse(): WebhookResponseEntityInterface
+    public function createNewWebhookResponse(): WebhookResponseInterface
     {
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface $instance
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface $instance
          */
-        $instance = $this->doctrine->getClassMetadata(WebhookResponseEntityInterface::class)
+        $instance = $this->doctrine->getClassMetadata(WebhookResponseInterface::class)
             ->newInstance();
 
         return $instance;
@@ -41,7 +41,7 @@ class ResponseHandler implements ResponseHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function save(WebhookResponseEntityInterface $response): void
+    public function save(WebhookResponseInterface $response): void
     {
         $this->doctrine->persist($response);
         $this->doctrine->flush();

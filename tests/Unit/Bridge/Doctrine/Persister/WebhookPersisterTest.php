@@ -6,10 +6,10 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 use EoneoPay\Externals\HttpClient\Response;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\WebhookHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Zend\Diactoros\Response\EmptyResponse;
@@ -30,7 +30,7 @@ class WebhookPersisterTest extends TestCase
     private $responseHandler;
 
     /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\WebhookHandlerStub
+     * @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub
      */
     private $webhookHandler;
 
@@ -41,7 +41,7 @@ class WebhookPersisterTest extends TestCase
      */
     public function testSave(): void
     {
-        $stub = new WebhookEntityStub(1);
+        $stub = new WebhookRequestStub(1);
 
         $this->webhookHandler->setNextWebhook($stub);
 
@@ -62,7 +62,7 @@ class WebhookPersisterTest extends TestCase
     {
         $this->expectException(WebhookSequenceMissingException::class);
 
-        $stub = new WebhookEntityStub(null);
+        $stub = new WebhookRequestStub(null);
         $this->webhookHandler->setNextWebhook($stub);
 
         $this->persister->save('event', ['payload' => 'here'], new SubscriptionStub());
@@ -75,10 +75,10 @@ class WebhookPersisterTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $stub = new WebhookEntityStub(null);
+        $stub = new WebhookRequestStub(null);
         $this->webhookHandler->setNextWebhook($stub);
 
-        $responseStub = new WebhookResponseEntityStub();
+        $responseStub = new WebhookResponseStub();
         $this->responseHandler->setNextResponse($responseStub);
 
         $this->persister->update(1, new Response(new EmptyResponse()));
@@ -96,7 +96,7 @@ class WebhookPersisterTest extends TestCase
     {
         parent::setUp();
 
-        $this->webhookHandler = new WebhookHandlerStub();
+        $this->webhookHandler = new RequestHandlerStub();
         $this->responseHandler = new ResponseHandlerStub();
 
         $this->persister = new WebhookPersister($this->webhookHandler, $this->responseHandler);

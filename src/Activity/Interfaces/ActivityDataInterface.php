@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Webhook\Interfaces;
+namespace EoneoPay\Webhooks\Activity\Interfaces;
 
-interface WebhookDataInterface
+interface ActivityDataInterface
 {
     /**
      * Returns the webhook event constant.

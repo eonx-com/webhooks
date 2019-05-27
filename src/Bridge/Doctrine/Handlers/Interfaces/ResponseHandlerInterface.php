@@ -3,23 +3,23 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces;
 
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
 
 interface ResponseHandlerInterface
 {
     /**
-     * Creates a new real instance of WebhookEntityInterface
+     * Creates a new real instance of WebhookResponseEntityInterface
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface
      */
-    public function createNewWebhookResponse(): WebhookResponseEntityInterface;
+    public function createNewWebhookResponse(): WebhookResponseInterface;
 
     /**
      * Saves the webhook
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface $response
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface $response
      *
      * @return void
      */
-    public function save(WebhookResponseEntityInterface $response): void;
+    public function save(WebhookResponseInterface $response): void;
 }

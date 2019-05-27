@@ -22,7 +22,7 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
  * @method $this setRequestMethod(string $method)
  * @method $this setRequestUrl(string $url)
  */
-trait WebhookSchema
+trait WebhookRequestSchema
 {
     /**
      * @ORM\Column(type="string", length=255)

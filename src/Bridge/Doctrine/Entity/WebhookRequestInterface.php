@@ -5,10 +5,10 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity;
 
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
-interface WebhookEntityInterface
+interface WebhookRequestInterface
 {
     /**
-     * Returns the sequence number for this webhook call.
+     * Returns the sequence number for this webhook request.
      *
      * In an implementation, typically this would be the
      * autoincrement primary key.
@@ -18,7 +18,7 @@ interface WebhookEntityInterface
     public function getSequence(): ?int;
 
     /**
-     * Populates a WebhookEntity with data.
+     * Populates a WebhookRequest with data.
      *
      * @param string $event
      * @param mixed[] $payload

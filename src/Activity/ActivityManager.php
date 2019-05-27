@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Webhook;
+namespace EoneoPay\Webhooks\Activity;
 
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
+use EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface;
+use EoneoPay\Webhooks\Activity\Interfaces\ActivityManagerInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventCreatorInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
-use EoneoPay\Webhooks\Webhook\Interfaces\WebhookDataInterface;
-use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
 
-final class Webhook implements WebhookInterface
+final class ActivityManager implements ActivityManagerInterface
 {
     /**
      * @var \EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface
@@ -46,7 +46,7 @@ final class Webhook implements WebhookInterface
     /**
      * {@inheritdoc}
      */
-    public function send(WebhookDataInterface $webhookData): void
+    public function send(ActivityDataInterface $webhookData): void
     {
         $subscriptions = $this->retriever->getSubscriptionsForSubscribers(
             $webhookData->getEvent(),

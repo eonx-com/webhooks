@@ -5,15 +5,15 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 
-interface WebhookResponseEntityInterface
+interface WebhookResponseInterface
 {
     /**
      * Populates the WebhookResponse with data.
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface $webhook
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $webhookRequest
      * @param \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface $response
      *
      * @return void
      */
-    public function populate(WebhookEntityInterface $webhook, ResponseInterface $response): void;
+    public function populate(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void;
 }
