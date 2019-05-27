@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
+use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
 
@@ -27,14 +29,27 @@ class RequestHandler implements RequestHandlerInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException
      */
     public function create(): WebhookRequestInterface
     {
-        /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $instance
-         */
-        $instance = $this->entityManager->getClassMetadata(WebhookRequestInterface::class)
-            ->newInstance();
+        try {
+            /**
+             * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $instance
+             */
+            $instance = $this->entityManager->getClassMetadata(WebhookRequestInterface::class)
+                ->newInstance();
+        } catch (ExceptionInterface $exception) {
+            throw new EntityNotCreatedException(
+                \sprintf(
+                    'An error occurred creating an %s instance.',
+                    WebhookRequestInterface::class
+                ),
+                0,
+                $exception
+            );
+        }
 
         return $instance;
     }

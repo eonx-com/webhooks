@@ -7,9 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\ResultSetMapping;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods) This class is implemented from a Doctrine interface
@@ -23,13 +20,22 @@ class EntityManagerStub implements EntityManagerInterface
     private $entity;
 
     /**
+     * @var \Doctrine\ORM\Mapping\ClassMetadata[]|null
+     */
+    private $metadatas;
+
+    /**
      * Create entity manager stub
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null $entity
+     * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas
      */
-    public function __construct(?WebhookRequestInterface $entity = null)
-    {
+    public function __construct(
+        ?WebhookRequestInterface $entity = null,
+        ?array $metadatas = null
+    ) {
         $this->entity = $entity;
+        $this->metadatas = $metadatas;
     }
 
     /**
@@ -147,17 +153,7 @@ class EntityManagerStub implements EntityManagerInterface
      */
     public function getClassMetadata($className): ClassMetadata
     {
-        switch ($className) {
-            case WebhookRequestInterface::class:
-                $className = WebhookRequestStub::class;
-                break;
-
-            case WebhookResponseInterface::class:
-                $className = WebhookResponseStub::class;
-                break;
-        }
-
-        return new ClassMetadata((string)$className);
+        return $this->metadatas[$className] ?? new ClassMetadata($className);
     }
 
     /**

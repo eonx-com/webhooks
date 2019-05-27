@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
@@ -43,9 +44,9 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveRequest(string $activity, array $payload, SubscriptionInterface $subscription): int
+    public function saveRequest(ActivityInterface $activity, SubscriptionInterface $subscription): int
     {
-        $this->saved[] = \compact('activity', 'payload', 'subscription');
+        $this->saved[] = \compact('activity', 'subscription');
 
         return $this->nextSequence;
     }

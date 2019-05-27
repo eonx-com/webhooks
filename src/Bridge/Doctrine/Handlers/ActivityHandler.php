@@ -5,11 +5,11 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
-use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 
-class ResponseHandler implements ResponseHandlerInterface
+class ActivityHandler implements ActivityHandlerInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
@@ -31,19 +31,19 @@ class ResponseHandler implements ResponseHandlerInterface
      *
      * @throws \EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException
      */
-    public function createNewWebhookResponse(): WebhookResponseInterface
+    public function create(): ActivityInterface
     {
         try {
             /**
-             * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface $instance
+             * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface $instance
              */
-            $instance = $this->entityManager->getClassMetadata(WebhookResponseInterface::class)
+            $instance = $this->entityManager->getClassMetadata(ActivityInterface::class)
                 ->newInstance();
         } catch (ExceptionInterface $exception) {
             throw new EntityNotCreatedException(
                 \sprintf(
                     'An error occurred creating an %s instance.',
-                    WebhookResponseInterface::class
+                    ActivityInterface::class
                 ),
                 0,
                 $exception
@@ -56,9 +56,9 @@ class ResponseHandler implements ResponseHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function save(WebhookResponseInterface $response): void
+    public function save(ActivityInterface $activity): void
     {
-        $this->entityManager->persist($response);
+        $this->entityManager->persist($activity);
         $this->entityManager->flush();
     }
 }

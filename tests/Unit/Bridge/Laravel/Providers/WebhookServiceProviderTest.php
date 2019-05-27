@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
-use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface as RealEventDispatcher;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
@@ -12,18 +13,16 @@ use EoneoPay\Utils\XmlConverter;
 use EoneoPay\Webhooks\Activity\Interfaces\ActivityManagerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
-use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
-use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
-use EoneoPay\Webhooks\Events\Interfaces\EventCreatorInterface;
-use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
 use Illuminate\Container\Container;
-use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\HttpClientStub;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence\ManagerRegistryStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
@@ -48,13 +47,10 @@ class WebhookServiceProviderTest extends WebhookTestCase
     {
         return [
             'ActivityManagerInterface' => [ActivityManagerInterface::class],
-            'ClientInterface' => [ClientInterface::class],
-            'EventCreatorInterface' => [EventCreatorInterface::class],
             'EventDispatcherInterface' => [EventDispatcherInterface::class],
+            'RealEventDispatcherInterface' => [RealEventDispatcher::class],
             'RequestHandlerInterface' => [RequestHandlerInterface::class],
             'ResponseHandlerInterface' => [ResponseHandlerInterface::class],
-            'WebhookEventDispatcherInterface' => [WebhookEventDispatcherInterface::class],
-            'WebhookEventListener' => [WebhookEventListener::class],
             'WebhookPersisterInterface' => [WebhookPersisterInterface::class]
         ];
     }
@@ -65,6 +61,8 @@ class WebhookServiceProviderTest extends WebhookTestCase
      * @param string $interface
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @dataProvider getRegisteredInterfaces
      */
@@ -79,6 +77,8 @@ class WebhookServiceProviderTest extends WebhookTestCase
      * Get application instance
      *
      * @return \Illuminate\Container\Container
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function getApplication(): Container
     {
@@ -89,11 +89,12 @@ class WebhookServiceProviderTest extends WebhookTestCase
 
         $app = $this->createApplication();
         $app->bind(SubscriptionRetrieverInterface::class, SubscriptionRetrieverStub::class);
-        $app->bind(EventDispatcherInterface::class, EventDispatcherStub::class);
+        $app->bind(RealEventDispatcher::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
         $app->bind(HttpClientInterface::class, HttpClientStub::class);
         $app->bind(LoggerInterface::class, Logger::class);
 
+        $app->bind(EntityManagerInterface::class, EntityManagerStub::class);
         $app->bind('registry', ManagerRegistryStub::class);
 
         /** @noinspection PhpParamsInspection Lumen application is a foundation application */

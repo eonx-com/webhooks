@@ -8,6 +8,13 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 interface WebhookRequestInterface
 {
     /**
+     * Returns the activity that raised this webhook request.
+     *
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface
+     */
+    public function getActivity(): ActivityInterface;
+
+    /**
      * Returns the sequence number for this webhook request.
      *
      * In an implementation, typically this would be the
@@ -20,11 +27,10 @@ interface WebhookRequestInterface
     /**
      * Populates a WebhookRequest with data.
      *
-     * @param string $event
-     * @param mixed[] $payload
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface $activity
      * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface $subscription
      *
      * @return void
      */
-    public function populate(string $event, array $payload, SubscriptionInterface $subscription): void;
+    public function populate(ActivityInterface $activity, SubscriptionInterface $subscription): void;
 }

@@ -32,13 +32,6 @@ trait WebhookRequestSchema
     protected $event;
 
     /**
-     * @ORM\Column(type="json")
-     *
-     * @var mixed[]
-     */
-    protected $payload;
-
-    /**
      * @ORM\Column(type="string", length=255)
      *
      * @var string
@@ -78,10 +71,9 @@ trait WebhookRequestSchema
     /**
      * {@inheritdoc}
      */
-    public function populate(string $event, array $payload, SubscriptionInterface $subscription): void
+    public function populate(string $event, SubscriptionInterface $subscription): void
     {
         $this->event = $event;
-        $this->payload = $payload;
         $this->requestFormat = $subscription->getSerializationFormat();
         $this->requestHeaders = $subscription->getHeaders();
         $this->requestMethod = $subscription->getMethod();

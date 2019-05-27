@@ -12,9 +12,9 @@ interface ActivityManagerInterface
      * for hitting all webhook subscriptions that match the event and its
      * subscribers.
      *
-     * @param \EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface $webhookData
+     * @param \EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface $activityData
      *
      * @return void
      */
-    public function send(ActivityDataInterface $webhookData): void;
+    public function send(ActivityDataInterface $activityData): void;
 }

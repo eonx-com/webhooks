@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
@@ -39,10 +40,10 @@ final class WebhookPersister implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveRequest(string $activity, array $payload, SubscriptionInterface $subscription): int
+    public function saveRequest(ActivityInterface $activity, SubscriptionInterface $subscription): int
     {
         $request = $this->requestHandler->create();
-        $request->populate($activity, $payload, $subscription);
+        $request->populate($activity, $subscription);
 
         $this->requestHandler->save($request);
 

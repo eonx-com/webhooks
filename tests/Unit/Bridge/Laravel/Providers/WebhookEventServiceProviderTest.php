@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider;
-use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
@@ -25,7 +24,6 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
         // register provider
         $provider->register();
 
-        // assertions
-        self::assertArrayHasKey(EventInterface::class, $provider->listens());
+        self::assertEmpty($provider->listens());
     }
 }

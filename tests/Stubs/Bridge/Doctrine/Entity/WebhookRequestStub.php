@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Illuminate\Support\Collection;
+use RuntimeException;
 
 class WebhookRequestStub implements WebhookRequestInterface
 {
@@ -24,6 +26,18 @@ class WebhookRequestStub implements WebhookRequestInterface
         $this->data = \collect([
             'sequence' => $sequence
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getActivity(): ActivityInterface
+    {
+        if ($this->data->has('activity') === false) {
+            throw new RuntimeException('Cannot getActivity without an activity set');
+        }
+
+        return $this->data['activity'];
     }
 
     /**
@@ -51,10 +65,9 @@ class WebhookRequestStub implements WebhookRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function populate(string $event, array $payload, SubscriptionInterface $subscription): void
+    public function populate(ActivityInterface $activity, SubscriptionInterface $subscription): void
     {
-        $this->data['event'] = $event;
-        $this->data['payload'] = $payload;
+        $this->data['activity'] = $activity;
         $this->data['format'] = $subscription->getSerializationFormat();
         $this->data['headers'] = $subscription->getHeaders();
         $this->data['method'] = $subscription->getMethod();

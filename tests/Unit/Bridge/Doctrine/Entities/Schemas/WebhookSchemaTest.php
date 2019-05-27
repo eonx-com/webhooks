@@ -16,14 +16,12 @@ class WebhookSchemaTest extends TestCase
      */
     public function testPopulate(): void
     {
-        $payload = ['payload' => 'here'];
         $subscription = new SubscriptionStub();
 
         $schema = new WebhookSchemaStub();
-        $schema->populate('event', $payload, $subscription);
+        $schema->populate('event', $subscription);
 
         static::assertSame('event', $schema->getEvent());
-        static::assertSame($payload, $schema->getPayload());
         static::assertSame('json', $schema->getRequestFormat());
         static::assertSame(['authorization' => 'Bearer ABC123'], $schema->getRequestHeaders());
         static::assertSame('POST', $schema->getRequestMethod());

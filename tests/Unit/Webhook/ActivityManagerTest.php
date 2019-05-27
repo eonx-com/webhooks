@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Webhook;
 
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Activity\ActivityManager;
+use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
+use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
+use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventCreatorStub;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventStub;
-use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriberStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
+use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Persister\ActivityPersisterStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -18,65 +20,67 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class ActivityManagerTest extends TestCase
 {
     /**
-     * @var \EoneoPay\Webhooks\Activity\ActivityManager
+     * Returns the instance under test.
+     *
+     * @param \EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface $activityPersister
+     * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
+     * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface $payloadManager
+     *
+     * @return \EoneoPay\Webhooks\Activity\ActivityManager
      */
-    private $activity;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub
-     */
-    private $dispatcher;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\Event\EventCreatorStub
-     */
-    private $eventCreator;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub
-     */
-    private $retriever;
+    public function getManager(
+        ActivityPersisterInterface $activityPersister,
+        EventDispatcherInterface $dispatcher,
+        PayloadManagerInterface $payloadManager
+    ): ActivityManager {
+        return new ActivityManager(
+            $activityPersister,
+            $dispatcher,
+            $payloadManager
+        );
+    }
 
     /**
      * Test send method
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSend(): void
     {
-        $event1 = new EventStub();
-        $this->eventCreator->addEvent($event1);
-        $event2 = new EventStub();
-        $this->eventCreator->addEvent($event2);
+        $occurredAt = new DateTime('2011-01-01T00:00:00');
 
-        $data = new ActivityDataStub('event', ['payload' => 'here'], [
-            new SubscriberStub(),
-            new SubscriberStub()
-        ]);
+        $expectedEvent = [5];
+        $expectedActivity = [
+            [
+                'activityConstant' => 'activity.constant',
+                'occurredAt' => $occurredAt,
+                'payload' => [
+                    'payload' => 'wot'
+                ]
+            ]
+        ];
 
-        $this->activity->send($data);
+        $activityPersister = new ActivityPersisterStub();
+        $activityPersister->setNextSequence(5);
+        $dispatcher = new EventDispatcherStub();
+        $payloadManager = new PayloadManagerStub();
+        $payloadManager->addPayload(['payload' => 'wot']);
 
-        static::assertContains($event1, $this->dispatcher->getDispatched());
-        static::assertContains($event2, $this->dispatcher->getDispatched());
-    }
-
-    /**
-     * Set up
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->retriever = new SubscriptionRetrieverStub();
-        $this->dispatcher = new EventDispatcherStub();
-        $this->eventCreator = new EventCreatorStub();
-
-        $this->activity = new ActivityManager(
-            $this->retriever,
-            $this->dispatcher,
-            $this->eventCreator
+        $manager = $this->getManager(
+            $activityPersister,
+            $dispatcher,
+            $payloadManager
         );
+
+
+        $manager->send(
+            new ActivityDataStub(),
+            $occurredAt
+        );
+
+        self::assertSame($expectedActivity, $activityPersister->getSaved());
+        self::assertSame($expectedEvent, $dispatcher->getActivityCreated());
     }
 }

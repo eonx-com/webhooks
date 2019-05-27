@@ -10,10 +10,10 @@ interface WebhookResponseInterface
     /**
      * Populates the WebhookResponse with data.
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $webhookRequest
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $request
      * @param \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface $response
      *
      * @return void
      */
-    public function populate(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void;
+    public function populate(WebhookRequestInterface $request, ResponseInterface $response): void;
 }

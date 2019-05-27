@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 
 use EoneoPay\Externals\HttpClient\Response;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub;
@@ -20,41 +23,30 @@ use Zend\Diactoros\Response\EmptyResponse;
 class WebhookPersisterTest extends TestCase
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister
-     */
-    private $persister;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub
-     */
-    private $responseHandler;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub
-     */
-    private $webhookHandler;
-
-    /**
-     * tests Save
+     * Tests Save
      *
      * @return void
      */
     public function testSave(): void
     {
-        $stub = new WebhookRequestStub(1);
+        $activity = new ActivityStub();
+        $subscription = new SubscriptionStub();
 
-        $this->webhookHandler->setNextWebhook($stub);
+        $request = new WebhookRequestStub(1);
+        $requestHandler = new RequestHandlerStub();
+        $requestHandler->setNextRequest($request);
 
-        $sequence = $this->persister->saveRequest('event', ['payload' => 'here'], new SubscriptionStub());
+        $persister = $this->getPersister($requestHandler);
+
+        $sequence = $persister->saveRequest($activity, $subscription);
 
         static::assertSame(1, $sequence);
-        static::assertContains($stub, $this->webhookHandler->getSaved());
-        static::assertSame('event', $stub->getData()['event']);
-        static::assertSame(['payload' => 'here'], $stub->getData()['payload']);
+        static::assertContains($request, $requestHandler->getSaved());
+        static::assertSame($activity, $request->getData()['activity']);
     }
 
     /**
-     * tests Save without a sequence being returned
+     * Tests Save without a sequence being returned
      *
      * @return void
      */
@@ -62,43 +54,55 @@ class WebhookPersisterTest extends TestCase
     {
         $this->expectException(WebhookSequenceMissingException::class);
 
-        $stub = new WebhookRequestStub(null);
-        $this->webhookHandler->setNextWebhook($stub);
+        $activity = new ActivityStub();
+        $subscription = new SubscriptionStub();
 
-        $this->persister->saveRequest('event', ['payload' => 'here'], new SubscriptionStub());
+        $request = new WebhookRequestStub(null);
+        $requestHandler = new RequestHandlerStub();
+        $requestHandler->setNextRequest($request);
+
+        $persister = $this->getPersister($requestHandler);
+
+        $persister->saveRequest($activity, $subscription);
     }
 
     /**
-     * tests Save without a sequence being returned
+     * Tests update
      *
      * @return void
      */
     public function testUpdate(): void
     {
-        $stub = new WebhookRequestStub(null);
-        $this->webhookHandler->setNextWebhook($stub);
+        $request = new WebhookRequestStub(null);
+        $requestHandler = new RequestHandlerStub();
+        $requestHandler->setNextRequest($request);
 
-        $responseStub = new WebhookResponseStub();
-        $this->responseHandler->setNextResponse($responseStub);
+        $response = new WebhookResponseStub();
+        $responseHandler = new ResponseHandlerStub();
+        $responseHandler->setNextResponse($response);
 
-        $this->persister->saveResponse(1, new Response(new EmptyResponse()));
+        $persister = $this->getPersister($requestHandler, $responseHandler);
+        $persister->saveResponse(1, new Response(new EmptyResponse()));
 
-        static::assertContains($responseStub, $this->responseHandler->getSaved());
-        static::assertSame($stub, $responseStub->getData()['webhook']);
+        static::assertContains($response, $responseHandler->getSaved());
+        static::assertSame($request, $response->getData()['request']);
     }
 
     /**
-     * Set up
+     * Get instance under test
      *
-     * @return void
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface|null $requestHandler
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface|null $responseHandler
+     *
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->webhookHandler = new RequestHandlerStub();
-        $this->responseHandler = new ResponseHandlerStub();
-
-        $this->persister = new WebhookPersister($this->webhookHandler, $this->responseHandler);
+    private function getPersister(
+        ?RequestHandlerInterface $requestHandler = null,
+        ?ResponseHandlerInterface $responseHandler = null
+    ): WebhookPersister {
+        return new WebhookPersister(
+            $requestHandler ?? new RequestHandlerStub(),
+            $responseHandler ?? new ResponseHandlerStub()
+        );
     }
 }

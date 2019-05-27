@@ -8,55 +8,10 @@ use EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface;
 class ActivityDataStub implements ActivityDataInterface
 {
     /**
-     * @var string
-     */
-    private $event;
-
-    /**
-     * @var mixed[]
-     */
-    private $payload;
-
-    /**
-     * @var \EoneoPay\Webhooks\Subscription\Interfaces\SubscriberInterface[]
-     */
-    private $subscribers;
-
-    /**
-     * WebhookDataStub constructor.
-     *
-     * @param string $event
-     * @param mixed[] $payload
-     * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriberInterface[] $subscribers
-     */
-    public function __construct(string $event, array $payload, array $subscribers)
-    {
-        $this->event = $event;
-        $this->payload = $payload;
-        $this->subscribers = $subscribers;
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function getEvent(): string
+    public static function getActivityConstant(): string
     {
-        return $this->event;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPayload(): array
-    {
-        return $this->payload;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribers(): array
-    {
-        return $this->subscribers;
+        return 'activity.constant';
     }
 }

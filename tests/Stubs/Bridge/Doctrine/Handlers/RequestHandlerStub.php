@@ -11,7 +11,7 @@ class RequestHandlerStub implements RequestHandlerInterface
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface
      */
-    private $nextWebhook;
+    private $nextRequest;
 
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface[]
@@ -23,7 +23,7 @@ class RequestHandlerStub implements RequestHandlerInterface
      */
     public function create(): WebhookRequestInterface
     {
-        return $this->nextWebhook;
+        return $this->nextRequest;
     }
 
     /**
@@ -39,7 +39,7 @@ class RequestHandlerStub implements RequestHandlerInterface
      */
     public function getBySequence(int $sequence): WebhookRequestInterface
     {
-        return $this->nextWebhook;
+        return $this->nextRequest;
     }
 
     /**
@@ -57,8 +57,8 @@ class RequestHandlerStub implements RequestHandlerInterface
      *
      * @return void
      */
-    public function setNextWebhook(WebhookRequestInterface $entity): void
+    public function setNextRequest(WebhookRequestInterface $entity): void
     {
-        $this->nextWebhook = $entity;
+        $this->nextRequest = $entity;
     }
 }

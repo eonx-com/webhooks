@@ -36,9 +36,9 @@ class WebhookResponseStub implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function populate(WebhookRequestInterface $webhook, ResponseInterface $response): void
+    public function populate(WebhookRequestInterface $request, ResponseInterface $response): void
     {
-        $this->data['webhook'] = $webhook;
+        $this->data['request'] = $request;
         $this->data['response'] = $response;
     }
 }
