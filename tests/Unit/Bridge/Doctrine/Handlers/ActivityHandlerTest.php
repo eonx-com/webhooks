@@ -5,9 +5,9 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ActivityHandler;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 use Exception;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
@@ -39,7 +39,7 @@ class ActivityHandlerTest extends TestCase
     public function testCreateFails(): void
     {
         $this->expectException(EntityNotCreatedException::class);
-        $this->expectExceptionMessage('An error occurred creating an EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface instance.'); // phpcs:ignore
+        $this->expectExceptionMessage('An error occurred creating an EoneoPay\Webhooks\Model\ActivityInterface instance.'); // phpcs:ignore
 
         $classMetadata = $this->createMock(ClassMetadata::class);
         $classMetadata->expects(static::once())

@@ -5,7 +5,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
 
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 
 /**
  * @method ResponseInterface|null getResponse()

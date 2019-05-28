@@ -6,7 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\ResultSetMapping;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods) This class is implemented from a Doctrine interface
@@ -15,7 +15,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
 class EntityManagerStub implements EntityManagerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null
+     * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface|null
      */
     private $entity;
 
@@ -27,7 +27,7 @@ class EntityManagerStub implements EntityManagerInterface
     /**
      * Create entity manager stub
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null $entity
+     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface|null $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas
      */
     public function __construct(

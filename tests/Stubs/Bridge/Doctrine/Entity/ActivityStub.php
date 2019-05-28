@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
 use DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 
 class ActivityStub implements ActivityInterface
 {

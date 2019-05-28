@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity;
+namespace EoneoPay\Webhooks\Model;
 
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
@@ -10,7 +10,7 @@ interface WebhookRequestInterface
     /**
      * Returns the activity that raised this webhook request.
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface
+     * @return \EoneoPay\Webhooks\Model\ActivityInterface
      */
     public function getActivity(): ActivityInterface;
 
@@ -27,7 +27,7 @@ interface WebhookRequestInterface
     /**
      * Populates a WebhookRequest with data.
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface $activity
+     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
      * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface $subscription
      *
      * @return void

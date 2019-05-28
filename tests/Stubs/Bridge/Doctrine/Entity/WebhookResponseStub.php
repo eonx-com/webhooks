@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Illuminate\Support\Collection;
 
 class WebhookResponseStub implements WebhookResponseInterface

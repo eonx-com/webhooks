@@ -5,9 +5,9 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 
 class ActivityHandler implements ActivityHandlerInterface
 {
@@ -35,7 +35,7 @@ class ActivityHandler implements ActivityHandlerInterface
     {
         try {
             /**
-             * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\ActivityInterface $instance
+             * @var \EoneoPay\Webhooks\Model\ActivityInterface $instance
              */
             $instance = $this->entityManager->getClassMetadata(ActivityInterface::class)
                 ->newInstance();

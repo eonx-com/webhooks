@@ -5,9 +5,9 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
+use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 
 class ResponseHandler implements ResponseHandlerInterface
 {
@@ -35,7 +35,7 @@ class ResponseHandler implements ResponseHandlerInterface
     {
         try {
             /**
-             * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface $instance
+             * @var \EoneoPay\Webhooks\Model\WebhookResponseInterface $instance
              */
             $instance = $this->entityManager->getClassMetadata(WebhookResponseInterface::class)
                 ->newInstance();

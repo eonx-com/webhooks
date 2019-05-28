@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers;
 
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
+use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 
 class ResponseHandlerStub implements ResponseHandlerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface
+     * @var \EoneoPay\Webhooks\Model\WebhookResponseInterface
      */
     private $nextResponse;
 
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface[]
+     * @var \EoneoPay\Webhooks\Model\WebhookResponseInterface[]
      */
     private $saved = [];
 
@@ -27,7 +27,7 @@ class ResponseHandlerStub implements ResponseHandlerInterface
     }
 
     /**
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface[]
+     * @return \EoneoPay\Webhooks\Model\WebhookResponseInterface[]
      */
     public function getSaved(): array
     {
@@ -45,7 +45,7 @@ class ResponseHandlerStub implements ResponseHandlerInterface
     /**
      * Set next response
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseInterface $response
+     * @param \EoneoPay\Webhooks\Model\WebhookResponseInterface $response
      *
      * @return void
      */

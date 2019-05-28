@@ -5,10 +5,10 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use Exception;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
@@ -40,7 +40,7 @@ class RequestHandlerTest extends TestCase
     public function testCreateFails(): void
     {
         $this->expectException(EntityNotCreatedException::class);
-        $this->expectExceptionMessage('An error occurred creating an EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface instance.'); // phpcs:ignore
+        $this->expectExceptionMessage('An error occurred creating an EoneoPay\Webhooks\Model\WebhookRequestInterface instance.'); // phpcs:ignore
 
         $classMetadata = $this->createMock(ClassMetadata::class);
         $classMetadata->expects(static::once())
@@ -98,7 +98,7 @@ class RequestHandlerTest extends TestCase
     /**
      * Create handler instance
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface|null $entity
+     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface|null $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata $classMetadata
      *
      * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler

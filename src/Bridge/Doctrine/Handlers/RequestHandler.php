@@ -5,10 +5,10 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 
 class RequestHandler implements RequestHandlerInterface
 {
@@ -36,7 +36,7 @@ class RequestHandler implements RequestHandlerInterface
     {
         try {
             /**
-             * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $instance
+             * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface $instance
              */
             $instance = $this->entityManager->getClassMetadata(WebhookRequestInterface::class)
                 ->newInstance();
@@ -71,7 +71,7 @@ class RequestHandler implements RequestHandlerInterface
         }
 
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookRequestInterface $entity
+         * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface $entity
          *
          * @see https://youtrack.jetbrains.com/issue/WI-37859 - typehint required until PhpStorm recognises === check
          */
