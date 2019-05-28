@@ -5,6 +5,8 @@ namespace EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 
 use EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent;
 use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
+use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface;
 
 final class ActivityCreatedListener
 {
@@ -17,6 +19,20 @@ final class ActivityCreatedListener
      * @var \EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface
      */
     private $webhookManager;
+
+    /**
+     * Constructor
+     *
+     * @param \EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface $persister
+     * @param \EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface $webhookManager
+     */
+    public function __construct(
+        ActivityPersisterInterface $persister,
+        WebhookManagerInterface $webhookManager
+    ) {
+        $this->persister = $persister;
+        $this->webhookManager = $webhookManager;
+    }
 
     /**
      * Handles the ActivityCreated event, dispatching it back to the Webhook process.

@@ -6,6 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\ActivityPersister;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ActivityHandlerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
@@ -14,6 +15,24 @@ use Tests\EoneoPay\Webhooks\TestCase;
  */
 class ActivityPersisterTest extends TestCase
 {
+    /**
+     * Tests get
+     *
+     * @return void
+     */
+    public function testGet(): void
+    {
+        $activity = new ActivityStub();
+        $activityHandler = new ActivityHandlerStub();
+        $activityHandler->setNext($activity);
+
+        $persister = $this->getPersister($activityHandler);
+
+        $result = $persister->get(5);
+
+        static::assertSame($activity, $result);
+    }
+
     /**
      * Tests Save
      *

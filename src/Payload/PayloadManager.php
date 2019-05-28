@@ -20,7 +20,7 @@ final class PayloadManager implements PayloadManagerInterface
      *
      * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface[] $payloadBuilders
      */
-    public function __construct(iterable $payloadBuilders)
+    public function __construct(array $payloadBuilders)
     {
         $this->payloadBuilders = $payloadBuilders;
     }

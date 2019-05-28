@@ -63,14 +63,14 @@ final class ActivityHandler implements ActivityHandlerInterface
     {
         $activity = $this->entityManager->find(ActivityInterface::class, $activityId);
 
-        if (($activity instanceof ActivityInterface) === false) {
-            // @codeCoverageIgnoreStart
+        if ($activity !== null &&
+            ($activity instanceof ActivityInterface) === false
+        ) {
             throw new DoctrineMisconfiguredException(\sprintf(
                 'When querying for a "%s" object, Doctrine returned "%s"',
                 ActivityInterface::class,
                 \is_object($activity) ?\get_class($activity) : \gettype($activity)
             ));
-            // @codeCoverageIgnoreEnd
         }
 
         return $activity;

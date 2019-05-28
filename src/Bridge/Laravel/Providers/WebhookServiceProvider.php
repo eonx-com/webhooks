@@ -17,12 +17,16 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\ActivityPersister;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\EventDispatcher;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher;
+use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
 use EoneoPay\Webhooks\Payload\PayloadManager;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface;
+use EoneoPay\Webhooks\Webhooks\WebhookManager;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,6 +46,7 @@ final class WebhookServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(ActivityCreatedListener::class);
         $this->app->singleton(ActivityHandlerInterface::class, ActivityHandler::class);
         $this->app->singleton(ActivityManagerInterface::class, ActivityManager::class);
         $this->app->singleton(ActivityPersisterInterface::class, ActivityPersister::class);
@@ -58,8 +63,16 @@ final class WebhookServiceProvider extends ServiceProvider
         );
         $this->app->singleton(PayloadManagerInterface::class, static function (Container $app): PayloadManager {
             $tagged = $app->tagged('webhooks_payload_builders');
+            $payloadBuilders = [];
+            foreach ($tagged as $service) {
+                if ($service instanceof PayloadBuilderInterface !== true) {
+                    continue;
+                }
 
-            return new PayloadManager($tagged);
+                $payloadBuilders[] = $service;
+            }
+
+            return new PayloadManager($payloadBuilders);
         });
         $this->app->singleton(
             RequestHandlerInterface::class,
@@ -74,6 +87,7 @@ final class WebhookServiceProvider extends ServiceProvider
             }
         );
         $this->app->singleton(RealEventDispatcherInterface::class, RealEventDispatcher::class);
+        $this->app->singleton(WebhookManagerInterface::class, WebhookManager::class);
         $this->app->singleton(WebhookPersisterInterface::class, WebhookPersister::class);
     }
 }

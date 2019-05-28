@@ -10,6 +10,11 @@ use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 class ActivityPersisterStub implements ActivityPersisterInterface
 {
     /**
+     * @var \EoneoPay\Webhooks\Model\ActivityInterface|null
+     */
+    private $nextActivity;
+
+    /**
      * @var int
      */
     private $nextSequence = 1;
@@ -18,6 +23,14 @@ class ActivityPersisterStub implements ActivityPersisterInterface
      * @var mixed[]
      */
     private $saved = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(int $activityId): ?ActivityInterface
+    {
+        return $this->nextActivity;
+    }
 
     /**
      * @return mixed[]
@@ -30,19 +43,23 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function get(int $activityId): ?ActivityInterface
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function save(string $activityConstant, DateTime $occurredAt, array $payload): int
     {
         $this->saved[] = \compact('activityConstant', 'occurredAt', 'payload');
 
         return $this->nextSequence;
+    }
+
+    /**
+     * Sets next activity returned by get.
+     *
+     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
+     *
+     * @return void
+     */
+    public function setNextActivity(ActivityInterface $activity): void
+    {
+        $this->nextActivity = $activity;
     }
 
     /**

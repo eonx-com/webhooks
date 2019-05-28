@@ -15,7 +15,7 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 class EntityManagerStub implements EntityManagerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface|null
+     * @var mixed
      */
     private $entity;
 
@@ -27,11 +27,11 @@ class EntityManagerStub implements EntityManagerInterface
     /**
      * Create entity manager stub
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface|null $entity
+     * @param mixed $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas
      */
     public function __construct(
-        ?WebhookRequestInterface $entity = null,
+        $entity = null,
         ?array $metadatas = null
     ) {
         $this->entity = $entity;

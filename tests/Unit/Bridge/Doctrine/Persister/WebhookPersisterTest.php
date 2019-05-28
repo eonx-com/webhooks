@@ -19,6 +19,8 @@ use Zend\Diactoros\Response\EmptyResponse;
 
 /**
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) required for testing
  */
 class WebhookPersisterTest extends TestCase
 {

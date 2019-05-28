@@ -9,13 +9,9 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface;
 class WebhookManager implements WebhookManagerInterface
 {
     /**
-     *
-     * @param ActivityInterface $activity
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function processActivity(ActivityInterface $activity): void
     {
-
     }
 }

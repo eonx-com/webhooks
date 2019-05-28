@@ -10,6 +10,11 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 class ActivityHandlerStub implements ActivityHandlerInterface
 {
     /**
+     * @var \EoneoPay\Webhooks\Model\ActivityInterface|null
+     */
+    private $next;
+
+    /**
      * @var \EoneoPay\Webhooks\Model\ActivityInterface[]
      */
     private $saved = [];
@@ -27,7 +32,7 @@ class ActivityHandlerStub implements ActivityHandlerInterface
      */
     public function get(int $activityId): ?ActivityInterface
     {
-        return null;
+        return $this->next;
     }
 
     /**
@@ -46,5 +51,17 @@ class ActivityHandlerStub implements ActivityHandlerInterface
     public function save(ActivityInterface $activity): void
     {
         $this->saved[] = $activity;
+    }
+
+    /**
+     * Set next
+     *
+     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
+     *
+     * @return void
+     */
+    public function setNext(ActivityInterface $activity): void
+    {
+        $this->next = $activity;
     }
 }

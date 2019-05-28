@@ -5,10 +5,12 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\DoctrineMisconfiguredException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ActivityHandler;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use Exception;
+use stdClass;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
@@ -18,19 +20,6 @@ use Tests\EoneoPay\Webhooks\TestCase;
  */
 class ActivityHandlerTest extends TestCase
 {
-    /**
-     * Create new webhook from interface
-     *
-     * @return void
-     */
-    public function testCreateNew(): void
-    {
-        $requestHandler = $this->createInstance();
-        $request = $requestHandler->create();
-
-        static::assertInstanceOf(ActivityStub::class, $request);
-    }
-
     /**
      * Create new fails
      *
@@ -53,6 +42,60 @@ class ActivityHandlerTest extends TestCase
     }
 
     /**
+     * Create new webhook from interface
+     *
+     * @return void
+     */
+    public function testCreateNew(): void
+    {
+        $requestHandler = $this->createInstance();
+        $request = $requestHandler->create();
+
+        static::assertInstanceOf(ActivityStub::class, $request);
+    }
+
+    /**
+     * Tests get success
+     *
+     * @return void
+     */
+    public function testGetSuccess(): void
+    {
+        $activity = new ActivityStub();
+
+        $requestHandler = $this->createInstance(null, $activity);
+        $result = $requestHandler->get(5);
+
+        static::assertSame($activity, $result);
+    }
+
+    /**
+     * Tests get success
+     *
+     * @return void
+     */
+    public function testGetSuccessNull(): void
+    {
+        $requestHandler = $this->createInstance();
+        $result = $requestHandler->get(5);
+
+        static::assertNull($result);
+    }
+
+    /**
+     * Tests get failure
+     *
+     * @return void
+     */
+    public function testGetFailure(): void
+    {
+        $this->expectException(DoctrineMisconfiguredException::class);
+
+        $requestHandler = $this->createInstance(null, new stdClass());
+        $requestHandler->get(5);
+    }
+
+    /**
      * Save
      *
      * @return void
@@ -70,14 +113,16 @@ class ActivityHandlerTest extends TestCase
      * Create handler instance
      *
      * @param \Doctrine\ORM\Mapping\ClassMetadata $classMetadata
+     * @param mixed $activity
      *
      * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ActivityHandler
      */
     private function createInstance(
-        ?ClassMetadata $classMetadata = null
+        ?ClassMetadata $classMetadata = null,
+        $activity = null
     ): ActivityHandler {
         return new ActivityHandler(new EntityManagerStub(
-            null,
+            $activity,
             [ActivityInterface::class => $classMetadata ?? new ClassMetadata(ActivityStub::class)]
         ));
     }
