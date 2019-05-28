@@ -8,7 +8,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterfa
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
-class ActivityPersister implements ActivityPersisterInterface
+final class ActivityPersister implements ActivityPersisterInterface
 {
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface

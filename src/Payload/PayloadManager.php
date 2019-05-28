@@ -8,7 +8,7 @@ use EoneoPay\Webhooks\Exceptions\PayloadBuilderNotFoundException;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
 
-class PayloadManager implements PayloadManagerInterface
+final class PayloadManager implements PayloadManagerInterface
 {
     /**
      * @var \EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface[]

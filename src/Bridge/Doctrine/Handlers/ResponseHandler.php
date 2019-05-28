@@ -9,7 +9,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 
-class ResponseHandler implements ResponseHandlerInterface
+final class ResponseHandler implements ResponseHandlerInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface

@@ -10,7 +10,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 
-class ActivityHandler implements ActivityHandlerInterface
+final class ActivityHandler implements ActivityHandlerInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface

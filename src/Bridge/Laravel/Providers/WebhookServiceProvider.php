@@ -33,7 +33,7 @@ use Illuminate\Support\ServiceProvider;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) ServiceProvider coupling because of bindings
  */
-class WebhookServiceProvider extends ServiceProvider
+final class WebhookServiceProvider extends ServiceProvider
 {
     /**
      * @noinspection PhpMissingParentCallCommonInspection Parent implementation is empty

@@ -10,7 +10,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterfac
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 
-class RequestHandler implements RequestHandlerInterface
+final class RequestHandler implements RequestHandlerInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
