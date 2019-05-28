@@ -23,6 +23,14 @@ class ActivityHandlerStub implements ActivityHandlerInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function get(int $activityId): ?ActivityInterface
+    {
+        return null;
+    }
+
+    /**
      * Returns saved activities.
      *
      * @return \EoneoPay\Webhooks\Model\ActivityInterface[]

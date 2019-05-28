@@ -11,7 +11,7 @@ class SubscriptionRetrieverStub implements SubscriptionRetrieverInterface
     /**
      * {@inheritdoc}
      */
-    public function getSubscriptionsForSubscribers(string $activity, array $subscribers): array
+    public function getSubscriptionsForSubscribers(string $activityConstant, array $subscribers): array
     {
         return \array_map(static function (): SubscriptionInterface {
             return new SubscriptionStub();

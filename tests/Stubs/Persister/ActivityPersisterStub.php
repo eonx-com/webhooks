@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
 use DateTime;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
 class ActivityPersisterStub implements ActivityPersisterInterface
@@ -24,6 +25,14 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     public function getSaved(): array
     {
         return $this->saved;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(int $activityId): ?ActivityInterface
+    {
+        return null;
     }
 
     /**

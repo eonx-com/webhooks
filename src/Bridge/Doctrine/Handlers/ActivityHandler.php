@@ -5,6 +5,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
 use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\DoctrineMisconfiguredException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
@@ -51,6 +52,28 @@ class ActivityHandler implements ActivityHandlerInterface
         }
 
         return $instance;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\DoctrineMisconfiguredException
+     */
+    public function get(int $activityId): ?ActivityInterface
+    {
+        $activity = $this->entityManager->find(ActivityInterface::class, $activityId);
+
+        if (($activity instanceof ActivityInterface) === false) {
+            // @codeCoverageIgnoreStart
+            throw new DoctrineMisconfiguredException(\sprintf(
+                'When querying for a "%s" object, Doctrine returned "%s"',
+                ActivityInterface::class,
+                \is_object($activity) ?\get_class($activity) : \gettype($activity)
+            ));
+            // @codeCoverageIgnoreEnd
+        }
+
+        return $activity;
     }
 
     /**

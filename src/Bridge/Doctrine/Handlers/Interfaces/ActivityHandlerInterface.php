@@ -15,6 +15,15 @@ interface ActivityHandlerInterface
     public function create(): ActivityInterface;
 
     /**
+     * Returns an activity.
+     *
+     * @param int $activityId
+     *
+     * @return \EoneoPay\Webhooks\Model\ActivityInterface|null
+     */
+    public function get(int $activityId): ?ActivityInterface;
+
+    /**
      * Saves the webhook
      *
      * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity

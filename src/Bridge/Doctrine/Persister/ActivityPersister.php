@@ -5,6 +5,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
 use DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
 class ActivityPersister implements ActivityPersisterInterface
@@ -22,6 +23,14 @@ class ActivityPersister implements ActivityPersisterInterface
     public function __construct(ActivityHandlerInterface $activityHandler)
     {
         $this->activityHandler = $activityHandler;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(int $activityId): ?ActivityInterface
+    {
+        return $this->activityHandler->get($activityId);
     }
 
     /**
