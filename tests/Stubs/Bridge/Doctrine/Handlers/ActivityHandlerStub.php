@@ -7,6 +7,9 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterfa
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 
+/**
+ * @coversNothing
+ */
 class ActivityHandlerStub implements ActivityHandlerInterface
 {
     /**

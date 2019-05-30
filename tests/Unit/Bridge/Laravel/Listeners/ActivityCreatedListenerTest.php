@@ -11,6 +11,9 @@ use Tests\EoneoPay\Webhooks\Stubs\Persister\ActivityPersisterStub;
 use Tests\EoneoPay\Webhooks\Stubs\Webhooks\WebhookManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener
+ */
 class ActivityCreatedListenerTest extends TestCase
 {
     /**

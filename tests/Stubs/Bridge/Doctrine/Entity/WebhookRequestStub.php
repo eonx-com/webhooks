@@ -9,6 +9,9 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Illuminate\Support\Collection;
 use RuntimeException;
 
+/**
+ * @coversNothing
+ */
 class WebhookRequestStub implements WebhookRequestInterface
 {
     /**

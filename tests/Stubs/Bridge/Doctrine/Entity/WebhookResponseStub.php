@@ -8,6 +8,9 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Illuminate\Support\Collection;
 
+/**
+ * @coversNothing
+ */
 class WebhookResponseStub implements WebhookResponseInterface
 {
     /**

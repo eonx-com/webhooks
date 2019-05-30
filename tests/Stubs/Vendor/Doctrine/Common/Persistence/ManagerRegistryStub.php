@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 
+/**
+ * @coversNothing
+ */
 class ManagerRegistryStub implements ManagerRegistry
 {
     /**

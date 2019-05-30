@@ -10,6 +10,9 @@ use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\LoggerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher
+ */
 class LoggerAwareEventDispatcherTest extends TestCase
 {
     /**

@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Payload;
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 
+/**
+ * @coversNothing
+ */
 class PayloadBuilderStub implements PayloadBuilderInterface
 {
     /**

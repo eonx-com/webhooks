@@ -5,6 +5,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Externals;
 
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
 
+/**
+ * @coversNothing
+ */
 class EventDispatcherStub implements EventDispatcherInterface
 {
     /**

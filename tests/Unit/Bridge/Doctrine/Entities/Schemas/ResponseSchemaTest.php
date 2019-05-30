@@ -9,6 +9,9 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Zend\Diactoros\Response\EmptyResponse;
 
+/**
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookResponseSchema
+ */
 class ResponseSchemaTest extends TestCase
 {
     /**

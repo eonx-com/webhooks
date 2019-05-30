@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Externals;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use Throwable;
 
+/**
+ * @coversNothing
+ */
 class LoggerStub implements LoggerInterface
 {
     /**

@@ -6,9 +6,10 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\ResultSetMapping;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 
 /**
+ * @coversNothing
+ *
  * @SuppressWarnings(PHPMD.TooManyMethods) This class is implemented from a Doctrine interface
  * @SuppressWarnings(PHPMD.TooManyPublicMethods) This class is implemented from a Doctrine interface
  */

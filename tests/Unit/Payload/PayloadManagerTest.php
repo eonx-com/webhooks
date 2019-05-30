@@ -10,6 +10,9 @@ use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Payload\PayloadManager
+ */
 class PayloadManagerTest extends TestCase
 {
     /**

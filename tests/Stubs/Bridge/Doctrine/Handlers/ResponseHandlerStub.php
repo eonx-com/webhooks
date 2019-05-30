@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 
+/**
+ * @coversNothing
+ */
 class ResponseHandlerStub implements ResponseHandlerInterface
 {
     /**

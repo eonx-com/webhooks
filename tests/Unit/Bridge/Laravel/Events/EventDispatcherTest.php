@@ -7,6 +7,9 @@ use EoneoPay\Webhooks\Bridge\Laravel\Events\EventDispatcher;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Bridge\Laravel\Events\EventDispatcher
+ */
 class EventDispatcherTest extends TestCase
 {
     /**

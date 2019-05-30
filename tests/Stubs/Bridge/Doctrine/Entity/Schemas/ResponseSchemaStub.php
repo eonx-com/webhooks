@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas;
 use EoneoPay\Externals\ORM\Entity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookResponseSchema;
 
+/**
+ * @coversNothing
+ */
 class ResponseSchemaStub extends Entity
 {
     use WebhookResponseSchema;

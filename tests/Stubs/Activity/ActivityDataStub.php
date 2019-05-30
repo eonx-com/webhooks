@@ -5,6 +5,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Activity;
 
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
 
+/**
+ * @coversNothing
+ */
 class ActivityDataStub implements ActivityDataInterface
 {
     /**

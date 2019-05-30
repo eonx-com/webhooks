@@ -10,6 +10,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use Zend\Diactoros\Response\EmptyResponse;
 
+/**
+ * @coversNothing
+ */
 class HttpClientStub implements ClientInterface
 {
     /**

@@ -7,6 +7,9 @@ use DateTime;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
+/**
+ * @coversNothing
+ */
 class ActivityPersisterStub implements ActivityPersisterInterface
 {
     /**

@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 use DateTime;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 
+/**
+ * @coversNothing
+ */
 class ActivityStub implements ActivityInterface
 {
     /**

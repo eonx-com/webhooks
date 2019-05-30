@@ -5,6 +5,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Subscription;
 
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
+/**
+ * @coversNothing
+ */
 class SubscriptionStub implements SubscriptionInterface
 {
     /**

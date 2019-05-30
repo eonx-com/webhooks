@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @coversNothing
+ */
 class WebhookPersisterStub implements WebhookPersisterInterface
 {
     /**

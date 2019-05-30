@@ -8,6 +8,9 @@ use Illuminate\Contracts\Container\Container as IlluminateContainerContract;
 use Illuminate\Contracts\Events\Dispatcher as IlluminateDispatcherContract;
 use Illuminate\Events\Dispatcher as IlluminateDispatcher;
 
+/**
+ * @coversNothing
+ */
 abstract class WebhookTestCase extends TestCase
 {
     /**
@@ -60,6 +63,8 @@ abstract class WebhookTestCase extends TestCase
      * Create Illuminate application
      *
      * @return \Illuminate\Container\Container
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function createApplication(): IlluminateContainer
     {
