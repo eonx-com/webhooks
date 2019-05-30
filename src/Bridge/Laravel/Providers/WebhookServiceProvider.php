@@ -6,8 +6,8 @@ namespace EoneoPay\Webhooks\Bridge\Laravel\Providers;
 use EoneoPay\Externals\Bridge\Laravel\EventDispatcher as RealEventDispatcher;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface as RealEventDispatcherInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
-use EoneoPay\Webhooks\Activity\ActivityManager;
-use EoneoPay\Webhooks\Activity\Interfaces\ActivityManagerInterface;
+use EoneoPay\Webhooks\Activities\ActivityFactory;
+use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ActivityHandler;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
@@ -47,8 +47,8 @@ final class WebhookServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(ActivityCreatedListener::class);
+        $this->app->singleton(ActivityFactoryInterface::class, ActivityFactory::class);
         $this->app->singleton(ActivityHandlerInterface::class, ActivityHandler::class);
-        $this->app->singleton(ActivityManagerInterface::class, ActivityManager::class);
         $this->app->singleton(ActivityPersisterInterface::class, ActivityPersister::class);
         $this->app->singleton(
             EventDispatcherInterface::class,

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Payload;
 
-use EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface;
+use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
 use EoneoPay\Webhooks\Exceptions\PayloadBuilderNotFoundException;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
@@ -40,7 +40,7 @@ final class PayloadManager implements PayloadManagerInterface
     /**
      * Finds a payload builder for the specific activity.
      *
-     * @param \EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface $activityData
+     * @param \EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface $activityData
      *
      * @return \EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface
      *

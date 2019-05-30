@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Activity;
+namespace EoneoPay\Webhooks\Activities;
 
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface;
-use EoneoPay\Webhooks\Activity\Interfaces\ActivityManagerInterface;
+use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
+use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
-final class ActivityManager implements ActivityManagerInterface
+final class ActivityFactory implements ActivityFactoryInterface
 {
     /**
      * @var \EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface
@@ -54,7 +54,8 @@ final class ActivityManager implements ActivityManagerInterface
         $payload = $this->payloadManager->buildPayload($activityData);
 
         $activityId = $this->activityPersister->save(
-            $activityData::getActivityConstant(),
+            $activityData::getActivityKey(),
+            $activityData->getPrimaryEntity(),
             $now ?? new DateTime('now'),
             $payload
         );

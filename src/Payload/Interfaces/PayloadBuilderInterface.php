@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Payload\Interfaces;
 
-use EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface;
+use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
 
 interface PayloadBuilderInterface
 {
     /**
      * Returns the payload for the activity.
      *
-     * @param \EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface $activityData
+     * @param \EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface $activityData
      *
      * @return mixed[]
      */
@@ -20,7 +20,7 @@ interface PayloadBuilderInterface
      * Indicates if this payload builder supports building a payload for
      * the specific ActivityDataInterface.
      *
-     * @param \EoneoPay\Webhooks\Activity\Interfaces\ActivityDataInterface $data
+     * @param \EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface $data
      *
      * @return bool
      */

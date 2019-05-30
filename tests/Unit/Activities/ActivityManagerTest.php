@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhooks\Unit\Webhook;
+namespace Tests\EoneoPay\Webhooks\Unit\Activities;
 
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Activity\ActivityManager;
+use EoneoPay\Webhooks\Activities\ActivityFactory;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
@@ -15,7 +15,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Persister\ActivityPersisterStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Activity\ActivityManager
+ * @covers \EoneoPay\Webhooks\Activities\ActivityFactory
  */
 class ActivityManagerTest extends TestCase
 {
@@ -26,14 +26,14 @@ class ActivityManagerTest extends TestCase
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
      * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface $payloadManager
      *
-     * @return \EoneoPay\Webhooks\Activity\ActivityManager
+     * @return \EoneoPay\Webhooks\Activities\ActivityFactory
      */
     public function getManager(
         ActivityPersisterInterface $activityPersister,
         EventDispatcherInterface $dispatcher,
         PayloadManagerInterface $payloadManager
-    ): ActivityManager {
-        return new ActivityManager(
+    ): ActivityFactory {
+        return new ActivityFactory(
             $activityPersister,
             $dispatcher,
             $payloadManager
@@ -51,10 +51,13 @@ class ActivityManagerTest extends TestCase
     {
         $occurredAt = new DateTime('2011-01-01T00:00:00');
 
+        $activityData = new ActivityDataStub();
+
         $expectedEvent = [5];
         $expectedActivity = [
             [
-                'activityConstant' => 'activity.constant',
+                'activityKey' => 'activity.constant',
+                'entity' => $activityData->getPrimaryEntity(),
                 'occurredAt' => $occurredAt,
                 'payload' => [
                     'payload' => 'wot'
@@ -76,7 +79,7 @@ class ActivityManagerTest extends TestCase
 
 
         $manager->send(
-            new ActivityDataStub(),
+            $activityData,
             $occurredAt
         );
 
