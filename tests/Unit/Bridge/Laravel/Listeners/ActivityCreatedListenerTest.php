@@ -8,7 +8,7 @@ use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Persister\ActivityPersisterStub;
-use Tests\EoneoPay\Webhooks\Stubs\Webhooks\WebhookManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Webhooks\RequestFactoryStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -27,7 +27,7 @@ class ActivityCreatedListenerTest extends TestCase
         $this->expectExceptionMessage('No activity was found when querying for activity "5"');
 
         $persister = new ActivityPersisterStub();
-        $manager = new WebhookManagerStub();
+        $manager = new RequestFactoryStub();
 
         $listener = new ActivityCreatedListener($persister, $manager);
         $listener->handle(new ActivityCreatedEvent(5));
@@ -44,7 +44,7 @@ class ActivityCreatedListenerTest extends TestCase
 
         $persister = new ActivityPersisterStub();
         $persister->setNextActivity($activity);
-        $manager = new WebhookManagerStub();
+        $manager = new RequestFactoryStub();
 
         $listener = new ActivityCreatedListener($persister, $manager);
         $listener->handle(new ActivityCreatedEvent(5));

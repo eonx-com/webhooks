@@ -71,6 +71,6 @@ trait ActivitySchema
     public function setPrimaryEntity(EntityInterface $object): void
     {
         $this->primaryClass = \get_class($object);
-        $this->primaryId = $object->getId();
+        $this->primaryId = (string)$object->getId();
     }
 }

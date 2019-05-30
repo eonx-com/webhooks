@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
 use DateTime;
-use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\ActivitySchema;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;

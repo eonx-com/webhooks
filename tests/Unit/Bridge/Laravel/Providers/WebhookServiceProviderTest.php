@@ -19,12 +19,12 @@ use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
-use EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface;
+use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use Illuminate\Container\Container;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
+use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionResolverStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence\ManagerRegistryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
@@ -56,7 +56,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
             [RealEventDispatcher::class],
             [RequestHandlerInterface::class],
             [ResponseHandlerInterface::class],
-            [WebhookManagerInterface::class],
+            [RequestFactoryInterface::class],
             [WebhookPersisterInterface::class]
         ];
     }
@@ -94,7 +94,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
         }
 
         $app = $this->createApplication();
-        $app->bind(SubscriptionRetrieverInterface::class, SubscriptionRetrieverStub::class);
+        $app->bind(SubscriptionResolverInterface::class, SubscriptionResolverStub::class);
         $app->bind(RealEventDispatcher::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
         $app->bind(HttpClientInterface::class, HttpClientStub::class);

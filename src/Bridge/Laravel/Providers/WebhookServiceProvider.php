@@ -25,8 +25,8 @@ use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
 use EoneoPay\Webhooks\Payload\PayloadManager;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface;
-use EoneoPay\Webhooks\Webhooks\WebhookManager;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
+use EoneoPay\Webhooks\Webhooks\RequestFactory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
@@ -87,7 +87,7 @@ final class WebhookServiceProvider extends ServiceProvider
             }
         );
         $this->app->singleton(RealEventDispatcherInterface::class, RealEventDispatcher::class);
-        $this->app->singleton(WebhookManagerInterface::class, WebhookManager::class);
+        $this->app->singleton(RequestFactoryInterface::class, RequestFactory::class);
         $this->app->singleton(WebhookPersisterInterface::class, WebhookPersister::class);
     }
 }

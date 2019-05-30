@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Webhooks;
 
 use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Webhooks\Interfaces\WebhookManagerInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 
-class WebhookManagerStub implements WebhookManagerInterface
+/**
+ * @coversNothing
+ */
+class RequestFactoryStub implements RequestFactoryInterface
 {
     /**
      * @var \EoneoPay\Webhooks\Model\ActivityInterface[]
