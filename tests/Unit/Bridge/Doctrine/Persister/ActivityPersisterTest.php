@@ -8,6 +8,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterfa
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\ActivityPersister;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ActivityHandlerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -53,7 +54,12 @@ class ActivityPersisterTest extends TestCase
         $activityHandler = new ActivityHandlerStub();
         $persister = $this->getPersister($activityHandler);
 
-        $activityId = $persister->save('activity.constant', $occurredAt, ['payload']);
+        $activityId = $persister->save(
+            'activity.constant',
+            new EntityStub(),
+            $occurredAt,
+            ['payload']
+        );
 
         static::assertSame(1, $activityId);
 

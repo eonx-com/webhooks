@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Model;
 
 use DateTime;
+use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 
 interface ActivityInterface
 {
@@ -15,13 +16,34 @@ interface ActivityInterface
     public function getActivityId(): int;
 
     /**
-     * Sets the activity constant.
+     * Returns the class of the Primary entity.
      *
-     * @param string $activityConstant
+     * @return string
+     */
+    public function getPrimaryClass(): string;
+
+    /**
+     * Returns the identifier of the Primary entity.
+     *
+     * @return string
+     */
+    public function getPrimaryId(): string;
+
+    /**
+     * Returns the activity key for this activity.
+     *
+     * @return string
+     */
+    public function getActivityKey(): string;
+
+    /**
+     * Sets the activity key.
+     *
+     * @param string $activityKey
      *
      * @return void
      */
-    public function setConstant(string $activityConstant): void;
+    public function setActivityKey(string $activityKey): void;
 
     /**
      * Sets when the activity occurred.
@@ -40,4 +62,13 @@ interface ActivityInterface
      * @return void
      */
     public function setPayload(array $payload): void;
+
+    /**
+     * Sets the primary entity that caused this activity.
+     *
+     * @param \EoneoPay\Externals\ORM\Interfaces\EntityInterface $primaryObject
+     *
+     * @return void
+     */
+    public function setPrimaryEntity(EntityInterface $primaryObject): void;
 }

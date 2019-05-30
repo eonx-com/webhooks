@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Persister\Interfaces;
 
 use DateTime;
+use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 
 interface ActivityPersisterInterface
@@ -20,11 +21,17 @@ interface ActivityPersisterInterface
     /**
      * Saves the ActivityData object with the generated payload.
      *
-     * @param string $activityConstant
+     * @param string $activityKey
+     * @param \EoneoPay\Externals\ORM\Interfaces\EntityInterface $primaryEntity
      * @param \DateTime $occurredAt
      * @param mixed[] $payload
      *
      * @return int
      */
-    public function save(string $activityConstant, DateTime $occurredAt, array $payload): int;
+    public function save(
+        string $activityKey,
+        EntityInterface $primaryEntity,
+        DateTime $occurredAt,
+        array $payload
+    ): int;
 }

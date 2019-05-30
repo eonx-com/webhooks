@@ -69,7 +69,7 @@ final class ActivityHandler implements ActivityHandlerInterface
             throw new DoctrineMisconfiguredException(\sprintf(
                 'When querying for a "%s" object, Doctrine returned "%s"',
                 ActivityInterface::class,
-                \is_object($activity) ?\get_class($activity) : \gettype($activity)
+                \get_class($activity)
             ));
         }
 

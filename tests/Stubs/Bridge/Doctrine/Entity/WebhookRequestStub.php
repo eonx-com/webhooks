@@ -54,6 +54,38 @@ class WebhookRequestStub implements WebhookRequestInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getRequestFormat(): string
+    {
+        return $this->data['format'] ?? 'json';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequestHeaders(): array
+    {
+        return $this->data['headers'] ?? [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequestMethod(): string
+    {
+        return $this->data['method'] ?? 'POST';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequestUrl(): string
+    {
+        return $this->data['url'] ?? 'http://localhost';
+    }
+
+    /**
      * Returns a sequence number
      *
      * @return int

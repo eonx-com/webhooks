@@ -4,18 +4,17 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
 
 use Doctrine\ORM\Mapping as ORM;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
- * @method string|null getEvent()
- * @method mixed[]|null getPayload()
+ * @method string|null getActivityKey()
  * @method int|null getWebhookId()
  * @method string|null getRequestFormat()
  * @method mixed[] getRequestHeaders()
  * @method string|null getRequestMethod()
  * @method string|null getRequestUrl()
- * @method $this setEvent(string $event)
- * @method $this setPayload(array $payload)
+ * @method $this setActivityKey(string $activityKey)
  * @method $this setWebhookId(int $id)
  * @method $this setRequestFormat(string $format)
  * @method $this setRequestHeaders(array $headers)
@@ -29,7 +28,7 @@ trait WebhookRequestSchema
      *
      * @var string|null
      */
-    protected $event;
+    protected $activityKey;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -68,12 +67,18 @@ trait WebhookRequestSchema
      */
     protected $webhookId;
 
+
     /**
-     * {@inheritdoc}
+     * Populates a WebhookRequest with data.
+     *
+     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
+     * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface $subscription
+     *
+     * @return void
      */
-    public function populate(string $event, SubscriptionInterface $subscription): void
+    public function populate(ActivityInterface $activity, SubscriptionInterface $subscription): void
     {
-        $this->event = $event;
+        $this->activityKey = $activity->getActivityKey();
         $this->requestFormat = $subscription->getSerializationFormat();
         $this->requestHeaders = $subscription->getHeaders();
         $this->requestMethod = $subscription->getMethod();

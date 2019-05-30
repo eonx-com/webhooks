@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
 use DateTime;
+use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
@@ -36,12 +37,13 @@ final class ActivityPersister implements ActivityPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function save(string $activityConstant, DateTime $occurredAt, array $payload): int
+    public function save(string $activityKey, EntityInterface $primaryEntity, DateTime $occurredAt, array $payload): int
     {
         $activity = $this->activityHandler->create();
-        $activity->setConstant($activityConstant);
+        $activity->setActivityKey($activityKey);
         $activity->setOccurredAt($occurredAt);
         $activity->setPayload($payload);
+        $activity->setPrimaryEntity($primaryEntity);
 
         $this->activityHandler->save($activity);
 

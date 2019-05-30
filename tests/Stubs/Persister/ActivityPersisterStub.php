@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
 use DateTime;
+use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
@@ -46,9 +47,9 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function save(string $activityConstant, DateTime $occurredAt, array $payload): int
+    public function save(string $activityKey, EntityInterface $entity, DateTime $occurredAt, array $payload): int
     {
-        $this->saved[] = \compact('activityConstant', 'occurredAt', 'payload');
+        $this->saved[] = \compact('activityKey', 'entity', 'occurredAt', 'payload');
 
         return $this->nextSequence;
     }

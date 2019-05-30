@@ -4,13 +4,18 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
 use DateTime;
+use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\ActivitySchema;
 use EoneoPay\Webhooks\Model\ActivityInterface;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 
 /**
  * @coversNothing
  */
 class ActivityStub implements ActivityInterface
 {
+    use ActivitySchema;
+
     /**
      * @var mixed[]
      */
@@ -29,6 +34,14 @@ class ActivityStub implements ActivityInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getActivityKey(): string
+    {
+        return 'activity.key';
+    }
+
+    /**
      * @return mixed[]
      */
     public function getData(): array
@@ -39,9 +52,25 @@ class ActivityStub implements ActivityInterface
     /**
      * {@inheritdoc}
      */
-    public function setConstant(string $activityConstant): void
+    public function getPrimaryClass(): string
     {
-        $this->data['constant'] = $activityConstant;
+        return EntityStub::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPrimaryId(): string
+    {
+        return '1';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setActivityKey(string $activityKey): void
+    {
+        $this->data['constant'] = $activityKey;
     }
 
     /**

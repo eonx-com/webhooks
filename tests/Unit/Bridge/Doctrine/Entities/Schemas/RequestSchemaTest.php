@@ -3,11 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\Schemas;
 
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas\WebhookSchemaStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas\RequestSchemaStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
-class WebhookSchemaTest extends TestCase
+/**
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookRequestSchema
+ */
+class RequestSchemaTest extends TestCase
 {
     /**
      * Tests webhook schema populate
@@ -18,10 +22,10 @@ class WebhookSchemaTest extends TestCase
     {
         $subscription = new SubscriptionStub();
 
-        $schema = new WebhookSchemaStub();
-        $schema->populate('event', $subscription);
+        $schema = new RequestSchemaStub();
+        $schema->populate(new ActivityStub(), $subscription);
 
-        static::assertSame('event', $schema->getEvent());
+        static::assertSame('activity.key', $schema->getActivityKey());
         static::assertSame('json', $schema->getRequestFormat());
         static::assertSame(['authorization' => 'Bearer ABC123'], $schema->getRequestHeaders());
         static::assertSame('POST', $schema->getRequestMethod());

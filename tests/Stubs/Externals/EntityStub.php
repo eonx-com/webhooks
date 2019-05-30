@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas;
+namespace Tests\EoneoPay\Webhooks\Stubs\Externals;
 
 use EoneoPay\Externals\ORM\Entity;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookRequestSchema;
 
-class WebhookSchemaStub extends Entity
+/**
+ * @coversNothing
+ */
+class EntityStub extends Entity
 {
-    use WebhookRequestSchema;
-
     /**
      * {@inheritdoc}
      */
@@ -23,6 +23,6 @@ class WebhookSchemaStub extends Entity
      */
     protected function getIdProperty(): string
     {
-        return '';
+        return 'id';
     }
 }
