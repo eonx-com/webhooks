@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Illuminate\Support\Collection;
@@ -39,7 +38,7 @@ class WebhookResponseStub implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function populate(WebhookRequestInterface $request, ResponseInterface $response): void
+    public function populate(WebhookRequestInterface $request, string $response): void
     {
         $this->data['request'] = $request;
         $this->data['response'] = $response;

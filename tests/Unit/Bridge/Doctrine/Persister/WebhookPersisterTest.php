@@ -75,6 +75,8 @@ class WebhookPersisterTest extends TestCase
      */
     public function testUpdate(): void
     {
+        $expectedHttpString = "HTTP/1.1 204 No Content\r\n\r\n";
+
         $request = new WebhookRequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
@@ -86,8 +88,10 @@ class WebhookPersisterTest extends TestCase
         $persister = $this->getPersister($requestHandler, $responseHandler);
         $persister->saveResponse(1, new Response(new EmptyResponse()));
 
-        static::assertContains($response, $responseHandler->getSaved());
+        $saved = $responseHandler->getSaved();
+        static::assertContains($response, $saved);
         static::assertSame($request, $response->getData()['request']);
+        static::assertSame($expectedHttpString, $response->getData()['response']);
     }
 
     /**

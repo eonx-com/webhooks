@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Model;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
-
 interface WebhookResponseInterface
 {
     /**
      * Populates the WebhookResponse with data.
      *
      * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $request
-     * @param \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface $response
+     * @param string $response
      *
      * @return void
      */
-    public function populate(WebhookRequestInterface $request, ResponseInterface $response): void;
+    public function populate(WebhookRequestInterface $request, string $response): void;
 }

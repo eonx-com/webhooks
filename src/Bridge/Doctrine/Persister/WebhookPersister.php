@@ -3,25 +3,31 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use Psr\Http\Message\ResponseInterface;
+use function GuzzleHttp\Psr7\str;
 
 final class WebhookPersister implements WebhookPersisterInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface
+     * The maximum number of bytes of the response that we'll save.
      */
-    private $responseHandler;
+    private const MAX_RESPONSE_BYTES = 102400;
 
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface
      */
     private $requestHandler;
+
+    /**
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface
+     */
+    private $responseHandler;
 
     /**
      * Constructor
@@ -62,8 +68,22 @@ final class WebhookPersister implements WebhookPersisterInterface
         $request = $this->requestHandler->getBySequence($sequence);
 
         $webhookResponse = $this->responseHandler->createNewWebhookResponse();
-        $webhookResponse->populate($request, $response);
+
+        $stringResponse = $this->getTruncatedBody($response);
+        $webhookResponse->populate($request, $stringResponse);
 
         $this->responseHandler->save($webhookResponse);
+    }
+
+    /**
+     * Truncates and returns a string of the response
+     *
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return string
+     */
+    private function getTruncatedBody(ResponseInterface $response): string
+    {
+        return \mb_strimwidth(str($response), 0, static::MAX_RESPONSE_BYTES);
     }
 }

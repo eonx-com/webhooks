@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Persister\Interfaces;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
 interface WebhookPersisterInterface
 {
@@ -27,7 +27,7 @@ interface WebhookPersisterInterface
      * that was received for the specific Request.
      *
      * @param int $sequence
-     * @param \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return void
      */
