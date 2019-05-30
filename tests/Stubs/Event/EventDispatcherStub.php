@@ -16,6 +16,11 @@ class EventDispatcherStub implements EventDispatcherInterface
     private $activityCreated = [];
 
     /**
+     * @var int[]
+     */
+    private $webhooksRequested = [];
+
+    /**
      * {@inheritdoc}
      */
     public function activityCreated(int $activityId): void
@@ -31,5 +36,23 @@ class EventDispatcherStub implements EventDispatcherInterface
     public function getActivityCreated(): array
     {
         return $this->activityCreated;
+    }
+
+    /**
+     * Returns webhooks requested
+     *
+     * @return int[]
+     */
+    public function getWebhooksRequested(): array
+    {
+        return $this->webhooksRequested;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function webhookRequest(int $requestId): void
+    {
+        $this->webhooksRequested[] = $requestId;
     }
 }

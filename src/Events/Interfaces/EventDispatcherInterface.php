@@ -13,4 +13,13 @@ interface EventDispatcherInterface
      * @return void
      */
     public function activityCreated(int $activityId): void;
+
+    /**
+     * A new webhook request raised to be processed by queue workers.
+     *
+     * @param int $requestId
+     *
+     * @return void
+     */
+    public function webhookRequest(int $requestId): void;
 }

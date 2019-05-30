@@ -43,6 +43,33 @@ class LoggerAwareEventDispatcherTest extends TestCase
     }
 
     /**
+     * Tests webhook request
+     *
+     * @return void
+     */
+    public function testWebhookRequest(): void
+    {
+        $innerDispatcher = new EventDispatcherStub();
+        $logger = new LoggerStub();
+
+        $expectedLogs = [
+            [
+                'message' => 'Webhook Request Created',
+                'context' => [
+                    'request_id' => 1
+                ]
+            ]
+        ];
+
+        $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
+
+        $dispatcher->webhookRequest(1);
+
+        self::assertSame([1], $innerDispatcher->getWebhooksRequested());
+        self::assertSame($expectedLogs, $logger->getLogs());
+    }
+
+    /**
      * Returns the instance under test
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher

@@ -32,4 +32,14 @@ final class EventDispatcher implements EventDispatcherInterface
 
         $this->eventDispatcher->dispatch($event);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function webhookRequest(int $requestId): void
+    {
+        $event = new WebhookRequestCreatedEvent($requestId);
+
+        $this->eventDispatcher->dispatch($event);
+    }
 }
