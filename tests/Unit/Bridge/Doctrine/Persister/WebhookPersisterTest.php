@@ -75,23 +75,25 @@ class WebhookPersisterTest extends TestCase
      */
     public function testUpdate(): void
     {
+        $response = new EmptyResponse();
         $expectedHttpString = "HTTP/1.1 204 No Content\r\n\r\n";
 
         $request = new WebhookRequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
-        $response = new WebhookResponseStub();
+        $webhookResponse = new WebhookResponseStub();
         $responseHandler = new ResponseHandlerStub();
-        $responseHandler->setNextResponse($response);
+        $responseHandler->setNextResponse($webhookResponse);
 
         $persister = $this->getPersister($requestHandler, $responseHandler);
-        $persister->saveResponse(1, new Response(new EmptyResponse()));
+        $persister->saveResponse($request, $response);
 
         $saved = $responseHandler->getSaved();
-        static::assertContains($response, $saved);
-        static::assertSame($request, $response->getData()['request']);
-        static::assertSame($expectedHttpString, $response->getData()['response']);
+        static::assertContains($webhookResponse, $saved);
+        static::assertSame($request, $webhookResponse->getData()['request']);
+        static::assertSame($response, $webhookResponse->getData()['response']);
+        static::assertSame($expectedHttpString, $webhookResponse->getData()['truncatedResponse']);
     }
 
     /**

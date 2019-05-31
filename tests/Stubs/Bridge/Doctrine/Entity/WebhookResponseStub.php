@@ -6,6 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Illuminate\Support\Collection;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @coversNothing
@@ -38,9 +39,13 @@ class WebhookResponseStub implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function populate(WebhookRequestInterface $request, string $response): void
-    {
+    public function populateRequest(
+        WebhookRequestInterface $request,
+        ResponseInterface $response,
+        string $truncatedRequest
+    ): void {
         $this->data['request'] = $request;
         $this->data['response'] = $response;
+        $this->data['truncatedResponse'] = $truncatedRequest;
     }
 }

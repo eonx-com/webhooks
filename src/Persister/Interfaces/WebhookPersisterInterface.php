@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Persister\Interfaces;
 
 use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -26,10 +27,10 @@ interface WebhookPersisterInterface
      * Updates the WebhookRequest identified by a sequence number with a response
      * that was received for the specific Request.
      *
-     * @param int $sequence
+     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
      * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return void
      */
-    public function saveResponse(int $sequence, ResponseInterface $response): void;
+    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void;
 }

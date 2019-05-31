@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
 use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -69,8 +70,11 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveResponse(int $sequence, ResponseInterface $response): void
+    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
     {
-        $this->updates[] = \compact('sequence', 'response');
+        $this->updates[] = [
+            'response' => $response,
+            'sequence' => $webhookRequest->getSequence()
+        ];
     }
 }

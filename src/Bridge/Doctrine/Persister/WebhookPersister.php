@@ -7,6 +7,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterfac
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
 use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -63,14 +64,12 @@ final class WebhookPersister implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveResponse(int $sequence, ResponseInterface $response): void
+    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
     {
-        $request = $this->requestHandler->getBySequence($sequence);
-
         $webhookResponse = $this->responseHandler->createNewWebhookResponse();
 
         $stringResponse = $this->getTruncatedBody($response);
-        $webhookResponse->populate($request, $stringResponse);
+        $webhookResponse->populateRequest($webhookRequest, $response, $stringResponse);
 
         $this->responseHandler->save($webhookResponse);
     }
