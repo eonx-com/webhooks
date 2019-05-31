@@ -10,20 +10,19 @@ use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
-use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use Illuminate\Container\Container;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
+use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionResolverStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence\ManagerRegistryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
@@ -100,24 +99,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
         $app->bind(HttpClientInterface::class, HttpClientStub::class);
         $app->bind(LoggerInterface::class, Logger::class);
 
-        $app->instance('payload_builder_real', new class implements PayloadBuilderInterface
-        {
-            /**
-             * {@inheritdoc}
-             */
-            public function supports(ActivityDataInterface $data): bool
-            {
-                return true;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function buildPayload(ActivityDataInterface $activityData): array
-            {
-                return [];
-            }
-        });
+        $app->instance('payload_builder_real', new PayloadBuilderStub([]));
         $app->instance('payload_builder_unreal', new class
         {
         });
