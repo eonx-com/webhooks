@@ -8,6 +8,7 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 /**
  * @coversNothing
@@ -56,6 +57,28 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
+    {
+        $this->updates[] = [
+            'response' => $response,
+            'sequence' => $webhookRequest->getSequence()
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveResponseException(WebhookRequestInterface $webhookRequest, Throwable $exception)
+    {
+        $this->updates[] = [
+            'exception' => $exception,
+            'sequence' => $webhookRequest->getSequence()
+        ];
+    }
+
+    /**
      * Sets the next sequence
      *
      * @param int $seq
@@ -65,16 +88,5 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     public function setNextSequence(int $seq): void
     {
         $this->nextSequence = $seq;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
-    {
-        $this->updates[] = [
-            'response' => $response,
-            'sequence' => $webhookRequest->getSequence()
-        ];
     }
 }

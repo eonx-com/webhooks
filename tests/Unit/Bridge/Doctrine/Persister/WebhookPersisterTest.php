@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 
-use EoneoPay\Externals\HttpClient\Response;
+use EoneoPay\Externals\HttpClient\Exceptions\NetworkException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
+use Exception;
+use GuzzleHttp\Exception\RequestException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
@@ -15,6 +17,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
+use Zend\Diactoros\Request;
 use Zend\Diactoros\Response\EmptyResponse;
 
 /**
@@ -29,7 +32,7 @@ class WebhookPersisterTest extends TestCase
      *
      * @return void
      */
-    public function testSave(): void
+    public function testSaveRequest(): void
     {
         $activity = new ActivityStub();
         $subscription = new SubscriptionStub();
@@ -52,7 +55,7 @@ class WebhookPersisterTest extends TestCase
      *
      * @return void
      */
-    public function testSaveNoSequence(): void
+    public function testSaveRequestNoSequence(): void
     {
         $this->expectException(WebhookSequenceMissingException::class);
 
@@ -69,11 +72,11 @@ class WebhookPersisterTest extends TestCase
     }
 
     /**
-     * Tests update
+     * Tests saveResponse
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function testSaveResponse(): void
     {
         $response = new EmptyResponse();
         $expectedHttpString = "HTTP/1.1 204 No Content\r\n\r\n";
@@ -94,6 +97,84 @@ class WebhookPersisterTest extends TestCase
         static::assertSame($request, $webhookResponse->getData()['request']);
         static::assertSame($response, $webhookResponse->getData()['response']);
         static::assertSame($expectedHttpString, $webhookResponse->getData()['truncatedResponse']);
+    }
+
+    /**
+     * Tests saveResponseException
+     *
+     * @return void
+     */
+    public function testSaveResponseNetworkException(): void
+    {
+        $exception = new NetworkException(new Request(), new Exception('Message'));
+
+        $request = new WebhookRequestStub(null);
+        $requestHandler = new RequestHandlerStub();
+        $requestHandler->setNextRequest($request);
+
+        $webhookResponse = new WebhookResponseStub();
+        $responseHandler = new ResponseHandlerStub();
+        $responseHandler->setNextResponse($webhookResponse);
+
+        $persister = $this->getPersister($requestHandler, $responseHandler);
+        $persister->saveResponseException($request, $exception);
+
+        $saved = $responseHandler->getSaved();
+        static::assertContains($webhookResponse, $saved);
+        static::assertFalse($webhookResponse->isSuccessful());
+        static::assertSame('Message', $webhookResponse->getData()['errorReason']);
+    }
+
+    /**
+     * Tests saveResponseException
+     *
+     * @return void
+     */
+    public function testSaveResponseRequestExceptionNoResponse(): void
+    {
+        $exception = new RequestException('Broken', new Request());
+
+        $request = new WebhookRequestStub(null);
+        $requestHandler = new RequestHandlerStub();
+        $requestHandler->setNextRequest($request);
+
+        $webhookResponse = new WebhookResponseStub();
+        $responseHandler = new ResponseHandlerStub();
+        $responseHandler->setNextResponse($webhookResponse);
+
+        $persister = $this->getPersister($requestHandler, $responseHandler);
+        $persister->saveResponseException($request, $exception);
+
+        $saved = $responseHandler->getSaved();
+        static::assertContains($webhookResponse, $saved);
+        static::assertFalse($webhookResponse->isSuccessful());
+        static::assertSame('Broken', $webhookResponse->getData()['errorReason']);
+    }
+
+    /**
+     * Tests saveResponseException
+     *
+     * @return void
+     */
+    public function testSaveResponseRequestExceptionWithResponse(): void
+    {
+        $exception = new RequestException('Broken', new Request(), new EmptyResponse(400));
+
+        $request = new WebhookRequestStub(null);
+        $requestHandler = new RequestHandlerStub();
+        $requestHandler->setNextRequest($request);
+
+        $webhookResponse = new WebhookResponseStub();
+        $responseHandler = new ResponseHandlerStub();
+        $responseHandler->setNextResponse($webhookResponse);
+
+        $persister = $this->getPersister($requestHandler, $responseHandler);
+        $persister->saveResponseException($request, $exception);
+
+        $saved = $responseHandler->getSaved();
+        static::assertContains($webhookResponse, $saved);
+        static::assertFalse($webhookResponse->isSuccessful());
+        static::assertSame('Broken', $webhookResponse->getData()['errorReason']);
     }
 
     /**

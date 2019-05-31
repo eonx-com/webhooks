@@ -7,6 +7,7 @@ use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 interface WebhookPersisterInterface
 {
@@ -33,4 +34,17 @@ interface WebhookPersisterInterface
      * @return void
      */
     public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void;
+
+    /**
+     * Saves a WebhookResponse
+     *
+     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
+     * @param \Throwable $exception
+     *
+     * @return mixed
+     */
+    public function saveResponseException(
+        WebhookRequestInterface $webhookRequest,
+        Throwable $exception
+    );
 }

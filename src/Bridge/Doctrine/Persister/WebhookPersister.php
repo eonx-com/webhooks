@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
+use EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
@@ -10,7 +11,9 @@ use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 use function GuzzleHttp\Psr7\str;
 
 final class WebhookPersister implements WebhookPersisterInterface
@@ -69,7 +72,43 @@ final class WebhookPersister implements WebhookPersisterInterface
         $webhookResponse = $this->responseHandler->createNewWebhookResponse();
 
         $stringResponse = $this->getTruncatedBody($response);
-        $webhookResponse->populateRequest($webhookRequest, $response, $stringResponse);
+        $webhookResponse->populateResponse($webhookRequest, $response, $stringResponse);
+
+        $this->responseHandler->save($webhookResponse);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveResponseException(
+        WebhookRequestInterface $webhookRequest,
+        Throwable $exception
+    ) {
+        $webhookResponse = $this->responseHandler->createNewWebhookResponse();
+        $response = null;
+
+        if (($exception instanceof RequestException) === true ||
+            ($exception instanceof InvalidApiResponseException) === true) {
+            // phpcs:disable Generic.Files.LineLength
+            /**
+             * @var \GuzzleHttp\Exception\RequestException|\EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException $exception
+             *
+             * @see https://youtrack.jetbrains.com/issue/WI-37859 - typehint required until PhpStorm recognises === check
+             */
+            // phpcs:enable
+            $response = $exception->getResponse();
+        }
+
+        if ($response !== null) {
+            $webhookResponse->populateResponse(
+                $webhookRequest,
+                $response,
+                $this->getTruncatedBody($response)
+            );
+        }
+
+        $webhookResponse->setSuccessful(false);
+        $webhookResponse->setErrorReason($exception->getMessage());
 
         $this->responseHandler->save($webhookResponse);
     }

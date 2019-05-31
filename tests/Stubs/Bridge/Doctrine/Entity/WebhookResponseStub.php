@@ -39,7 +39,15 @@ class WebhookResponseStub implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function populateRequest(
+    public function isSuccessful(): bool
+    {
+        return $this->data['successful'] ?? false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function populateResponse(
         WebhookRequestInterface $request,
         ResponseInterface $response,
         string $truncatedRequest
@@ -47,5 +55,21 @@ class WebhookResponseStub implements WebhookResponseInterface
         $this->data['request'] = $request;
         $this->data['response'] = $response;
         $this->data['truncatedResponse'] = $truncatedRequest;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setErrorReason(string $reason): void
+    {
+        $this->data['errorReason'] = $reason;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSuccessful(bool $successful): void
+    {
+        $this->data['successful'] = $successful;
     }
 }
