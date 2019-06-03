@@ -8,6 +8,7 @@ use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Payload\PayloadManager;
 use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
+use Tests\EoneoPay\Webhooks\Stubs\Payload\UnsupportedPayloadBuilderStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -15,6 +16,21 @@ use Tests\EoneoPay\Webhooks\TestCase;
  */
 class PayloadManagerTest extends TestCase
 {
+    /**
+     * Tests payload builder when no builders are found.
+     *
+     * @return void
+     */
+    public function testBuildPayloadNoBuilders(): void
+    {
+        $this->expectException(PayloadBuilderNotFoundException::class);
+        $this->expectExceptionMessage('A payload builder for "Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub" could not be found.'); // phpcs:ignore
+
+        $manager = $this->getManager();
+
+        $manager->buildPayload(new ActivityDataStub());
+    }
+
     /**
      * Tests payload builder when no supported builders are found.
      *
@@ -25,7 +41,7 @@ class PayloadManagerTest extends TestCase
         $this->expectException(PayloadBuilderNotFoundException::class);
         $this->expectExceptionMessage('A payload builder for "Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub" could not be found.'); // phpcs:ignore
 
-        $manager = $this->getManager();
+        $manager = $this->getManager(new UnsupportedPayloadBuilderStub());
 
         $manager->buildPayload(new ActivityDataStub());
     }

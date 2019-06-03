@@ -15,11 +15,13 @@ interface EventDispatcherInterface
     public function activityCreated(int $activityId): void;
 
     /**
-     * A new webhook request raised to be processed by queue workers.
+     * Once an activity has had its subscribers resolved, a webhook request is
+     * saved for each subscriber. This event is raised for each request so
+     * they can be processed by queue workers.
      *
      * @param int $requestId
      *
      * @return void
      */
-    public function webhookRequest(int $requestId): void;
+    public function webhookRequestCreated(int $requestId): void;
 }

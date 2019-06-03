@@ -47,12 +47,12 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function webhookRequest(int $requestId): void
+    public function webhookRequestCreated(int $requestId): void
     {
         $this->logger->info('Webhook Request Created', [
             'request_id' => $requestId
         ]);
 
-        $this->dispatcher->webhookRequest($requestId);
+        $this->dispatcher->webhookRequestCreated($requestId);
     }
 }

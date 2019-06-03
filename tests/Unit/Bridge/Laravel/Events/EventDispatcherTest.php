@@ -41,7 +41,7 @@ class EventDispatcherTest extends TestCase
         $innerDispatcher = new EventDispatcherStub();
         $dispatcher = new EventDispatcher($innerDispatcher);
 
-        $dispatcher->webhookRequest(5);
+        $dispatcher->webhookRequestCreated(5);
 
         /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent[] $dispatched */
         $dispatched = $innerDispatcher->getDispatched();

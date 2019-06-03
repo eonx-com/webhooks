@@ -8,6 +8,13 @@ use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 
+/**
+ * This listener will listen for events created by the Laravel Bridge's EventDispatcher
+ * and call out to services that expect to be notified when the event is raised.
+ *
+ * This class will be run as the entry point inside a worker because of the
+ * Bridge's ActivityCreatedEvent's implementation of ShouldQueue.
+ */
 final class ActivityCreatedListener
 {
     /**

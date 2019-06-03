@@ -8,7 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 interface WebhookResponseInterface
 {
     /**
-     * If the response was successful
+     * If the webhook response is considered successful. This is most
+     * likely to mean we got a 2xx response.
      *
      * @return bool
      */

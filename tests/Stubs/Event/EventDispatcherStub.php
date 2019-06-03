@@ -51,7 +51,7 @@ class EventDispatcherStub implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function webhookRequest(int $requestId): void
+    public function webhookRequestCreated(int $requestId): void
     {
         $this->webhooksRequested[] = $requestId;
     }

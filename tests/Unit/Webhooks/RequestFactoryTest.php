@@ -17,7 +17,8 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class RequestFactoryTest extends TestCase
 {
     /**
-     * Tests processActivity method
+     * Tests that the processActivity method method resolves subscriptions
+     * and saves then dispatches WebhookRequest entities.
      *
      * @return void
      */

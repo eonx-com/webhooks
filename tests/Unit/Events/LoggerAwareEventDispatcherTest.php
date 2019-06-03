@@ -63,7 +63,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
 
         $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
 
-        $dispatcher->webhookRequest(1);
+        $dispatcher->webhookRequestCreated(1);
 
         self::assertSame([1], $innerDispatcher->getWebhooksRequested());
         self::assertSame($expectedLogs, $logger->getLogs());
