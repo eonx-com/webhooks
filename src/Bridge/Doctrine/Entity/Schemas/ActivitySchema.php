@@ -3,17 +3,20 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 
 /**
  * @method int|null getActivityId()
- * @method string|null getEvent()
+ * @method string|null getActivityKey()
+ * @method \DateTime|null getOccurredAt()
  * @method mixed[]|null getPayload()
  * @method string|null getPrimaryClass()
  * @method string|null getPrimaryId()
  * @method $this setActivityId(int $id)
- * @method $this setEvent(string $event)
+ * @method $this setActivityKey(string $activityKey)
+ * @method $this setOccurredAt(\DateTime $occurredAt)
  * @method $this setPayload(array $payload)
  * @method $this setPrimaryClass(string $class)
  * @method $this setPrimaryId(string $id)
@@ -34,7 +37,14 @@ trait ActivitySchema
      *
      * @var string|null
      */
-    protected $event;
+    protected $activityKey;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var DateTime
+     */
+    protected $occurredAt;
 
     /**
      * @ORM\Column(type="json")
