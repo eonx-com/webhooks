@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bef9da882e764f099dc9f13cc6d8b6b8",
+    "content-hash": "7b3d3394bb12611b46ec8eb09678aea8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -7276,6 +7276,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "eoneopay/externals": 5,
         "eoneopay/standards": 20,
         "roave/security-advisories": 20
     },

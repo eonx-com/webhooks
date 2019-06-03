@@ -48,7 +48,8 @@ class HttpClientStub implements ClientInterface
         $this->requests[] = [
             'method' => $request->getMethod(),
             'uri' => $request->getUri()->__toString(),
-            'options' => $options
+            'options' => $options,
+            'request' => $request
         ];
 
         return new EmptyResponse();

@@ -51,6 +51,14 @@ class ActivityStub implements ActivityInterface
     /**
      * {@inheritdoc}
      */
+    public function getPayload(): array
+    {
+        return $this->data['payload'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPrimaryClass(): string
     {
         return EntityStub::class;

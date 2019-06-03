@@ -23,12 +23,13 @@ class WebhookRequestStub implements WebhookRequestInterface
      * WebhookEntityStub constructor.
      *
      * @param null|int $sequence
+     * @param mixed[]|null $data
      */
-    public function __construct(?int $sequence)
+    public function __construct(?int $sequence, ?array $data = null)
     {
-        $this->data = \collect([
+        $this->data = \collect(\array_merge($data ?? [], [
             'sequence' => $sequence
-        ]);
+        ]));
     }
 
     /**

@@ -16,6 +16,20 @@ interface ActivityInterface
     public function getActivityId(): int;
 
     /**
+     * Returns the activity key for this activity.
+     *
+     * @return string
+     */
+    public function getActivityKey(): string;
+
+    /**
+     * Returns the activity payload.
+     *
+     * @return mixed[]
+     */
+    public function getPayload(): array;
+
+    /**
      * Returns the class of the Primary entity.
      *
      * @return string
@@ -28,13 +42,6 @@ interface ActivityInterface
      * @return string
      */
     public function getPrimaryId(): string;
-
-    /**
-     * Returns the activity key for this activity.
-     *
-     * @return string
-     */
-    public function getActivityKey(): string;
 
     /**
      * Sets the activity key.

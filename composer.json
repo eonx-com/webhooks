@@ -10,9 +10,10 @@
   "require": {
     "php": ">=7.3",
     "doctrine/orm": "^2.6.3",
-    "eoneopay/externals": "^1.0",
+    "eoneopay/externals": "^1.0@RC",
     "eoneopay/utils": "^0.2",
     "ext-json": "*",
+    "ext-mbstring": "*",
     "illuminate/redis": "^5.5",
     "guzzlehttp/guzzle": "^6.0.0"
   },
