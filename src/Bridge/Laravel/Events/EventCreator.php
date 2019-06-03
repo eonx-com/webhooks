@@ -37,6 +37,7 @@ final class EventCreator implements EventCreatorInterface
 
         return new Event(
             $subscription->getUrl(),
+            $event,
             $sequence,
             $subscription->getSerializationFormat(),
             $subscription->getMethod(),

@@ -35,6 +35,6 @@ class EventCreatorStub implements EventCreatorInterface
         array $payload,
         SubscriptionInterface $subscription
     ): EventInterface {
-        return \array_shift($this->events) ?? new Event('', 0, '');
+        return \array_shift($this->events) ?? new Event('', '', 0, '');
     }
 }

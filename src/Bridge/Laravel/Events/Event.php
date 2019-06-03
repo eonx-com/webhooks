@@ -11,6 +11,11 @@ final class Event implements EventInterface, ShouldQueue
     /**
      * @var string
      */
+    private $event;
+
+    /**
+     * @var string
+     */
     private $format;
 
     /**
@@ -42,6 +47,7 @@ final class Event implements EventInterface, ShouldQueue
      * Event constructor.
      *
      * @param string $url
+     * @param string $event
      * @param int $sequence
      * @param string $format
      * @param null|string $method
@@ -50,6 +56,7 @@ final class Event implements EventInterface, ShouldQueue
      */
     public function __construct(
         string $url,
+        string $event,
         int $sequence,
         string $format,
         ?string $method = null,
@@ -62,6 +69,15 @@ final class Event implements EventInterface, ShouldQueue
         $this->method = $method ?? 'POST';
         $this->payload = $payload ?? [];
         $this->headers = $headers ?? [];
+        $this->event = $event;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEvent(): string
+    {
+        return $this->event;
     }
 
     /**
