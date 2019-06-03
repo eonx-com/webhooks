@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Payload;
 
 use EoneoPay\Webhooks\Exceptions\PayloadBuilderNotFoundException;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
 use EoneoPay\Webhooks\Payload\PayloadManager;
 use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
@@ -16,6 +15,41 @@ use Tests\EoneoPay\Webhooks\TestCase;
  */
 class PayloadManagerTest extends TestCase
 {
+    /**
+     * Tests payload builder when no supported builders are found.
+     *
+     * @return void
+     */
+    public function testBuildPayload(): void
+    {
+        $manager = $this->getManager([new PayloadBuilderStub(['payload'])]);
+
+        $expectedPayload = ['payload'];
+
+        $payload = $manager->buildPayload(new ActivityDataStub());
+
+        self::assertSame($expectedPayload, $payload);
+    }
+
+    /**
+     * Tests payload builder when no supported builders are found.
+     *
+     * @return void
+     */
+    public function testBuildPayloadMultiple(): void
+    {
+        $manager = $this->getManager([
+            new UnsupportedPayloadBuilderStub(),
+            new PayloadBuilderStub(['payload'])
+        ]);
+
+        $expectedPayload = ['payload'];
+
+        $payload = $manager->buildPayload(new ActivityDataStub());
+
+        self::assertSame($expectedPayload, $payload);
+    }
+
     /**
      * Tests payload builder when no builders are found.
      *
@@ -41,36 +75,20 @@ class PayloadManagerTest extends TestCase
         $this->expectException(PayloadBuilderNotFoundException::class);
         $this->expectExceptionMessage('A payload builder for "Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub" could not be found.'); // phpcs:ignore
 
-        $manager = $this->getManager(new UnsupportedPayloadBuilderStub());
+        $manager = $this->getManager([new UnsupportedPayloadBuilderStub()]);
 
         $manager->buildPayload(new ActivityDataStub());
     }
 
     /**
-     * Tests payload builder when no supported builders are found.
-     *
-     * @return void
-     */
-    public function testBuildPayload(): void
-    {
-        $manager = $this->getManager(new PayloadBuilderStub(['payload']));
-
-        $expectedPayload = ['payload'];
-
-        $payload = $manager->buildPayload(new ActivityDataStub());
-
-        self::assertSame($expectedPayload, $payload);
-    }
-
-    /**
      * Returns the instance under test.
      *
-     * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface|null $builder
+     * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface[]|null $builders
      *
      * @return \EoneoPay\Webhooks\Payload\PayloadManager
      */
-    private function getManager(?PayloadBuilderInterface $builder = null): PayloadManager
+    private function getManager(?array $builders = null): PayloadManager
     {
-        return new PayloadManager($builder !== null ? [$builder] : []);
+        return new PayloadManager($builders ?? []);
     }
 }
