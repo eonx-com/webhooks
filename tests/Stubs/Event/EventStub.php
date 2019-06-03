@@ -41,6 +41,14 @@ class EventStub implements EventInterface
     /**
      * {@inheritdoc}
      */
+    public function getEvent(): string
+    {
+        return 'event.constant';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getFormat(): string
     {
         return $this->format;

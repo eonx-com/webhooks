@@ -6,6 +6,13 @@ namespace EoneoPay\Webhooks\Events\Interfaces;
 interface EventInterface
 {
     /**
+     * Returns the event constant
+     *
+     * @return string
+     */
+    public function getEvent(): string;
+
+    /**
      * Returns the request format
      *
      * @return string

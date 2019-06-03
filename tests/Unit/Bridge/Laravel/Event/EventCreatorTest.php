@@ -43,6 +43,7 @@ class EventCreatorTest extends TestCase
         static::assertSame(['authorization' => 'Bearer ABC123'], $result->getHeaders());
         static::assertSame('POST', $result->getMethod());
         static::assertSame('json', $result->getFormat());
+        static::assertSame('event', $result->getEvent());
     }
 
     /**

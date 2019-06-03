@@ -94,6 +94,7 @@ class Client implements ClientInterface
     {
         $finalPayload = $event->getPayload();
         $finalPayload['_sequence'] = $event->getSequence();
+        $finalPayload['_event'] = $event->getEvent();
 
         return $finalPayload;
     }

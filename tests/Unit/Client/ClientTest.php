@@ -44,6 +44,7 @@ class ClientTest extends TestCase
 <webhook>
   <json>payload</json>
   <_sequence>22</_sequence>
+  <_event>event.constant</_event>
 </webhook>
 
 XML;
@@ -51,7 +52,7 @@ XML;
         return [
             'json' => [
                 new EventStub(),
-                '{"json":"payload","_sequence":1}',
+                '{"json":"payload","_sequence":1,"_event":"event.constant"}',
                 'application/json'
             ],
             'xml' => [
