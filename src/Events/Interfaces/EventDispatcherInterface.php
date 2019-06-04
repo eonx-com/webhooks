@@ -12,7 +12,7 @@ interface EventDispatcherInterface
      *
      * @return void
      */
-    public function activityCreated(int $activityId): void;
+    public function dispatchActivityCreated(int $activityId): void;
 
     /**
      * Once an activity has had its subscribers resolved, a webhook request is
@@ -23,5 +23,5 @@ interface EventDispatcherInterface
      *
      * @return void
      */
-    public function webhookRequestCreated(int $requestId): void;
+    public function dispatchRequestCreated(int $requestId): void;
 }

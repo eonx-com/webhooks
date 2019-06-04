@@ -36,7 +36,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
 
         $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
 
-        $dispatcher->activityCreated(1);
+        $dispatcher->dispatchActivityCreated(1);
 
         self::assertSame([1], $innerDispatcher->getActivityCreated());
         self::assertSame($expectedLogs, $logger->getLogs());
@@ -63,7 +63,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
 
         $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
 
-        $dispatcher->webhookRequestCreated(1);
+        $dispatcher->dispatchRequestCreated(1);
 
         self::assertSame([1], $innerDispatcher->getWebhooksRequested());
         self::assertSame($expectedLogs, $logger->getLogs());

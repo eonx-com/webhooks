@@ -60,6 +60,6 @@ final class ActivityFactory implements ActivityFactoryInterface
             $payload
         );
 
-        $this->eventDispatcher->activityCreated($activityId);
+        $this->eventDispatcher->dispatchActivityCreated($activityId);
     }
 }

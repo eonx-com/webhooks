@@ -26,7 +26,7 @@ final class EventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function activityCreated(int $activityId): void
+    public function dispatchActivityCreated(int $activityId): void
     {
         $event = new ActivityCreatedEvent($activityId);
 
@@ -36,7 +36,7 @@ final class EventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function webhookRequestCreated(int $requestId): void
+    public function dispatchRequestCreated(int $requestId): void
     {
         $event = new WebhookRequestCreatedEvent($requestId);
 

@@ -53,7 +53,7 @@ class RequestFactory implements RequestFactoryInterface
         foreach ($subscriptions as $subscription) {
             $requestId = $this->webhookPersister->saveRequest($activity, $subscription);
 
-            $this->dispatcher->webhookRequestCreated($requestId);
+            $this->dispatcher->dispatchRequestCreated($requestId);
         }
     }
 }

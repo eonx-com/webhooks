@@ -35,24 +35,24 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function activityCreated(int $activityId): void
+    public function dispatchActivityCreated(int $activityId): void
     {
         $this->logger->info('Activity Created', [
             'activity_id' => $activityId
         ]);
 
-        $this->dispatcher->activityCreated($activityId);
+        $this->dispatcher->dispatchActivityCreated($activityId);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function webhookRequestCreated(int $requestId): void
+    public function dispatchRequestCreated(int $requestId): void
     {
         $this->logger->info('Webhook Request Created', [
             'request_id' => $requestId
         ]);
 
-        $this->dispatcher->webhookRequestCreated($requestId);
+        $this->dispatcher->dispatchRequestCreated($requestId);
     }
 }

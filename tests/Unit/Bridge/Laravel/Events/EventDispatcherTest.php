@@ -22,7 +22,7 @@ class EventDispatcherTest extends TestCase
         $innerDispatcher = new EventDispatcherStub();
         $dispatcher = new EventDispatcher($innerDispatcher);
 
-        $dispatcher->activityCreated(5);
+        $dispatcher->dispatchActivityCreated(5);
 
         /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent[] $dispatched */
         $dispatched = $innerDispatcher->getDispatched();
@@ -41,7 +41,7 @@ class EventDispatcherTest extends TestCase
         $innerDispatcher = new EventDispatcherStub();
         $dispatcher = new EventDispatcher($innerDispatcher);
 
-        $dispatcher->webhookRequestCreated(5);
+        $dispatcher->dispatchRequestCreated(5);
 
         /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent[] $dispatched */
         $dispatched = $innerDispatcher->getDispatched();
