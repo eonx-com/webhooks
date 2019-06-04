@@ -6,3 +6,6 @@ parameters:
         -
             message: '/Parameter #1 \$app of class [A-Z][\w\\]+ constructor expects Illuminate\\(Contracts\\)?Foundation\\Application, Illuminate\\Container\\Container given./'
             path: tests/Unit/Bridge/Laravel/Providers/
+        -
+            message: '#EoneoPay\\Webhooks\\Bridge\\Doctrine\\Entities\\[A-Z][\w]+::__construct\(\) does not call parent constructor from EoneoPay\\Externals\\ORM\\Entity\.#'
+            path: src/Bridge/Doctrine/Entities

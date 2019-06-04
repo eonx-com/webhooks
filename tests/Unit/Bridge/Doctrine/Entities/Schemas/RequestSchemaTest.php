@@ -9,7 +9,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookRequestSchema
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookRequestSchema
  */
 class RequestSchemaTest extends TestCase
 {
@@ -25,7 +25,6 @@ class RequestSchemaTest extends TestCase
         $schema = new RequestSchemaStub();
         $schema->populate(new ActivityStub(), $subscription);
 
-        static::assertSame('activity.key', $schema->getActivityKey());
         static::assertSame('json', $schema->getRequestFormat());
         static::assertSame(['authorization' => 'Bearer ABC123'], $schema->getRequestHeaders());
         static::assertSame('POST', $schema->getRequestMethod());

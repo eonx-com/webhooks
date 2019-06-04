@@ -1,34 +1,35 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
+namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas;
 
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
- * @method string|null getActivityKey()
- * @method int|null getWebhookId()
+ * @method string|null getExternalId()
  * @method string|null getRequestFormat()
  * @method mixed[] getRequestHeaders()
+ * @method int|null getRequestId()
  * @method string|null getRequestMethod()
  * @method string|null getRequestUrl()
- * @method $this setActivityKey(string $activityKey)
- * @method $this setWebhookId(int $id)
+ * @method $this setExternalId(string $externalId)
  * @method $this setRequestFormat(string $format)
  * @method $this setRequestHeaders(array $headers)
+ * @method $this setRequestId(int $id)
  * @method $this setRequestMethod(string $method)
  * @method $this setRequestUrl(string $url)
  */
 trait WebhookRequestSchema
 {
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="guid")
+     * @ORM\GeneratedValue(strategy="UUID")
      *
-     * @var string|null
+     * @var string
      */
-    protected $activityKey;
+    protected $externalId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -65,8 +66,7 @@ trait WebhookRequestSchema
      *
      * @var int
      */
-    protected $webhookId;
-
+    protected $requestId;
 
     /**
      * Populates a WebhookRequest with data.
@@ -75,10 +75,11 @@ trait WebhookRequestSchema
      * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface $subscription
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter) Required by interface
      */
     public function populate(ActivityInterface $activity, SubscriptionInterface $subscription): void
     {
-        $this->activityKey = $activity->getActivityKey();
         $this->requestFormat = $subscription->getSerializationFormat();
         $this->requestHeaders = $subscription->getHeaders();
         $this->requestMethod = $subscription->getMethod();

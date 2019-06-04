@@ -8,7 +8,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\ActivitySchema
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\ActivitySchema
  */
 class ActivitySchemaTest extends TestCase
 {

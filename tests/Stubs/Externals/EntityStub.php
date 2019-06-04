@@ -11,6 +11,13 @@ use EoneoPay\Externals\ORM\Entity;
 class EntityStub extends Entity
 {
     /**
+     * The entity id
+     *
+     * @var int
+     */
+    protected $entityId = 55;
+
+    /**
      * {@inheritdoc}
      */
     public function toArray(): array
@@ -23,6 +30,6 @@ class EntityStub extends Entity
      */
     protected function getIdProperty(): string
     {
-        return 'id';
+        return 'entityId';
     }
 }
