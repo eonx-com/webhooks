@@ -18,6 +18,8 @@ use Psr\Http\Message\ResponseInterface;
 final class WebhookResponse extends Entity implements WebhookResponseInterface
 {
     use WebhookResponseSchema {
+        // Import the public method populate as a private method traitPopulate
+        // so we can redefine, but still call the trait method.
         populate as private traitPopulate;
     }
 

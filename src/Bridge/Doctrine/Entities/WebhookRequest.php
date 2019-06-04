@@ -18,6 +18,8 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 final class WebhookRequest extends Entity implements WebhookRequestInterface
 {
     use WebhookRequestSchema {
+        // Import the public method populate as a private method traitPopulate
+        // so we can redefine, but still call the trait method.
         populate as private traitPopulate;
     }
 
