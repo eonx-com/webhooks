@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 
@@ -42,7 +41,7 @@ trait ActivitySchema
     /**
      * @ORM\Column(type="datetime")
      *
-     * @var DateTime
+     * @var \DateTime
      */
     protected $occurredAt;
 
