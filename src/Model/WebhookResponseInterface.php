@@ -8,6 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 interface WebhookResponseInterface
 {
     /**
+     * Returns the request that the response was in response to.
+     *
+     * @return \EoneoPay\Webhooks\Model\WebhookRequestInterface
+     */
+    public function getRequest(): WebhookRequestInterface;
+
+    /**
      * If the webhook response is considered successful. This is most
      * likely to mean we got a 2xx response.
      *
@@ -20,14 +27,14 @@ interface WebhookResponseInterface
      *
      * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string $truncatedRequest
+     * @param string $truncatedResponse
      *
      * @return void
      */
-    public function populateResponse(
+    public function populate(
         WebhookRequestInterface $request,
         ResponseInterface $response,
-        string $truncatedRequest
+        string $truncatedResponse
     ): void;
 
     /**

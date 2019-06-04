@@ -70,9 +70,10 @@ final class WebhookPersister implements WebhookPersisterInterface
     public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
     {
         $webhookResponse = $this->responseHandler->createNewWebhookResponse();
+        $webhookResponse->setSuccessful(true);
 
         $stringResponse = $this->getTruncatedBody($response);
-        $webhookResponse->populateResponse($webhookRequest, $response, $stringResponse);
+        $webhookResponse->populate($webhookRequest, $response, $stringResponse);
 
         $this->responseHandler->save($webhookResponse);
     }
@@ -100,7 +101,7 @@ final class WebhookPersister implements WebhookPersisterInterface
         }
 
         if ($response !== null) {
-            $webhookResponse->populateResponse(
+            $webhookResponse->populate(
                 $webhookRequest,
                 $response,
                 $this->getTruncatedBody($response)

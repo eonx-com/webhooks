@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
+namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas;
 
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
@@ -9,12 +9,14 @@ use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 /**
  * @method int|null getActivityId()
  * @method string|null getActivityKey()
+ * @method string|null getExternalId()
  * @method \DateTime|null getOccurredAt()
  * @method mixed[]|null getPayload()
  * @method string|null getPrimaryClass()
  * @method string|null getPrimaryId()
  * @method $this setActivityId(int $id)
  * @method $this setActivityKey(string $activityKey)
+ * @method $this setExternalId(string $externalId)
  * @method $this setOccurredAt(\DateTime $occurredAt)
  * @method $this setPayload(array $payload)
  * @method $this setPrimaryClass(string $class)
@@ -34,9 +36,17 @@ trait ActivitySchema
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @var string|null
+     * @var string
      */
     protected $activityKey;
+
+    /**
+     * @ORM\Column(type="guid")
+     * @ORM\GeneratedValue(strategy="UUID")
+     *
+     * @var string
+     */
+    protected $externalId;
 
     /**
      * @ORM\Column(type="datetime")

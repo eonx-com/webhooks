@@ -9,7 +9,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 use Zend\Diactoros\Response\EmptyResponse;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookResponseSchema
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookResponseSchema
  */
 class ResponseSchemaTest extends TestCase
 {
@@ -21,9 +21,13 @@ class ResponseSchemaTest extends TestCase
     public function testPopulate(): void
     {
         $schema = new ResponseSchemaStub();
-        $schema->populateRequest(new WebhookRequestStub(1), new EmptyResponse(), 'RESPONSE');
+        $schema->populate(
+            new WebhookRequestStub(1),
+            new EmptyResponse(),
+            'RESPONSE'
+        );
 
         static::assertSame('RESPONSE', $schema->getResponse());
-        static::assertSame(1, $schema->getSequence());
+        static::assertSame(204, $schema->getStatusCode());
     }
 }
