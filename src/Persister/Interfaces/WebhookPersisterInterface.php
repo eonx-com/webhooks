@@ -3,30 +3,48 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Persister\Interfaces;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 interface WebhookPersisterInterface
 {
     /**
-     * Saves an event and returns the sequence number to be used
-     * when actually sending.
+     * Creates and saves an individual WebhookRequest based on an activity, payload
+     * and subscription (to that activity).
      *
-     * @param string $event
-     * @param mixed[] $payload
+     * Returns a sequence number that will be used with the payload.
+     *
+     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
      * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface $subscription
      *
      * @return int
      */
-    public function save(string $event, array $payload, SubscriptionInterface $subscription): int;
+    public function saveRequest(ActivityInterface $activity, SubscriptionInterface $subscription): int;
 
     /**
-     * Updates the sequence number that was persisted with a response.
+     * Updates the WebhookRequest identified by a sequence number with a response
+     * that was received for the specific Request.
      *
-     * @param int $sequence
-     * @param \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface $response
+     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
+     * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return void
      */
-    public function update(int $sequence, ResponseInterface $response): void;
+    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void;
+
+    /**
+     * Saves a WebhookResponse
+     *
+     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
+     * @param \Throwable $exception
+     *
+     * @return mixed
+     */
+    public function saveResponseException(
+        WebhookRequestInterface $webhookRequest,
+        Throwable $exception
+    );
 }

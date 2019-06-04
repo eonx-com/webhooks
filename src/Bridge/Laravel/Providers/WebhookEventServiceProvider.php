@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Providers;
 
-use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
-use EoneoPay\Webhooks\Events\Interfaces\EventInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use Laravel\Lumen\Providers\EventServiceProvider;
 
-class WebhookEventServiceProvider extends EventServiceProvider
+final class WebhookEventServiceProvider extends EventServiceProvider
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,8 @@ class WebhookEventServiceProvider extends EventServiceProvider
 
         // Set listeners
         $this->listen = [
-            EventInterface::class => [
-                WebhookEventListener::class
+            ActivityCreatedEvent::class => [
+                ActivityCreatedListener::class
             ]
         ];
     }

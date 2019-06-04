@@ -3,26 +3,29 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
-use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface as RealEventDispatcher;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
+use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
-use EoneoPay\Webhooks\Bridge\Laravel\Listeners\WebhookEventListener;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
-use EoneoPay\Webhooks\Client\Interfaces\ClientInterface;
-use EoneoPay\Webhooks\Events\Interfaces\EventCreatorInterface;
-use EoneoPay\Webhooks\Events\Interfaces\WebhookEventDispatcherInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionRetrieverInterface;
-use EoneoPay\Webhooks\Webhook\Interfaces\WebhookInterface;
+use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use Illuminate\Container\Container;
-use Tests\EoneoPay\Webhooks\Stubs\EventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\HttpClientStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionRetrieverStub;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
+use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
+use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionResolverStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence\ManagerRegistryStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
@@ -46,14 +49,14 @@ class WebhookServiceProviderTest extends WebhookTestCase
     public function getRegisteredInterfaces(): array
     {
         return [
-            'ClientInterface' => [ClientInterface::class],
-            'EventCreatorInterface' => [EventCreatorInterface::class],
-            'EventDispatcherInterface' => [EventDispatcherInterface::class],
-            'WebhookEventDispatcherInterface' => [WebhookEventDispatcherInterface::class],
-            'WebhookEventListener' => [WebhookEventListener::class],
-            'WebhookInterface' => [WebhookInterface::class],
-            'ResponseHandlerInterface' => [ResponseHandlerInterface::class],
-            'WebhookPersisterInterface' => [WebhookPersisterInterface::class]
+            [ActivityCreatedListener::class],
+            [ActivityFactoryInterface::class],
+            [EventDispatcherInterface::class],
+            [RealEventDispatcher::class],
+            [RequestHandlerInterface::class],
+            [ResponseHandlerInterface::class],
+            [RequestFactoryInterface::class],
+            [WebhookPersisterInterface::class]
         ];
     }
 
@@ -63,6 +66,8 @@ class WebhookServiceProviderTest extends WebhookTestCase
      * @param string $interface
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @dataProvider getRegisteredInterfaces
      */
@@ -77,6 +82,8 @@ class WebhookServiceProviderTest extends WebhookTestCase
      * Get application instance
      *
      * @return \Illuminate\Container\Container
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function getApplication(): Container
     {
@@ -86,12 +93,19 @@ class WebhookServiceProviderTest extends WebhookTestCase
         }
 
         $app = $this->createApplication();
-        $app->bind(SubscriptionRetrieverInterface::class, SubscriptionRetrieverStub::class);
-        $app->bind(EventDispatcherInterface::class, EventDispatcherStub::class);
+        $app->bind(SubscriptionResolverInterface::class, SubscriptionResolverStub::class);
+        $app->bind(RealEventDispatcher::class, EventDispatcherStub::class);
         $app->bind(XmlConverterInterface::class, XmlConverter::class);
         $app->bind(HttpClientInterface::class, HttpClientStub::class);
         $app->bind(LoggerInterface::class, Logger::class);
 
+        $app->instance('payload_builder_real', new PayloadBuilderStub([]));
+        $app->instance('payload_builder_unreal', new class
+        {
+        });
+        $app->tag(['payload_builder_real', 'payload_builder_unreal'], ['webhooks_payload_builders']);
+
+        $app->bind(EntityManagerInterface::class, EntityManagerStub::class);
         $app->bind('registry', ManagerRegistryStub::class);
 
         /** @noinspection PhpParamsInspection Lumen application is a foundation application */

@@ -3,102 +3,84 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Events;
 
+use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
+use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventStub;
-use Tests\EoneoPay\Webhooks\Stubs\Event\WebhookEventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\LoggerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\LoggerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
+/**
+ * @covers \EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher
+ */
 class LoggerAwareEventDispatcherTest extends TestCase
 {
     /**
-     * @var \EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher
-     */
-    private $dispatcher;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\Event\WebhookEventDispatcherStub
-     */
-    private $innerDispatcher;
-
-    /**
-     * @var \Tests\EoneoPay\Webhooks\Stubs\LoggerStub
-     */
-    private $logger;
-
-    /**
-     * Tests dispatch
+     * Tests activityCreated
      *
      * @return void
      */
-    public function testDispatch(): void
+    public function testActivityCreated(): void
     {
-        $event = new EventStub();
+        $innerDispatcher = new EventDispatcherStub();
+        $logger = new LoggerStub();
 
-        $this->dispatcher->dispatch($event);
-
-        static::assertContains($event, $this->innerDispatcher->getDispatched());
-        static::assertCount(1, $this->logger->getLogs());
-        static::assertSame([
-            'message' => 'Dispatching Webhook',
-            'context' => [
-                'format' => 'json',
-                'headers' => [
-                    'Authorization' => 'REDACTED'
-                ],
-                'method' => 'POST',
-                'payload' => ['json' => 'payload'],
-                'sequence' => 1,
-                'url' => 'https://localhost/webhook'
+        $expectedLogs = [
+            [
+                'message' => 'Activity Created',
+                'context' => [
+                    'activity_id' => 1
+                ]
             ]
-        ], $this->logger->getLogs()[0]);
+        ];
+
+        $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
+
+        $dispatcher->dispatchActivityCreated(1);
+
+        self::assertSame([1], $innerDispatcher->getActivityCreated());
+        self::assertSame($expectedLogs, $logger->getLogs());
     }
 
     /**
-     * Tests dispatch
+     * Tests webhook request
      *
      * @return void
      */
-    public function testDispatchLowercaseAuthorize(): void
+    public function testWebhookRequest(): void
     {
-        $event = new EventStub(null, null, [
-            'authorization' => 'hunter2'
-        ]);
+        $innerDispatcher = new EventDispatcherStub();
+        $logger = new LoggerStub();
 
-        $this->dispatcher->dispatch($event);
-
-        static::assertContains($event, $this->innerDispatcher->getDispatched());
-        static::assertCount(1, $this->logger->getLogs());
-        static::assertSame([
-            'message' => 'Dispatching Webhook',
-            'context' => [
-                'format' => 'json',
-                'headers' => [
-                    'authorization' => 'REDACTED'
-                ],
-                'method' => 'POST',
-                'payload' => ['json' => 'payload'],
-                'sequence' => 1,
-                'url' => 'https://localhost/webhook'
+        $expectedLogs = [
+            [
+                'message' => 'Webhook Request Created',
+                'context' => [
+                    'request_id' => 1
+                ]
             ]
-        ], $this->logger->getLogs()[0]);
+        ];
+
+        $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
+
+        $dispatcher->dispatchRequestCreated(1);
+
+        self::assertSame([1], $innerDispatcher->getWebhooksRequested());
+        self::assertSame($expectedLogs, $logger->getLogs());
     }
 
     /**
-     * set up
+     * Returns the instance under test
      *
-     * @return void
+     * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
+     * @param \EoneoPay\Externals\Logger\Interfaces\LoggerInterface $logger
+     *
+     * @return \EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->innerDispatcher = new WebhookEventDispatcherStub();
-        $this->logger = new LoggerStub();
-
-        $this->dispatcher = new LoggerAwareEventDispatcher(
-            $this->innerDispatcher,
-            $this->logger
-        );
+    public function getDispatcher(
+        EventDispatcherInterface $dispatcher,
+        LoggerInterface $logger
+    ): LoggerAwareEventDispatcher {
+        return new LoggerAwareEventDispatcher($dispatcher, $logger);
     }
 }

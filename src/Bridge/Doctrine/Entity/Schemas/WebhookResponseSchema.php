@@ -4,23 +4,23 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas;
 
 use Doctrine\ORM\Mapping as ORM;
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
- * @method ResponseInterface|null getResponse()
+ * @method string|null getResponse()
  * @method string|null getResponseId()
  * @method int|null getSequence()
- * @method $this setResponse(array $response)
+ * @method $this setResponse(string $response)
  * @method $this setResponseId(string $uuid)
  * @method $this setSequence(int $sequence)
  */
 trait WebhookResponseSchema
 {
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="text")
      *
-     * @var \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface
+     * @var string
      */
     protected $response;
 
@@ -43,9 +43,12 @@ trait WebhookResponseSchema
     /**
      * {@inheritdoc}
      */
-    public function populate(WebhookEntityInterface $webhook, ResponseInterface $response): void
-    {
-        $this->response = $response;
-        $this->sequence = (int)$webhook->getSequence();
+    public function populateRequest(
+        WebhookRequestInterface $request,
+        ResponseInterface $response,
+        string $truncatedRequest
+    ): void {
+        $this->response = $truncatedRequest;
+        $this->sequence = (int)$request->getSequence();
     }
 }

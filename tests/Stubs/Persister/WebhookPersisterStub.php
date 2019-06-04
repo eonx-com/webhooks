@@ -3,10 +3,16 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
-use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
+/**
+ * @coversNothing
+ */
 class WebhookPersisterStub implements WebhookPersisterInterface
 {
     /**
@@ -43,11 +49,33 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function save(string $event, array $payload, SubscriptionInterface $subscription): int
+    public function saveRequest(ActivityInterface $activity, SubscriptionInterface $subscription): int
     {
-        $this->saved[] = \compact('event', 'payload', 'subscription');
+        $this->saved[] = \compact('activity', 'subscription');
 
         return $this->nextSequence;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
+    {
+        $this->updates[] = [
+            'response' => $response,
+            'sequence' => $webhookRequest->getSequence()
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveResponseException(WebhookRequestInterface $webhookRequest, Throwable $exception)
+    {
+        $this->updates[] = [
+            'exception' => $exception,
+            'sequence' => $webhookRequest->getSequence()
+        ];
     }
 
     /**
@@ -60,13 +88,5 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     public function setNextSequence(int $seq): void
     {
         $this->nextSequence = $seq;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(int $sequence, ResponseInterface $response): void
-    {
-        $this->updates[] = \compact('sequence', 'response');
     }
 }

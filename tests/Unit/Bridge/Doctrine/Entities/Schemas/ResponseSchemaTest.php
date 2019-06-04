@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\Schemas;
 
-use EoneoPay\Externals\HttpClient\Response;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas\ResponseSchemaStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Tests\EoneoPay\Webhooks\TestCase;
+use Zend\Diactoros\Response\EmptyResponse;
 
+/**
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entity\Schemas\WebhookResponseSchema
+ */
 class ResponseSchemaTest extends TestCase
 {
     /**
@@ -17,12 +20,10 @@ class ResponseSchemaTest extends TestCase
      */
     public function testPopulate(): void
     {
-        $response = new Response(null, 204);
-
         $schema = new ResponseSchemaStub();
-        $schema->populate(new WebhookEntityStub(1), $response);
+        $schema->populateRequest(new WebhookRequestStub(1), new EmptyResponse(), 'RESPONSE');
 
-        static::assertSame($response, $schema->getResponse());
+        static::assertSame('RESPONSE', $schema->getResponse());
         static::assertSame(1, $schema->getSequence());
     }
 }

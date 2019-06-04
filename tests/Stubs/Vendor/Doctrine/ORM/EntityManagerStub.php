@@ -6,30 +6,37 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\ResultSetMapping;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookEntityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseEntityStub;
 
 /**
+ * @coversNothing
+ *
  * @SuppressWarnings(PHPMD.TooManyMethods) This class is implemented from a Doctrine interface
  * @SuppressWarnings(PHPMD.TooManyPublicMethods) This class is implemented from a Doctrine interface
  */
 class EntityManagerStub implements EntityManagerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null
+     * @var mixed
      */
     private $entity;
 
     /**
+     * @var \Doctrine\ORM\Mapping\ClassMetadata[]|null
+     */
+    private $metadatas;
+
+    /**
      * Create entity manager stub
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookEntityInterface|null $entity
+     * @param mixed $entity
+     * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas
      */
-    public function __construct(?WebhookEntityInterface $entity = null)
-    {
+    public function __construct(
+        $entity = null,
+        ?array $metadatas = null
+    ) {
         $this->entity = $entity;
+        $this->metadatas = $metadatas;
     }
 
     /**
@@ -147,17 +154,7 @@ class EntityManagerStub implements EntityManagerInterface
      */
     public function getClassMetadata($className): ClassMetadata
     {
-        switch ($className) {
-            case WebhookEntityInterface::class:
-                $className = WebhookEntityStub::class;
-                break;
-
-            case WebhookResponseEntityInterface::class:
-                $className = WebhookResponseEntityStub::class;
-                break;
-        }
-
-        return new ClassMetadata((string)$className);
+        return $this->metadatas[$className] ?? new ClassMetadata($className);
     }
 
     /**

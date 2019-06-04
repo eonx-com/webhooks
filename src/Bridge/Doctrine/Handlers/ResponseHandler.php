@@ -3,37 +3,52 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Handlers;
 
+use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
+use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 
-class ResponseHandler implements ResponseHandlerInterface
+final class ResponseHandler implements ResponseHandlerInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
      */
-    private $doctrine;
+    private $entityManager;
 
     /**
      * Constructor.
      *
-     * @param \Doctrine\ORM\EntityManagerInterface $doctrine
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManagerInterface $doctrine)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->doctrine = $doctrine;
+        $this->entityManager = $entityManager;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException
      */
-    public function createNewWebhookResponse(): WebhookResponseEntityInterface
+    public function createNewWebhookResponse(): WebhookResponseInterface
     {
-        /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entity\WebhookResponseEntityInterface $instance
-         */
-        $instance = $this->doctrine->getClassMetadata(WebhookResponseEntityInterface::class)
-            ->newInstance();
+        try {
+            /**
+             * @var \EoneoPay\Webhooks\Model\WebhookResponseInterface $instance
+             */
+            $instance = $this->entityManager->getClassMetadata(WebhookResponseInterface::class)
+                ->newInstance();
+        } catch (ExceptionInterface $exception) {
+            throw new EntityNotCreatedException(
+                \sprintf(
+                    'An error occurred creating an %s instance.',
+                    WebhookResponseInterface::class
+                ),
+                0,
+                $exception
+            );
+        }
 
         return $instance;
     }
@@ -41,9 +56,9 @@ class ResponseHandler implements ResponseHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function save(WebhookResponseEntityInterface $response): void
+    public function save(WebhookResponseInterface $response): void
     {
-        $this->doctrine->persist($response);
-        $this->doctrine->flush();
+        $this->entityManager->persist($response);
+        $this->entityManager->flush();
     }
 }
