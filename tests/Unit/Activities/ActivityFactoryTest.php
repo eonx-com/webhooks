@@ -17,7 +17,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 /**
  * @covers \EoneoPay\Webhooks\Activities\ActivityFactory
  */
-class ActivityManagerTest extends TestCase
+class ActivityFactoryTest extends TestCase
 {
     /**
      * Returns the instance under test.
@@ -77,7 +77,6 @@ class ActivityManagerTest extends TestCase
             $payloadManager
         );
 
-
         $manager->send(
             $activityData,
             $occurredAt
@@ -85,5 +84,44 @@ class ActivityManagerTest extends TestCase
 
         self::assertSame($expectedActivity, $activityPersister->getSaved());
         self::assertSame($expectedEvent, $dispatcher->getActivityCreated());
+    }
+
+    /**
+     * Test send method with default time
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     */
+    public function testSendDefaultTime(): void
+    {
+        // Testing default value of a $now variable. Asserted below with generous
+        // delta.
+        $expectedDate = new DateTime('now');
+
+        $activityData = new ActivityDataStub();
+
+        $activityPersister = new ActivityPersisterStub();
+        $activityPersister->setNextSequence(5);
+        $dispatcher = new EventDispatcherStub();
+        $payloadManager = new PayloadManagerStub();
+        $payloadManager->addPayload(['payload' => 'wot']);
+
+        $manager = $this->getManager(
+            $activityPersister,
+            $dispatcher,
+            $payloadManager
+        );
+
+        $manager->send($activityData);
+
+        $saved = $activityPersister->getSaved();
+        $activity = \reset($saved);
+
+        static::assertArrayHasKey('occurredAt', $activity);
+
+        // Asserts the expected date is within 10 seconds of the generated now inside the
+        // service.
+        static::assertEqualsWithDelta($expectedDate, $activity['occurredAt'], 10);
     }
 }
