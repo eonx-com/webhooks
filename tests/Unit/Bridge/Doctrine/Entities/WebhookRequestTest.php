@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
@@ -25,7 +26,7 @@ class WebhookRequestTest extends BaseEntityTestCase
         $request = $this->getRequestEntity();
 
         static::assertSame(123, $request->getId());
-        static::assertNotNull($request->getActivity());
+        static::assertInstanceOf(Activity::class, $request->getActivity());
         static::assertSame('json', $request->getRequestFormat());
         static::assertSame(['header' => 'value'], $request->getRequestHeaders());
         static::assertSame('POST', $request->getRequestMethod());
@@ -85,13 +86,13 @@ class WebhookRequestTest extends BaseEntityTestCase
         $expected = [
             'activity' => [
                 'activity_key' => 'activity.key',
-                'id' => 'EXTERNAL_ID',
+                'id' => 123,
                 'occurred_at' => '2100-01-01T10:11:12Z',
                 'payload' => [
                     'payload'
                 ]
             ],
-            'id' => 'EXTERNAL_ID',
+            'id' => 123,
             'request_format' => 'json',
             'request_headers' => [
                 'header' => 'value'

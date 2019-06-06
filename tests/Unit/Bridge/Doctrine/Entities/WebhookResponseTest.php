@@ -81,17 +81,17 @@ class WebhookResponseTest extends BaseEntityTestCase
     {
         $expected = [
             'error_reason' => 'error_reason',
-            'id' => 'EXTERNAL_ID',
+            'id' => 234,
             'request' => [
                 'activity' => [
                     'activity_key' => 'activity.key',
-                    'id' => 'EXTERNAL_ID',
+                    'id' => 123,
                     'occurred_at' => '2100-01-01T10:11:12Z',
                     'payload' => [
                         'payload'
                     ]
                 ],
-                'id' => 'EXTERNAL_ID',
+                'id' => 123,
                 'request_format' => 'json',
                 'request_headers' => [
                     'header' => 'value'

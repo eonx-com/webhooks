@@ -22,7 +22,7 @@ class ActivityTest extends BaseEntityTestCase
     {
         $expected = [
             'activity_key' => 'activity.key',
-            'id' => 'EXTERNAL_ID',
+            'id' => 123,
             'occurred_at' => '2100-01-01T10:11:12Z',
             'payload' => [
                 'payload'

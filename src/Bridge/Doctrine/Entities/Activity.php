@@ -38,7 +38,7 @@ final class Activity extends Entity implements ActivityInterface
     {
         return [
             'activity_key' => $this->getActivityKey(),
-            'id' => $this->externalId,
+            'id' => $this->getActivityId(),
             'occurred_at' => $this->getOccurredAt() !== null
                 ? $this->getOccurredAt()->format(UtcDateTimeInterface::FORMAT_ZULU)
                 : null,
@@ -59,7 +59,9 @@ final class Activity extends Entity implements ActivityInterface
      */
     public function getActivityId(): int
     {
-        return $this->activityId;
+        // Casting to a string: bigint is hydrated as a string.
+
+        return (int) $this->activityId;
     }
 
     /**

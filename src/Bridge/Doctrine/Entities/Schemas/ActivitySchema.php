@@ -9,14 +9,12 @@ use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 /**
  * @method int|null getActivityId()
  * @method string|null getActivityKey()
- * @method string|null getExternalId()
  * @method \DateTime|null getOccurredAt()
  * @method mixed[]|null getPayload()
  * @method string|null getPrimaryClass()
  * @method string|null getPrimaryId()
  * @method $this setActivityId(int $id)
  * @method $this setActivityKey(string $activityKey)
- * @method $this setExternalId(string $externalId)
  * @method $this setOccurredAt(\DateTime $occurredAt)
  * @method $this setPayload(array $payload)
  * @method $this setPrimaryClass(string $class)
@@ -25,7 +23,7 @@ use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 trait ActivitySchema
 {
     /**
-     * @ORM\Column(type="integer", name="id")
+     * @ORM\Column(type="bigint", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *
@@ -39,14 +37,6 @@ trait ActivitySchema
      * @var string
      */
     protected $activityKey;
-
-    /**
-     * @ORM\Column(type="guid")
-     * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string
-     */
-    protected $externalId;
 
     /**
      * @ORM\Column(type="datetime")

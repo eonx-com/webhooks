@@ -24,7 +24,7 @@ final class WebhookResponse extends Entity implements WebhookResponseInterface
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Eoneopay\Webhooks\Bridge\Entities\WebhookRequest")
+     * @ORM\ManyToOne(targetEntity="EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest")
      *
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest
      */
@@ -121,11 +121,11 @@ final class WebhookResponse extends Entity implements WebhookResponseInterface
     public function toArray(): array
     {
         return [
-            'error_reason' => $this->errorReason,
-            'id' => $this->externalId,
+            'error_reason' => $this->getErrorReason(),
+            'id' => $this->getResponseId(),
             'request' => $this->request->toArray(),
-            'status_code' => $this->statusCode,
-            'successful' => $this->successful
+            'status_code' => $this->getStatusCode(),
+            'successful' => $this->isSuccessful()
         ];
     }
 
