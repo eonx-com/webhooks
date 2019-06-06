@@ -73,6 +73,8 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
      */
     public function getRequestId(): int
     {
+        // Cast requestId to int as doctrine hydrates bigint as a string.
+
         return (int) $this->requestId;
     }
 
@@ -97,9 +99,7 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
      */
     public function getSequence(): ?int
     {
-        // Cast requestId to int as doctrine hydrates bigint as a string.
-
-        return $this->requestId ? (int) $this->requestId : null;
+        return $this->getRequestId();
     }
 
     /**

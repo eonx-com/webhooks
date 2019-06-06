@@ -43,7 +43,7 @@ trait WebhookResponseSchema
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *
-     * @var int
+     * @var string
      */
     protected $responseId;
 
