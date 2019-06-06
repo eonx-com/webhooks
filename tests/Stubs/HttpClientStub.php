@@ -6,6 +6,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
 use EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface;
 use EoneoPay\Externals\HttpClient\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
+use Zend\Diactoros\Response\EmptyResponse;
 
 class HttpClientStub implements ClientInterface
 {
@@ -31,6 +34,16 @@ class HttpClientStub implements ClientInterface
     {
         $this->requests[] = \compact('method', 'uri', 'options');
 
-        return new Response(null, 204);
+        return new Response(new EmptyResponse());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendRequest(RequestInterface $request, ?array $options = null): PsrResponseInterface
+    {
+        $this->requests[] = \compact('request', 'options');
+
+        return new EmptyResponse();
     }
 }
