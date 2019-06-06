@@ -51,32 +51,11 @@ Any implementation of this library will need to:
 - Add `EoneoPay\Externals\Bridge\Laravel\ORM\ResolveTargetEntityExtension` to
   `config/doctrine.php` under the `extensions` key
   
-- Modify `config/doctrine.php` to add the entity path and namespace to the configuration:
-```php
-<?php
-return [
-    'managers' => [
-        'default' => [
-            // ...
-            'namespaces' => [
-                // ...
-                'Eoneopay\\Webhooks\\Bridge\\Doctrine\\Entities'
-            ],
-            'paths' => [
-                // ...
-                \base_path('vendor/eoneopay/webhooks/src/Bridge/Doctrine/Entities')
-            ]
-            // ...
-        ]
-    ]
-];
-```
-
-- Add a new root array key under `config/doctrine.php` called `replacents` with
-  the following:
+- Modify `config/doctrine.php` to add the following changes to the configuration:
 ```php
 <?php
 
+use EoneoPay\Externals\Bridge\LaravelDoctrine\Extensions\ResolveTargetEntityExtension;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
@@ -85,12 +64,39 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
 
 return [
+    'managers' => [
+        'default' => [
+            // ...
+            'namespaces' => [
+                // ...
+                // Add the Webhooks Entities to the namespace mappings
+                'Eoneopay\\Webhooks\\Bridge\\Doctrine\\Entities'
+            ],
+            'paths' => [
+                // ...
+                // Add the Webhooks filepath to the Entity Manager
+                \base_path('vendor/eoneopay/webhooks/src/Bridge/Doctrine/Entities')
+            ]
+            // ...
+        ]
+    ],
+    
+    // ...
+    
+    'extensions' => [
+        // ...
+        // Add the ResolveTargetEntityExtension to Doctrine
+        ResolveTargetEntityExtension::class
+    ],
+    
     // ...
     
     'replacements' => [
+        // Add replacements so Doctrine can look up entities by interface
         ActivityInterface::class => Activity::class,
         WebhookRequestInterface::class => WebhookRequest::class,
         WebhookResponseInterface::class => WebhookResponse::class
-    ] 
+    ]
 ];
 ```
+

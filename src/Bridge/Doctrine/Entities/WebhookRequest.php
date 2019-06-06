@@ -24,7 +24,7 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Eoneopay\Webhooks\Bridge\Doctrine\Entities\Activity")
+     * @ORM\ManyToOne(targetEntity="EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity")
      *
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity
      */
@@ -67,6 +67,16 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     }
 
     /**
+     * Returns the request id
+     *
+     * @return int
+     */
+    public function getRequestId(): int
+    {
+        return (int) $this->requestId;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getRequestMethod(): string
@@ -87,7 +97,9 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
      */
     public function getSequence(): ?int
     {
-        return $this->requestId;
+        // Cast requestId to int as doctrine hydrates bigint as a string.
+
+        return $this->requestId ? (int) $this->requestId : null;
     }
 
     /**
@@ -136,11 +148,11 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     {
         return [
             'activity' => $this->activity->toArray(),
-            'id' => $this->externalId,
-            'request_format' => $this->requestFormat,
-            'request_headers' => $this->requestHeaders,
-            'request_method' => $this->requestMethod,
-            'request_url' => $this->requestUrl
+            'id' => $this->getRequestId(),
+            'request_format' => $this->getRequestFormat(),
+            'request_headers' => $this->getRequestHeaders(),
+            'request_method' => $this->getRequestMethod(),
+            'request_url' => $this->getRequestUrl()
         ];
     }
 

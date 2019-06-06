@@ -9,13 +9,11 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * @method string|null getErrorReason()
- * @method string|null getExternalId()
  * @method string|null getResponse()
  * @method int|null getResponseId()
  * @method int|null getStatusCode()
  * @method bool isSuccessful()
  * @method $this setErrorReason(string $errorReason)
- * @method $this setExternalId(string $externalId)
  * @method $this setResponse(string $response)
  * @method $this setResponseId(int $id)
  * @method $this setStatusCode(int $status)
@@ -23,14 +21,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait WebhookResponseSchema
 {
-    /**
-     * @ORM\Column(type="guid")
-     * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string
-     */
-    protected $externalId;
-
     /**
      * Stores an error reason if an exception occurred while trying to process
      * a webhook request.
@@ -49,7 +39,7 @@ trait WebhookResponseSchema
     protected $response;
 
     /**
-     * @ORM\Column(type="integer", name="id")
+     * @ORM\Column(type="bigint", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *

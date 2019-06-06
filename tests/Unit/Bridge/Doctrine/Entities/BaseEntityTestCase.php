@@ -34,7 +34,6 @@ abstract class BaseEntityTestCase extends TestCase
         $activity = $activityReflection->newInstanceWithoutConstructor();
         $activity->setActivityKey('activity.key');
         $activity->setActivityId(123);
-        $activity->setExternalId('EXTERNAL_ID');
         $activity->setOccurredAt(new DateTime('2100-01-01T10:11:12Z'));
         $activity->setPayload(['payload']);
         $activity->setPrimaryEntity(new EntityStub());
@@ -64,7 +63,6 @@ abstract class BaseEntityTestCase extends TestCase
         $request->setRequestId(123);
         $request->setRequestMethod('POST');
         $request->setRequestUrl('https://localhost.com/webhook');
-        $request->setExternalId('EXTERNAL_ID');
 
         return $request;
     }
@@ -91,7 +89,6 @@ abstract class BaseEntityTestCase extends TestCase
         $response->setResponse('RESPONSE');
         $response->setResponseId(234);
         $response->setStatusCode(204);
-        $response->setExternalId('EXTERNAL_ID');
 
         return $response;
     }

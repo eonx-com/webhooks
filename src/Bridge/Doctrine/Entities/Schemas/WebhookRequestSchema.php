@@ -8,13 +8,11 @@ use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
- * @method string|null getExternalId()
  * @method string|null getRequestFormat()
  * @method mixed[] getRequestHeaders()
  * @method int|null getRequestId()
  * @method string|null getRequestMethod()
  * @method string|null getRequestUrl()
- * @method $this setExternalId(string $externalId)
  * @method $this setRequestFormat(string $format)
  * @method $this setRequestHeaders(array $headers)
  * @method $this setRequestId(int $id)
@@ -23,14 +21,6 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
  */
 trait WebhookRequestSchema
 {
-    /**
-     * @ORM\Column(type="guid")
-     * @ORM\GeneratedValue(strategy="UUID")
-     *
-     * @var string
-     */
-    protected $externalId;
-
     /**
      * @ORM\Column(type="string", length=255)
      *
@@ -60,7 +50,7 @@ trait WebhookRequestSchema
     protected $requestUrl;
 
     /**
-     * @ORM\Column(type="integer", name="id")
+     * @ORM\Column(type="bigint", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
      *

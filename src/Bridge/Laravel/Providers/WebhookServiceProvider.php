@@ -48,7 +48,11 @@ final class WebhookServiceProvider extends ServiceProvider
     {
         $this->app->singleton(ActivityCreatedListener::class);
         $this->app->singleton(ActivityFactoryInterface::class, ActivityFactory::class);
-        $this->app->singleton(ActivityHandlerInterface::class, ActivityHandler::class);
+        $this->app->singleton(ActivityHandlerInterface::class, static function (Container $app): ActivityHandler {
+            $entityManager = $app->make('registry')->getManager();
+
+            return new ActivityHandler($entityManager);
+        });
         $this->app->singleton(ActivityPersisterInterface::class, ActivityPersister::class);
         $this->app->singleton(
             EventDispatcherInterface::class,
