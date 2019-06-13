@@ -30,6 +30,13 @@ interface ActivityInterface
     public function getPayload(): array;
 
     /**
+     * Returns occurred at date for the activity
+     *
+     * @return \DateTime|null
+     */
+    public function getOccurredAt(): ?DateTime;
+
+    /**
      * Returns the class of the Primary entity.
      *
      * @return string

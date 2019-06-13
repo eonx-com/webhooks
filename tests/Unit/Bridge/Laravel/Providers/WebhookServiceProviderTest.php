@@ -18,7 +18,9 @@ use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
 use Illuminate\Container\Container;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
@@ -55,7 +57,9 @@ class WebhookServiceProviderTest extends WebhookTestCase
             [RealEventDispatcher::class],
             [RequestHandlerInterface::class],
             [ResponseHandlerInterface::class],
+            [RequestBuilderInterface::class],
             [RequestFactoryInterface::class],
+            [RequestProcessorInterface::class],
             [WebhookPersisterInterface::class]
         ];
     }

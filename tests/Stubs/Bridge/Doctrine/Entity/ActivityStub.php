@@ -51,6 +51,14 @@ class ActivityStub implements ActivityInterface
     /**
      * {@inheritdoc}
      */
+    public function getOccurredAt(): ?DateTime
+    {
+        return $this->occurredAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPayload(): array
     {
         return $this->data['payload'];
