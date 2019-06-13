@@ -53,7 +53,6 @@ class ActivityTest extends BaseEntityTestCase
         static::assertSame(['payload'], $activity->getPayload());
         static::assertSame(EntityStub::class, $activity->getPrimaryClass());
         static::assertSame('55', $activity->getPrimaryId());
-        static::assertInstanceOf(DateTime::class, $activity->getOccurredAt());
         static::assertEquals(new DateTime('2100-01-01T10:11:12Z'), $activity->getOccurredAt());
     }
 }

@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
-use DateTime as BaseDateTime;
-use EoneoPay\Utils\DateTime;
+use DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\ActivitySchema;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
@@ -51,12 +50,10 @@ class ActivityStub implements ActivityInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function getOccurredAt(): ?DateTime
     {
-        return $this->occurredAt === null ? null : new DateTime($this->occurredAt);
+        return $this->occurredAt;
     }
 
     /**
@@ -94,7 +91,7 @@ class ActivityStub implements ActivityInterface
     /**
      * {@inheritdoc}
      */
-    public function setOccurredAt(BaseDateTime $occurredAt): void
+    public function setOccurredAt(DateTime $occurredAt): void
     {
         $this->data['occurredAt'] = $occurredAt;
     }

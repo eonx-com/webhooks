@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Model;
 
-use DateTime as BaseDateTime;
+use DateTime;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
-use EoneoPay\Utils\DateTime;
 
 interface ActivityInterface
 {
@@ -33,7 +32,7 @@ interface ActivityInterface
     /**
      * Returns occurred at date for the activity
      *
-     * @return \EoneoPay\Utils\DateTime|null
+     * @return \DateTime|null
      */
     public function getOccurredAt(): ?DateTime;
 
@@ -67,7 +66,7 @@ interface ActivityInterface
      *
      * @return void
      */
-    public function setOccurredAt(BaseDateTime $occurredAt): void;
+    public function setOccurredAt(DateTime $occurredAt): void;
 
     /**
      * Sets the activity payload.
