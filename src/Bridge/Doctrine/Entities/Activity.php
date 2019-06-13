@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities;
 
-use DateTime;
+use DateTime as BaseDateTime;
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Entity;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Utils\Interfaces\UtcDateTimeInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\ActivitySchema;
 use EoneoPay\Webhooks\Model\ActivityInterface;
@@ -20,6 +21,7 @@ final class Activity extends Entity implements ActivityInterface
     use ActivitySchema;
 
     // @codeCoverageIgnoreStart
+
     /**
      * The Activity entity in this package is not intended to be created
      * manually. Use the ActivityPersister to create new Activity objects.
@@ -34,34 +36,11 @@ final class Activity extends Entity implements ActivityInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
-    {
-        return [
-            'activity_key' => $this->getActivityKey(),
-            'id' => $this->getActivityId(),
-            'occurred_at' => $this->getOccurredAt() !== null
-                ? $this->getOccurredAt()->format(UtcDateTimeInterface::FORMAT_ZULU)
-                : null,
-            'payload' => $this->getPayload()
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getIdProperty(): string
-    {
-        return 'activityId';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getActivityId(): int
     {
         // Casting to a string: bigint is hydrated as a string.
 
-        return (int) $this->activityId;
+        return (int)$this->activityId;
     }
 
     /**
@@ -70,6 +49,16 @@ final class Activity extends Entity implements ActivityInterface
     public function getActivityKey(): string
     {
         return $this->activityKey;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     */
+    public function getOccurredAt(): ?DateTime
+    {
+        return $this->occurredAt === null ? null : new DateTime($this->occurredAt);
     }
 
     /**
@@ -107,7 +96,7 @@ final class Activity extends Entity implements ActivityInterface
     /**
      * {@inheritdoc}
      */
-    public function setOccurredAt(DateTime $occurredAt): void
+    public function setOccurredAt(BaseDateTime $occurredAt): void
     {
         $this->occurredAt = $occurredAt;
     }
@@ -127,5 +116,28 @@ final class Activity extends Entity implements ActivityInterface
     {
         $this->primaryClass = \get_class($primaryObject);
         $this->primaryId = (string)$primaryObject->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array
+    {
+        return [
+            'activity_key' => $this->getActivityKey(),
+            'id' => $this->getActivityId(),
+            'occurred_at' => $this->getOccurredAt() !== null
+                ? $this->getOccurredAt()->format(UtcDateTimeInterface::FORMAT_ZULU)
+                : null,
+            'payload' => $this->getPayload()
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getIdProperty(): string
+    {
+        return 'activityId';
     }
 }
