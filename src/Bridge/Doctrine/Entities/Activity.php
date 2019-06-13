@@ -15,7 +15,7 @@ use EoneoPay\Webhooks\Model\ActivityInterface;
  * @ORM\Entity()
  * @ORM\Table(name="event_activities")
  */
-final class Activity extends Entity implements ActivityInterface
+class Activity extends Entity implements ActivityInterface
 {
     use ActivitySchema;
 

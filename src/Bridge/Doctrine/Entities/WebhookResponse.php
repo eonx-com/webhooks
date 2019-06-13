@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
  * @ORM\Entity()
  * @ORM\Table(name="event_activity_responses")
  */
-final class WebhookResponse extends Entity implements WebhookResponseInterface
+class WebhookResponse extends Entity implements WebhookResponseInterface
 {
     use WebhookResponseSchema {
         // Import the public method populate as a private method traitPopulate
