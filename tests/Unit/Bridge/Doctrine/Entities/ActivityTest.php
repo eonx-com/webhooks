@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 
+use EoneoPay\Utils\DateTime;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 
 /**
@@ -52,5 +53,6 @@ class ActivityTest extends BaseEntityTestCase
         static::assertSame(['payload'], $activity->getPayload());
         static::assertSame(EntityStub::class, $activity->getPrimaryClass());
         static::assertSame('55', $activity->getPrimaryId());
+        static::assertEquals(new DateTime('2100-01-01T10:11:12Z'), $activity->getOccurredAt());
     }
 }
