@@ -32,9 +32,9 @@ trait WebhookResponseSchema
     protected $errorReason;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      *
-     * @var string
+     * @var string|null
      */
     protected $response;
 
