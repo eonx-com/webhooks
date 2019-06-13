@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 
 use EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException;
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
@@ -53,6 +54,7 @@ final class WebhookPersister implements WebhookPersisterInterface
     public function saveRequest(ActivityInterface $activity, SubscriptionInterface $subscription): int
     {
         $request = $this->requestHandler->create();
+        $request->setCreatedAt(new DateTime());
         $request->populate($activity, $subscription);
 
         $this->requestHandler->save($request);

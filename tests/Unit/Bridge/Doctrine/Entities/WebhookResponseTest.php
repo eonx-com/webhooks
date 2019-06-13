@@ -91,6 +91,7 @@ class WebhookResponseTest extends BaseEntityTestCase
                         'payload'
                     ]
                 ],
+                'created_at' => null,
                 'id' => 123,
                 'request_format' => 'json',
                 'request_headers' => [

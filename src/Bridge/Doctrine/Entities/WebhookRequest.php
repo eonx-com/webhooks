@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities;
 
+use DateTime as BaseDateTime;
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Entity;
+use EoneoPay\Utils\Interfaces\UtcDateTimeInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookRequestSchema;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use EoneoPay\Webhooks\Model\ActivityInterface;
@@ -31,6 +33,7 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     protected $activity;
 
     // @codeCoverageIgnoreStart
+
     /**
      * The WebhookRequest entity in this package is not intended to be created
      * manually. Use the WebhookPersister to create new WebhookRequest objects.
@@ -48,6 +51,14 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     public function getActivity(): ActivityInterface
     {
         return $this->activity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt(): ?BaseDateTime
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -75,7 +86,7 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     {
         // Cast requestId to int as doctrine hydrates bigint as a string.
 
-        return (int) $this->requestId;
+        return (int)$this->requestId;
     }
 
     /**
@@ -144,16 +155,38 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     /**
      * {@inheritdoc}
      */
+    public function setCreatedAt(BaseDateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray(): array
     {
         return [
             'activity' => $this->activity->toArray(),
+            'created_at' => $this->formatDate($this->createdAt),
             'id' => $this->getRequestId(),
             'request_format' => $this->getRequestFormat(),
             'request_headers' => $this->getRequestHeaders(),
             'request_method' => $this->getRequestMethod(),
             'request_url' => $this->getRequestUrl()
         ];
+    }
+
+    /**
+     * Format a date/time into zulu format
+     *
+     * @param \DateTime|null $datetime The datetime object to format
+     * @param string|null $format How to format the date
+     *
+     * @return string|null
+     */
+    protected function formatDate(?BaseDateTime $datetime, ?string $format = null): ?string
+    {
+        return $datetime === null ? null : $datetime->format($format ?? UtcDateTimeInterface::FORMAT_ZULU);
     }
 
     /**

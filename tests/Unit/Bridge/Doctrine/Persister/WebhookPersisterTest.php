@@ -48,6 +48,8 @@ class WebhookPersisterTest extends TestCase
         static::assertSame(1, $sequence);
         static::assertContains($request, $requestHandler->getSaved());
         static::assertSame($activity, $request->getData()['activity']);
+        // make sure date is set in persister
+        static::assertInstanceOf(\DateTime::class, $request->getCreatedAt());
     }
 
     /**
