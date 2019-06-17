@@ -99,6 +99,8 @@ class WebhookPersisterTest extends TestCase
         static::assertSame($request, $webhookResponse->getData()['request']);
         static::assertSame($response, $webhookResponse->getData()['response']);
         static::assertSame($expectedHttpString, $webhookResponse->getData()['truncatedResponse']);
+        // make sure date is set in persister
+        static::assertInstanceOf(\DateTime::class, $webhookResponse->getCreatedAt());
     }
 
     /**
