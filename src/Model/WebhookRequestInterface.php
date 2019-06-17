@@ -61,13 +61,6 @@ interface WebhookRequestInterface
     public function getSequence(): ?int;
 
     /**
-     * Returns the request id
-     *
-     * @return int
-     */
-    public function getRequestId(): int;
-
-    /**
      * Populates a WebhookRequest with data.
      *
      * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity

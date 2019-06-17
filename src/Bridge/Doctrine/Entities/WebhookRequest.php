@@ -78,7 +78,9 @@ final class WebhookRequest extends Entity implements WebhookRequestInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the request id
+     *
+     * @return int
      */
     public function getRequestId(): int
     {

@@ -87,14 +87,6 @@ class WebhookRequestStub implements WebhookRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequestId(): int
-    {
-        return 1;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getRequestMethod(): string
     {
         return $this->data['method'] ?? 'POST';
