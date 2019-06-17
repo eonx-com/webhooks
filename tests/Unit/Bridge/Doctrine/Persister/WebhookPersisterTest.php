@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 
 use EoneoPay\Externals\HttpClient\Exceptions\NetworkException;
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
@@ -31,6 +32,8 @@ class WebhookPersisterTest extends TestCase
      * Tests Save
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSaveRequest(): void
     {
@@ -48,6 +51,9 @@ class WebhookPersisterTest extends TestCase
         static::assertSame(1, $sequence);
         static::assertContains($request, $requestHandler->getSaved());
         static::assertSame($activity, $request->getData()['activity']);
+        // make sure date is set in persister
+        static::assertInstanceOf(\DateTime::class, $request->getCreatedAt());
+        static::assertEqualsWithDelta(new DateTime('now'), $request->getCreatedAt(), 10);
     }
 
     /**
@@ -75,6 +81,8 @@ class WebhookPersisterTest extends TestCase
      * Tests saveResponse
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSaveResponse(): void
     {
@@ -97,6 +105,9 @@ class WebhookPersisterTest extends TestCase
         static::assertSame($request, $webhookResponse->getData()['request']);
         static::assertSame($response, $webhookResponse->getData()['response']);
         static::assertSame($expectedHttpString, $webhookResponse->getData()['truncatedResponse']);
+        // make sure date is set in persister
+        static::assertInstanceOf(\DateTime::class, $webhookResponse->getCreatedAt());
+        static::assertEqualsWithDelta(new DateTime('now'), $webhookResponse->getCreatedAt(), 10);
     }
 
     /**

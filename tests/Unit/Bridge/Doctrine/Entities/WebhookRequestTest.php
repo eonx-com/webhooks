@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
@@ -74,6 +75,25 @@ class WebhookRequestTest extends BaseEntityTestCase
     }
 
     /**
+     * Test if setCreatedAt method sets the created at date and it can be retrieved by getCreatedAt
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     * @throws \ReflectionException
+     */
+    public function testSetCreatedAt(): void
+    {
+        $request = $this->getRequestEntity();
+
+        $expected = new DateTime('2099-10-10');
+
+        $request->setCreatedAt(new DateTime('2099-10-10'));
+
+        self::assertEquals($expected, $request->getCreatedAt());
+    }
+
+    /**
      * Tests the toArray method.
      *
      * @return void
@@ -92,6 +112,7 @@ class WebhookRequestTest extends BaseEntityTestCase
                     'payload'
                 ]
             ],
+            'created_at' => null,
             'id' => 123,
             'request_format' => 'json',
             'request_headers' => [
