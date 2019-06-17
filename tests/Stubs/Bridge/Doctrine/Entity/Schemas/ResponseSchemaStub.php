@@ -21,6 +21,7 @@ class ResponseSchemaStub extends Entity
         return [];
     }
 
+
     /**
      * {@inheritdoc}
      */

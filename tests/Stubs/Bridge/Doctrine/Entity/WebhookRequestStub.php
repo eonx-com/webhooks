@@ -125,11 +125,7 @@ class WebhookRequestStub implements WebhookRequestInterface
     }
 
     /**
-     * Set created at date on the webhook
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function setCreatedAt(BaseDateTime $createdAt): void
     {
