@@ -17,7 +17,7 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
  * @ORM\Entity()
  * @ORM\Table("event_activity_requests")
  */
-final class WebhookRequest extends Entity implements WebhookRequestInterface
+class WebhookRequest extends Entity implements WebhookRequestInterface
 {
     use WebhookRequestSchema {
         // Import the public method populate as a private method traitPopulate
