@@ -15,7 +15,10 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("event_activity_requests")
+ * @ORM\Table(
+ *     name="event_activity_requests",
+ *     indexes={@ORM\Index(name="idx_created_at_webhook_request", columns={"created_at"})}
+ * )
  */
 class WebhookRequest extends Entity implements WebhookRequestInterface
 {
