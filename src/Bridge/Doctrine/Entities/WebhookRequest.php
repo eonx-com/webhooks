@@ -5,8 +5,6 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities;
 
 use DateTime as BaseDateTime;
 use Doctrine\ORM\Mapping as ORM;
-use EoneoPay\Externals\ORM\Entity;
-use EoneoPay\Utils\Interfaces\UtcDateTimeInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookRequestSchema;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use EoneoPay\Webhooks\Model\ActivityInterface;
@@ -179,18 +177,6 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
         ];
     }
 
-    /**
-     * Format a date/time into zulu format
-     *
-     * @param \DateTime|null $datetime The datetime object to format
-     * @param string|null $format How to format the date
-     *
-     * @return string|null
-     */
-    protected function formatDate(?BaseDateTime $datetime, ?string $format = null): ?string
-    {
-        return $datetime === null ? null : $datetime->format($format ?? UtcDateTimeInterface::FORMAT_ZULU);
-    }
 
     /**
      * {@inheritdoc}

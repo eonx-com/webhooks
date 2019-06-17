@@ -1,18 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas;
+namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
-use EoneoPay\Externals\ORM\Entity;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookResponseSchema;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity;
 
 /**
  * @coversNothing
  */
-class ResponseSchemaStub extends Entity
+class EntityStub extends Entity
 {
-    use WebhookResponseSchema;
-
     /**
      * {@inheritdoc}
      */
