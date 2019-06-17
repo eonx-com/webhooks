@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
 use Zend\Diactoros\Response\JsonResponse;
@@ -52,6 +53,25 @@ class WebhookResponseTest extends BaseEntityTestCase
     }
 
     /**
+     * Test if setCreatedAt method sets the created at date and it can be retrieved by getCreatedAt
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     * @throws \ReflectionException
+     */
+    public function testSetCreatedAt(): void
+    {
+        $response = $this->getResponseEntity();
+
+        $expected = new DateTime('2099-10-10');
+
+        $response->setCreatedAt(new DateTime('2099-10-10'));
+
+        self::assertEquals($expected, $response->getCreatedAt());
+    }
+
+    /**
      * Tests setRequest behaviour when receiving a WebhookRequestInterface object that
      * isnt the one we want.
      *
@@ -80,6 +100,7 @@ class WebhookResponseTest extends BaseEntityTestCase
     public function testToArray(): void
     {
         $expected = [
+            'created_at' => null,
             'error_reason' => 'error_reason',
             'id' => 234,
             'request' => [
@@ -91,6 +112,7 @@ class WebhookResponseTest extends BaseEntityTestCase
                         'payload'
                     ]
                 ],
+                'created_at' => null,
                 'id' => 123,
                 'request_format' => 'json',
                 'request_headers' => [

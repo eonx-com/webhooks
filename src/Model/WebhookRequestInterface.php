@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Model;
 
+use DateTime;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 interface WebhookRequestInterface
@@ -15,14 +16,11 @@ interface WebhookRequestInterface
     public function getActivity(): ActivityInterface;
 
     /**
-     * Returns the sequence number for this webhook request.
+     * Returns the date time when this request was created
      *
-     * In an implementation, typically this would be the
-     * autoincrement primary key.
-     *
-     * @return int|null
+     * @return \DateTime|null
      */
-    public function getSequence(): ?int;
+    public function getCreatedAt(): ?DateTime;
 
     /**
      * Returns the format the request should be serialized into.
@@ -53,6 +51,16 @@ interface WebhookRequestInterface
     public function getRequestUrl(): string;
 
     /**
+     * Returns the sequence number for this webhook request.
+     *
+     * In an implementation, typically this would be the
+     * autoincrement primary key.
+     *
+     * @return int|null
+     */
+    public function getSequence(): ?int;
+
+    /**
      * Populates a WebhookRequest with data.
      *
      * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
@@ -61,4 +69,13 @@ interface WebhookRequestInterface
      * @return void
      */
     public function populate(ActivityInterface $activity, SubscriptionInterface $subscription): void;
+
+    /**
+     * Set created at date on the webhook
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return void
+     */
+    public function setCreatedAt(DateTime $createdAt): void;
 }

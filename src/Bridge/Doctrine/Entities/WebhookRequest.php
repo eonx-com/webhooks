@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities;
 
+use DateTime as BaseDateTime;
 use Doctrine\ORM\Mapping as ORM;
-use EoneoPay\Externals\ORM\Entity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookRequestSchema;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use EoneoPay\Webhooks\Model\ActivityInterface;
@@ -13,7 +13,10 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("event_activity_requests")
+ * @ORM\Table(
+ *     name="event_activity_requests",
+ *     indexes={@ORM\Index(name="idx_created_at_webhook_request", columns={"created_at"})}
+ * )
  */
 class WebhookRequest extends Entity implements WebhookRequestInterface
 {
@@ -31,6 +34,7 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
     protected $activity;
 
     // @codeCoverageIgnoreStart
+
     /**
      * The WebhookRequest entity in this package is not intended to be created
      * manually. Use the WebhookPersister to create new WebhookRequest objects.
@@ -48,6 +52,14 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
     public function getActivity(): ActivityInterface
     {
         return $this->activity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt(): ?BaseDateTime
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -75,7 +87,7 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
     {
         // Cast requestId to int as doctrine hydrates bigint as a string.
 
-        return (int) $this->requestId;
+        return (int)$this->requestId;
     }
 
     /**
@@ -144,10 +156,19 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
     /**
      * {@inheritdoc}
      */
+    public function setCreatedAt(BaseDateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray(): array
     {
         return [
             'activity' => $this->activity->toArray(),
+            'created_at' => $this->formatDate($this->createdAt),
             'id' => $this->getRequestId(),
             'request_format' => $this->getRequestFormat(),
             'request_headers' => $this->getRequestHeaders(),
@@ -155,6 +176,7 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
             'request_url' => $this->getRequestUrl()
         ];
     }
+
 
     /**
      * {@inheritdoc}
