@@ -53,6 +53,14 @@ class WebhookRequestStub implements WebhookRequestInterface
     /**
      * {@inheritdoc}
      */
+    public function getExternalId(): string
+    {
+        return '1';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCreatedAt(): ?BaseDateTime
     {
         return $this->createdAt;

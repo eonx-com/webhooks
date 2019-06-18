@@ -33,6 +33,7 @@ class WebhookRequestTest extends BaseEntityTestCase
         static::assertSame('POST', $request->getRequestMethod());
         static::assertSame('https://localhost.com/webhook', $request->getRequestUrl());
         static::assertSame(123, $request->getSequence());
+        static::assertSame('123', $request->getExternalId());
     }
 
     /**

@@ -57,6 +57,14 @@ class WebhookRequest extends Entity implements WebhookRequestInterface
     /**
      * {@inheritdoc}
      */
+    public function getExternalId(): string
+    {
+        return (string)$this->getRequestId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCreatedAt(): ?BaseDateTime
     {
         return $this->createdAt;
