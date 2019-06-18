@@ -23,6 +23,13 @@ interface WebhookRequestInterface
     public function getCreatedAt(): ?DateTime;
 
     /**
+     * Returns unique request identifier
+     *
+     * @return string
+     */
+    public function getExternalId(): string;
+
+    /**
      * Returns the format the request should be serialized into.
      *
      * @return string
