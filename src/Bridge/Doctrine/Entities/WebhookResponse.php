@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass=EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookResponseRepository")
  * @ORM\Table(name="event_activity_responses")
  */
 class WebhookResponse extends Entity implements WebhookResponseInterface
