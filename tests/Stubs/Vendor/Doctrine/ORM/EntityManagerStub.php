@@ -26,6 +26,11 @@ class EntityManagerStub implements EntityManagerInterface
     private $metadatas;
 
     /**
+     * @var mixed
+     */
+    private $repositories;
+
+    /**
      * Create entity manager stub
      *
      * @param mixed $entity
@@ -33,10 +38,12 @@ class EntityManagerStub implements EntityManagerInterface
      */
     public function __construct(
         $entity = null,
-        ?array $metadatas = null
+        ?array $metadatas = null,
+        ?array $repositories = null
     ) {
         $this->entity = $entity;
         $this->metadatas = $metadatas;
+        $this->repositories = $repositories;
     }
 
     /**
@@ -236,6 +243,7 @@ class EntityManagerStub implements EntityManagerInterface
      */
     public function getRepository($className)
     {
+        return $this->repositories[$className];
     }
 
     /**

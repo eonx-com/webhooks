@@ -68,4 +68,12 @@ class EventDispatcherStub implements EventDispatcherInterface
     {
         return $this->webhooksRequested;
     }
+
+    /**
+     * @return int[]
+     */
+    public function getWebhooksRetried(): array
+    {
+        return $this->webhooksRetried;
+    }
 }

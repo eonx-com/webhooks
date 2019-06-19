@@ -4,21 +4,18 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories;
 
 use DateTime;
-use Doctrine\ORM\Query;
 use EoneoPay\Externals\ORM\Repository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
+use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
+use Iterator;
 
-class WebhookRequestRepository extends Repository
+class WebhookRequestRepository extends Repository implements WebhookRequestRepositoryInterface
 {
     /**
-     * Get list of webhook requests that have failed since provided date time
-     *
-     * @param \DateTime $since Datetime since there have been failed webhook requests
-     *
-     * @return \Doctrine\ORM\Query
+     * {@inheritdoc}
      */
-    public function getFailedRequests(DateTime $since): Query
+    public function getFailedRequests(DateTime $since): Iterator
     {
         $buildResponse = $this->entityManager
             ->createQueryBuilder()
@@ -44,6 +41,6 @@ class WebhookRequestRepository extends Repository
             'createdAt' => $since->format('Y:m:d H:i:s')
         ]);
 
-        return $buildRequest->getQuery();
+        return $buildRequest->getQuery()->iterate();
     }
 }

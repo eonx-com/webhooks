@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Webhooks;
 
-use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 class RetryProcessor
 {
     /**
-     * @var \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -24,7 +24,7 @@ class RetryProcessor
     /**
      * RetryProcessor constructor.
      *
-     * @param \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $eventDispatcher
      */
     public function __construct
@@ -55,7 +55,7 @@ class RetryProcessor
 
         $date = new DateTime();
         $date->sub(new DateInterval($dateInterval));
-        $iterableRequests = $repository->getFailedRequests($date)->iterate();
+        $iterableRequests = $repository->getFailedRequests($date);
 
         foreach ($iterableRequests as $request) {
             $this->eventDispatcher->dispatchRequestRetry($request->getRequestId());
