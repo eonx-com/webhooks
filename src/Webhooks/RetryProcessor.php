@@ -8,8 +8,9 @@ use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 
-class RetryProcessor
+class RetryProcessor implements RetryProcessorInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
@@ -36,11 +37,7 @@ class RetryProcessor
     }
 
     /**
-     * Loops through failed requests since date interval and pushes them to queue for re processing
-     *
-     * @param string $dateInterval Interval to go back into to find failed requests
-     *
-     * @return void
+     * {@inheritdoc}
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeIntervalException

@@ -6,6 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use EoneoPay\Webhooks\Webhooks\RetryProcessor;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\WebhookRequestRepositoryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
@@ -22,7 +23,6 @@ class RetryProcessorTest extends BaseEntityTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeIntervalException
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
@@ -53,12 +53,12 @@ class RetryProcessorTest extends BaseEntityTestCase
      * @param \Doctrine\ORM\EntityManagerInterface|null $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface|null $eventDispatcher
      *
-     * @return \EoneoPay\Webhooks\Webhooks\RetryProcessor
+     * @return \EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface
      */
     private function getProcessor(
         ?EntityManagerInterface $entityManager = null,
         ?EventDispatcherInterface $eventDispatcher = null
-    ): RetryProcessor {
+    ): RetryProcessorInterface {
         return new RetryProcessor(
             $entityManager ?? new EntityManagerStub(),
             $eventDispatcher ?? new EventDispatcherStub()
