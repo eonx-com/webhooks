@@ -5,7 +5,6 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities;
 
 use DateTime as BaseDateTime;
 use Doctrine\ORM\Mapping as ORM;
-use EoneoPay\Externals\ORM\Entity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookResponseSchema;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
