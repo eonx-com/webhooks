@@ -27,8 +27,7 @@ class RetryProcessor
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $eventDispatcher
      */
-    public function __construct
-    (
+    public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher
     ) {

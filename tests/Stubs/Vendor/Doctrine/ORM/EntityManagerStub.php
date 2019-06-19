@@ -35,6 +35,7 @@ class EntityManagerStub implements EntityManagerInterface
      *
      * @param mixed $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas
+     * @param mixed[]|null $repositories
      */
     public function __construct(
         $entity = null,
