@@ -6,7 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookResponseRepository
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository
  */
 class WebhookResponseRepositoryTest extends TestCase
 {

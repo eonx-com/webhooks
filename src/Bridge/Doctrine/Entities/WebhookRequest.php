@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="\EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository")
  * @ORM\Table("event_activity_requests")
  */
 class WebhookRequest extends Entity implements WebhookRequestInterface

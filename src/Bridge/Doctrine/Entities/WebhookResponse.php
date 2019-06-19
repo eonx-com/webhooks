@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @ORM\Entity(repositoryClass=EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookResponseRepository")
+ * @ORM\Entity()
  * @ORM\Table(
  *     name="event_activity_responses",
  *     indexes={@ORM\Index(name="idx_status_code_webhook_response", columns={"status_code"})}
