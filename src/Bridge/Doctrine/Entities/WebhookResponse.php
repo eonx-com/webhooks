@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities;
 
+use DateTime as BaseDateTime;
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Entity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookResponseSchema;
@@ -15,6 +16,7 @@ use Psr\Http\Message\ResponseInterface;
  * @ORM\Entity()
  * @ORM\Table(
  *     name="event_activity_responses",
+ *     indexes={@ORM\Index(name="idx_created_at_webhook_response", columns={"created_at"})},
  *     indexes={@ORM\Index(name="idx_status_code_webhook_response", columns={"status_code"})}
  * )
  */
@@ -46,6 +48,14 @@ class WebhookResponse extends Entity implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
+    public function getCreatedAt(): ?BaseDateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRequest(): WebhookRequestInterface
     {
         return $this->request;
@@ -70,6 +80,14 @@ class WebhookResponse extends Entity implements WebhookResponseInterface
         $this->setRequest($request);
 
         $this->traitPopulate($request, $response, $truncatedResponse);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(BaseDateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**
@@ -124,6 +142,7 @@ class WebhookResponse extends Entity implements WebhookResponseInterface
     public function toArray(): array
     {
         return [
+            'created_at' => $this->formatDate($this->createdAt),
             'error_reason' => $this->getErrorReason(),
             'id' => $this->getResponseId(),
             'request' => $this->request->toArray(),

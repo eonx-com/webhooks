@@ -3,10 +3,18 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Model;
 
+use DateTime;
 use Psr\Http\Message\ResponseInterface;
 
 interface WebhookResponseInterface
 {
+    /**
+     * Returns the date time when this response was created
+     *
+     * @return \DateTime|null
+     */
+    public function getCreatedAt(): ?DateTime;
+
     /**
      * Returns the request that the response was in response to.
      *
@@ -36,6 +44,15 @@ interface WebhookResponseInterface
         ResponseInterface $response,
         string $truncatedResponse
     ): void;
+
+    /**
+     * Set created at date on the webhook response
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return void
+     */
+    public function setCreatedAt(DateTime $createdAt): void;
 
     /**
      * Sets an error string that caused an error if one is available.

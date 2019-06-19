@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
+use DateTime as BaseDateTime;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
@@ -14,6 +15,11 @@ use RuntimeException;
  */
 class WebhookRequestStub implements WebhookRequestInterface
 {
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
     /**
      * @var \Illuminate\Support\Collection
      */
@@ -42,6 +48,22 @@ class WebhookRequestStub implements WebhookRequestInterface
         }
 
         return $this->data['activity'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExternalId(): string
+    {
+        return '1';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt(): ?BaseDateTime
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -108,5 +130,13 @@ class WebhookRequestStub implements WebhookRequestInterface
         $this->data['headers'] = $subscription->getHeaders();
         $this->data['method'] = $subscription->getMethod();
         $this->data['url'] = $subscription->getUrl();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(BaseDateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

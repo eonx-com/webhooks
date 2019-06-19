@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity;
 
+use DateTime;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Illuminate\Support\Collection;
@@ -14,6 +15,11 @@ use Psr\Http\Message\ResponseInterface;
 class WebhookResponseStub implements WebhookResponseInterface
 {
     /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
      * @var \Illuminate\Support\Collection
      */
     private $data;
@@ -24,6 +30,14 @@ class WebhookResponseStub implements WebhookResponseInterface
     public function __construct()
     {
         $this->data = new Collection();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -63,6 +77,14 @@ class WebhookResponseStub implements WebhookResponseInterface
         $this->data['request'] = $request;
         $this->data['response'] = $response;
         $this->data['truncatedResponse'] = $truncatedResponse;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**

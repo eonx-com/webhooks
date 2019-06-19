@@ -3,16 +3,19 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
+ * @method DateTime|null getCreatedAt()
  * @method string|null getErrorReason()
  * @method string|null getResponse()
  * @method int|null getResponseId()
  * @method int|null getStatusCode()
  * @method bool isSuccessful()
+ * @method $this setCreatedAt(DateTime $createdAt)
  * @method $this setErrorReason(string $errorReason)
  * @method $this setResponse(string $response)
  * @method $this setResponseId(int $id)
@@ -21,6 +24,15 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait WebhookResponseSchema
 {
+    /**
+     * Stores created at date for response
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     *
+     * @var \DateTime
+     */
+    protected $createdAt;
+
     /**
      * Stores an error reason if an exception occurred while trying to process
      * a webhook request.
