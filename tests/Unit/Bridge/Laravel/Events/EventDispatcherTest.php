@@ -52,6 +52,8 @@ class EventDispatcherTest extends TestCase
 
     /**
      * Test webhook request retry event dispatcher
+     *
+     * @return void
      */
     public function testWebhookRequestRetry(): void
     {
