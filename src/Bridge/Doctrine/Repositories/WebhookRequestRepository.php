@@ -24,6 +24,12 @@ class WebhookRequestRepository extends Repository
             ->createQueryBuilder()
             ->from(WebhookResponse::class, 's');
 
+        $passedRequests = $buildResponse->select('DISTINCT(s.request)')
+            ->where($buildResponse->expr()->eq('s.statusCode', ':statusCode'))
+            ->setParameters([
+                'statusCode' => 200
+            ])->getDQL();
+
         $buildRequest = $this->entityManager
             ->createQueryBuilder()
             ->from(WebhookRequest::class, 'q');
@@ -34,15 +40,10 @@ class WebhookRequestRepository extends Repository
             ->andWhere($buildRequest->expr()->gte('q.createdAt', ':createdAt'));
 
         $buildRequest->setParameters([
-            'requestIdNotIn' => $buildResponse->select('DISTINCT(s.request)')
-                ->where($buildResponse->expr()->eq('s.statusCode', ':statusCode'))
-                ->setParameters([
-                    'statusCode' => 200
-                ])->getDQL(),
+            'requestIdNotIn' => $passedRequests,
             'createdAt' => $since->format('Y:m:d H:i:s')
         ]);
 
         return $buildRequest->getQuery();
-
     }
 }
