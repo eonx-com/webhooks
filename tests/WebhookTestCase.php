@@ -57,7 +57,7 @@ abstract class WebhookTestCase extends TestCase
      *
      * @var \Illuminate\Container\Container
      */
-    private $app;
+    protected $app;
 
     /**
      * Create Illuminate application
