@@ -40,11 +40,14 @@ class DoctrineTestCase extends BaseEntityTestCase
      * @return \Doctrine\ORM\EntityManagerInterface
      *
      * @throws \Doctrine\ORM\ORMException
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess) Static access to entity manager required to create instance
      */
     protected function getDoctrineEntityManager(): EntityManagerInterface
     {
         $paths = [__DIR__.'/../src'];
-        $config = Setup::createAnnotationMetadataConfiguration($paths, true, null, null, false);
+        $setup = new Setup();
+        $config = $setup::createAnnotationMetadataConfiguration($paths, true, null, null, false);
         $dbParams = ['driver' => 'pdo_sqlite', 'memory' => true];
 
         return EntityManager::create($dbParams, $config);

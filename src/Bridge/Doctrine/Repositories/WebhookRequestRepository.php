@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories;
 
 use DateTime;
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Internal\Hydration\IterableResult;
 use EoneoPay\Externals\ORM\Repository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;

@@ -91,11 +91,11 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
      */
     private function getRepository(): WebhookRequestRepository
     {
-        $repository = $this->getEntityManager()->getRepository(WebhookRequest::class);
-
         /**
          * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository $repository
          */
+        $repository = $this->getEntityManager()->getRepository(WebhookRequest::class);
+
         return $repository;
     }
 }
