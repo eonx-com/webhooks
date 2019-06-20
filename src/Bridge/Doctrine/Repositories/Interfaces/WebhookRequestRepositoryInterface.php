@@ -15,5 +15,5 @@ interface WebhookRequestRepositoryInterface
      *
      * @return \Iterator
      */
-    public function getFailedRequests(DateTime $since): Iterator;
+    public function getFailedRequestIds(DateTime $since): Iterator;
 }

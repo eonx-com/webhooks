@@ -74,7 +74,7 @@ abstract class BaseEntityTestCase extends TestCase
         $request->setRequestId($requestId ?? 123);
         $request->setRequestMethod('POST');
         $request->setRequestUrl('https://localhost.com/webhook');
-
+        $request->setCreatedAt(new DateTime('2099-10-10'));
         return $request;
     }
 
@@ -107,7 +107,7 @@ abstract class BaseEntityTestCase extends TestCase
         $response->setResponse('RESPONSE');
         $response->setResponseId($responseId ?? 234);
         $response->setStatusCode($statusCode ?? 204);
-
+        $response->setCreatedAt(new DateTime('2099-10-10'));
         return $response;
     }
 }

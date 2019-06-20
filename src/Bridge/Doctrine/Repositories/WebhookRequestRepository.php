@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories;
 
 use DateTime;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Internal\Hydration\IterableResult;
 use EoneoPay\Externals\ORM\Repository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
@@ -15,7 +17,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
     /**
      * {@inheritdoc}
      */
-    public function getFailedRequests(DateTime $since): Iterator
+    public function getFailedRequestIds(DateTime $since): Iterator
     {
         $buildResponse = $this->entityManager
             ->createQueryBuilder()
@@ -23,9 +25,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
 
         $passedRequests = $buildResponse->select('DISTINCT(s.request)')
             ->where($buildResponse->expr()->eq('s.statusCode', ':statusCode'))
-            ->setParameters([
-                'statusCode' => 200
-            ])->getDQL();
+            ->getDQL();
 
         $buildRequest = $this->entityManager
             ->createQueryBuilder()
@@ -33,11 +33,11 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
 
         $buildRequest
             ->select('q.requestId')
-            ->where($buildRequest->expr()->notIn('q.requestId', ':requestIdNotIn'))
+            ->where($buildRequest->expr()->notIn('q.requestId', $passedRequests))
             ->andWhere($buildRequest->expr()->gte('q.createdAt', ':createdAt'));
 
         $buildRequest->setParameters([
-            'requestIdNotIn' => $passedRequests,
+            'statusCode' => 200,
             'createdAt' => $since->format('Y:m:d H:i:s')
         ]);
 
