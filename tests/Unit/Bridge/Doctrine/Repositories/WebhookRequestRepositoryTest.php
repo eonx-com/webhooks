@@ -26,11 +26,11 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
         $entityManager = $this->getEntityManager();
         $repository = $this->getRepository();
         $activity = $this->getActivityEntity();
-        $request1 = $this->getRequestEntity($activity, 1);
-        $request2 = $this->getRequestEntity($activity, 2);
-        $request3 = $this->getRequestEntity($activity, 3);
-        $request4 = $this->getRequestEntity($activity, 4);
-        $request5 = $this->getRequestEntity($activity, 5);
+        $request1 = $this->getRequestEntity($activity, null, 1);
+        $request2 = $this->getRequestEntity($activity, null, 2);
+        $request3 = $this->getRequestEntity($activity, null, 3);
+        $request4 = $this->getRequestEntity($activity, null, 4);
+        $request5 = $this->getRequestEntity($activity, null, 5);
 
         $entityManager->persist($activity);
         $entityManager->persist($request1);
@@ -58,30 +58,17 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
         $this->getEntityManager()->flush();
 
         $expected = [
-            [0 => ['requestId' => '1']],
-            [1 => ['requestId' => '3']],
-            [2 => ['requestId' => '4']],
-            [3 => ['requestId' => '5']]
+            ['requestId' => '1'],
+            ['requestId' => '3'],
+            ['requestId' => '4'],
+            ['requestId' => '5']
         ];
 
         $resultsIterator = $repository->getFailedRequestIds(new DateTime());
+        $results = [];
+        \array_push($results, ...$resultsIterator);
 
-        self::assertSame($expected, \iterator_to_array($resultsIterator));
-    }
-
-    /**
-     * Test get failed requests with no data
-     *
-     * @return void
-     *
-     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
-     */
-    public function testGetFailedRequestsWithNoData(): void
-    {
-        $repository = $this->getRepository();
-        $iterator = $repository->getFailedRequestIds(new DateTime('now'));
-
-        self::assertFalse($iterator->valid());
+        self::assertEquals($expected, $results);
     }
 
     /**

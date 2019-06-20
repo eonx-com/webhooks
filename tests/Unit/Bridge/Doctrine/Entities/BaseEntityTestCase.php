@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 
+use DateTime as BaseDateTime;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
@@ -51,6 +52,7 @@ abstract class BaseEntityTestCase extends TestCase
      * Returns a WebhookRequest entity.
      *
      * @param \EoneoPay\Webhooks\Model\ActivityInterface|null $activity
+     * @param \DateTime|null $createdAt
      * @param int|null $requestId
      *
      * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest
@@ -60,6 +62,7 @@ abstract class BaseEntityTestCase extends TestCase
      */
     protected function getRequestEntity(
         ?ActivityInterface $activity = null,
+        ?BaseDateTime $createdAt = null,
         ?int $requestId = null
     ): WebhookRequest {
         $reflectionClass = new ReflectionClass(WebhookRequest::class);
@@ -74,7 +77,7 @@ abstract class BaseEntityTestCase extends TestCase
         $request->setRequestId($requestId ?? 123);
         $request->setRequestMethod('POST');
         $request->setRequestUrl('https://localhost.com/webhook');
-        $request->setCreatedAt(new DateTime('2099-10-10'));
+        $request->setCreatedAt($createdAt ?? new DateTime('2099-10-10'));
         return $request;
     }
 

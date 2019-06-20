@@ -53,8 +53,8 @@ class RetryProcessor implements RetryProcessorInterface
         $date->sub(new DateInterval($dateInterval));
         $iterableRequests = $repository->getFailedRequestIds($date);
 
-        foreach ($iterableRequests as $key => $request) {
-            $this->eventDispatcher->dispatchRequestRetry((int)$request[$key]['requestId']);
+        foreach ($iterableRequests as $request) {
+            $this->eventDispatcher->dispatchRequestRetry((int)$request['requestId']);
         }
     }
 }

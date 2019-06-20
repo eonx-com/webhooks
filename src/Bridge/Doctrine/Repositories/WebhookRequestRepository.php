@@ -8,14 +8,13 @@ use EoneoPay\Externals\ORM\Repository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
-use Iterator;
 
 class WebhookRequestRepository extends Repository implements WebhookRequestRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getFailedRequestIds(DateTime $since): Iterator
+    public function getFailedRequestIds(DateTime $since): iterable
     {
         $buildResponse = $this->entityManager
             ->createQueryBuilder()
@@ -39,6 +38,8 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
             'createdAt' => $since->format('Y:m:d H:i:s')
         ]);
 
-        return $buildRequest->getQuery()->iterate();
+        foreach ($buildRequest->getQuery()->iterate() as $key => $request) {
+            yield $request[$key];
+        }
     }
 }

@@ -28,9 +28,9 @@ class RetryProcessorTest extends BaseEntityTestCase
      */
     public function testRetryMethod(): void
     {
-        $webhookRequest1 = $this->getRequestEntity(null, 1);
-        $webhookRequest2 = $this->getRequestEntity(null, 20);
-        $webhookRequest3 = $this->getRequestEntity(null, 34);
+        $webhookRequest1 = $this->getRequestEntity(null, null, 1);
+        $webhookRequest2 = $this->getRequestEntity(null, null, 20);
+        $webhookRequest3 = $this->getRequestEntity(null, null, 34);
 
         $repositories = [
             WebhookRequest::class =>

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces;
 
 use DateTime;
-use Iterator;
 
 interface WebhookRequestRepositoryInterface
 {
@@ -13,7 +12,7 @@ interface WebhookRequestRepositoryInterface
      *
      * @param \DateTime $since Datetime since there have been failed webhook requests
      *
-     * @return \Iterator
+     * @return mixed[]
      */
-    public function getFailedRequestIds(DateTime $since): Iterator;
+    public function getFailedRequestIds(DateTime $since): iterable;
 }

@@ -6,7 +6,6 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories;
 use ArrayIterator;
 use DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
-use Iterator;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\RepositoryStub;
 
 /**
@@ -27,7 +26,7 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
     /**
      * {@inheritdoc}
      */
-    public function getFailedRequestIds(DateTime $since): Iterator
+    public function getFailedRequestIds(DateTime $since): iterable
     {
         $requestIds = [];
         $entities = $this->findAll();
@@ -37,8 +36,8 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
          *
          * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest $entity
          */
-        foreach ($entities as $key => $entity) {
-            $requestIds[] = [$key => ['requestId' => $entity->getRequestId()]];
+        foreach ($entities as $entity) {
+            $requestIds[] = ['requestId' => $entity->getRequestId()];
         }
 
         return new ArrayIterator($requestIds);
