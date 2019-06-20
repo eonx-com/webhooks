@@ -15,14 +15,14 @@ use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\Webho
 class WebhookRequestRepositoryTest extends DoctrineTestCase
 {
     /**
-     * Test get failed requests with data
+     * Test get failed requests with basic data
      *
      * @return void
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
-    public function testGetFailedRequestWithData(): void
+    public function testGetFailedRequest(): void
     {
         (new WebhookRequestData($this->getEntityManager()))
             ->createRequest(new DateTime('2019-10-10 12:00:00'), 1)
@@ -88,14 +88,14 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
     }
 
     /**
-     * Test query omits requests that have already passed
+     * Test query omits requests that have already succeeded
      *
      * @return void
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
-    public function testGetFailedRequestsOmitsPassedRequests(): void
+    public function testGetFailedRequestsOmitsSucceededRequests(): void
     {
         (new WebhookRequestData($this->getEntityManager()))
             ->createRequest(new DateTime('2019-10-10 12:00:00'), 1)

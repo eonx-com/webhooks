@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
 use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
@@ -35,23 +36,27 @@ class RetryProcessorTest extends TestCase
         $webhookRequest2 = $this->getRequestEntity(null, null, 20);
         $webhookRequest3 = $this->getRequestEntity(null, null, 34);
 
-        $repositories = [
-            WebhookRequest::class =>
-                new WebhookRequestRepositoryStub([$webhookRequest1, $webhookRequest2, $webhookRequest3])
-        ];
+        $repositoryStub = new WebhookRequestRepositoryStub([
+            $webhookRequest1,
+            $webhookRequest2,
+            $webhookRequest3
+        ]);
+        $repositories = [WebhookRequest::class => $repositoryStub];
 
         $entityManager = new EntityManagerStub(null, null, $repositories);
         $eventDispatcher = new EventDispatcherStub();
 
         $expectedRequests = [1, 20, 34];
+        $expectedSinceDate = new DateTime('-1 day');
 
         $processor = $this->getProcessor($entityManager, $eventDispatcher);
-
         $processor->retry('P1D');
 
         // assert event was dispatched the number of times as number of entities found
         self::assertCount(3, $eventDispatcher->getWebhooksRetried());
         self::assertSame($expectedRequests, $eventDispatcher->getWebhooksRetried());
+        // assert the since date provided to repository to look for requests since is within expected range
+        self::assertEqualsWithDelta($expectedSinceDate, $repositoryStub->getSince(), 10);
     }
 
     /**

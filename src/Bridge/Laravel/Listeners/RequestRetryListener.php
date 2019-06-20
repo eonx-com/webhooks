@@ -38,7 +38,7 @@ class RequestRetryListener
     }
 
     /**
-     * Handles the WebhookRequestCreated event.
+     * Handles the WebhookRequestRetry event.
      *
      * @param \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestRetryEvent $event
      *

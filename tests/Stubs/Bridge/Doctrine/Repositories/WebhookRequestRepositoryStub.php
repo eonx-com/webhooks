@@ -14,6 +14,13 @@ use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\RepositoryStub;
 class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequestRepositoryInterface
 {
     /**
+     * Since date time set by getFailedRequestIds
+     *
+     * @var \DateTime
+     */
+    private $since;
+
+    /**
      * WebhookRequestRepositoryStub constructor.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest[]|null $requests
@@ -28,6 +35,7 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
      */
     public function getFailedRequestIds(DateTime $since): iterable
     {
+        $this->since = $since;
         $requestIds = [];
         $entities = $this->findAll();
 
@@ -41,5 +49,15 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
         }
 
         return new ArrayIterator($requestIds);
+    }
+
+    /**
+     * Get date time set by getFailedRequestIds method
+     *
+     * @return \DateTime
+     */
+    public function getSince(): DateTime
+    {
+        return $this->since;
     }
 }
