@@ -35,7 +35,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
 
         $buildRequest->setParameters([
             'statusCode' => 200,
-            'createdAt' => $since->format('Y:m:d H:i:s')
+            'createdAt' => $since->format('Y-m-d H:i:s')
         ]);
 
         foreach ($buildRequest->getQuery()->iterate() as $key => $request) {

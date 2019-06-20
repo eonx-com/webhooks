@@ -11,13 +11,16 @@ use EoneoPay\Webhooks\Webhooks\RetryProcessor;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\WebhookRequestRepositoryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
-use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\BaseEntityTestCase;
+use Tests\EoneoPay\Webhooks\TestCase;
+use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 
 /**
  * @covers \EoneoPay\Webhooks\Webhooks\RetryProcessor
  */
-class RetryProcessorTest extends BaseEntityTestCase
+class RetryProcessorTest extends TestCase
 {
+    use ModelFactoryTrait;
+
     /**
      * Test retry method adds list of provided failed request to queue
      *
