@@ -8,15 +8,15 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use EoneoPay\Webhooks\Webhooks\RetryProcessor;
-use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\WebhookRequestRepositoryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\BaseEntityTestCase;
 
 /**
  * @covers \EoneoPay\Webhooks\Webhooks\RetryProcessor
  */
-class RetryProcessorTest extends DoctrineTestCase
+class RetryProcessorTest extends BaseEntityTestCase
 {
     /**
      * Test retry method adds list of provided failed request to queue
