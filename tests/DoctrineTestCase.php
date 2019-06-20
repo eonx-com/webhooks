@@ -8,11 +8,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use Exception;
+use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\BaseEntityTestCase;
 
 /**
  * @coversNothing
  */
-class DoctrineTestCase extends WebhookTestCase
+class DoctrineTestCase extends BaseEntityTestCase
 {
     /**
      * SQL queries to create database schema.
@@ -53,12 +54,9 @@ class DoctrineTestCase extends WebhookTestCase
      * Get entity manager
      *
      * @return \Doctrine\ORM\EntityManagerInterface
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function getEntityManager(): EntityManagerInterface
     {
-        $this->createApplication();
         if ($this->entityManager !== null) {
             return $this->entityManager;
         }

@@ -15,8 +15,10 @@ use Psr\Http\Message\ResponseInterface;
  * @ORM\Entity()
  * @ORM\Table(
  *     name="event_activity_responses",
- *     indexes={@ORM\Index(name="idx_created_at_webhook_response", columns={"created_at"})},
- *     indexes={@ORM\Index(name="idx_status_code_webhook_response", columns={"status_code"})}
+ *     indexes={
+ *         @ORM\Index(name="idx_created_at_webhook_response", columns={"created_at"}),
+ *         @ORM\Index(name="idx_status_code_webhook_response", columns={"status_code"})
+ *     }
  * )
  */
 class WebhookResponse extends Entity implements WebhookResponseInterface

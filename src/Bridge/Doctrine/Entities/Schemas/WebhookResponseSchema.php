@@ -62,7 +62,7 @@ trait WebhookResponseSchema
     /**
      * The status code of the response if one was returned.
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, name="status_code")
      *
      * @var int|null
      */
