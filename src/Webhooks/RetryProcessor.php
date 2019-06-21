@@ -40,9 +40,8 @@ class RetryProcessor implements RetryProcessorInterface
      * {@inheritdoc}
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
-     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeIntervalException
      */
-    public function retry(string $dateInterval): void
+    public function retry(DateInterval $dateInterval): void
     {
         /**
          * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository $repository
@@ -50,7 +49,7 @@ class RetryProcessor implements RetryProcessorInterface
         $repository = $this->entityManager->getRepository(WebhookRequest::class);
 
         $date = new DateTime();
-        $date->sub(new DateInterval($dateInterval));
+        $date->sub($dateInterval);
         $iterableRequests = $repository->getFailedRequestIds($date);
 
         foreach ($iterableRequests as $request) {

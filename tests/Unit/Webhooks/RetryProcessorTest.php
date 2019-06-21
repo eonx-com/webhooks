@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
 use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
@@ -17,6 +18,8 @@ use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 
 /**
  * @covers \EoneoPay\Webhooks\Webhooks\RetryProcessor
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Requires many classes for full testing
  */
 class RetryProcessorTest extends TestCase
 {
@@ -29,6 +32,7 @@ class RetryProcessorTest extends TestCase
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeIntervalException
      */
     public function testRetryMethod(): void
     {
@@ -50,7 +54,7 @@ class RetryProcessorTest extends TestCase
         $expectedSinceDate = new DateTime('-1 day');
 
         $processor = $this->getProcessor($entityManager, $eventDispatcher);
-        $processor->retry('P1D');
+        $processor->retry(new DateInterval('P1D'));
 
         // assert event was dispatched the number of times as number of entities found
         self::assertCount(3, $eventDispatcher->getWebhooksRetried());
