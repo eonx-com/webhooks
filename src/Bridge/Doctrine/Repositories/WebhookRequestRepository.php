@@ -39,6 +39,16 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
         ]);
 
         foreach ($buildRequest->getQuery()->iterate() as $key => $request) {
+            /**
+             * Doctrine iterator increments index in the result value, this is other way around
+             * when the iterator result is an object of entity in which case its always at
+             * 0th index. But with fetching just one column in query the result is formatted as
+             *
+             * [
+             *   0 => [0 => ['requestId' => 10]],
+             *   1 => [1 => ['requestId' => 20]]
+             * ]
+             */
             yield $request[$key];
         }
     }
