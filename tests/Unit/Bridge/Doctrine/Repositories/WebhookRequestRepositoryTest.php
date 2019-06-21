@@ -33,14 +33,14 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
             ->createResponse(2, 500)
             ->build();
 
-        $repository = $this->getRepository();
-
-        $resultsIterator = $repository->getFailedRequestIds(new DateTime('2019-10-01'));
-
         $expected = [
             ['requestId' => '1'],
             ['requestId' => '2']
         ];
+
+        $repository = $this->getRepository();
+
+        $resultsIterator = $repository->getFailedRequestIds(new DateTime('2019-10-01'));
 
         $results = [];
         \array_push($results, ...$resultsIterator);
@@ -68,6 +68,11 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
             ->createResponse(6, 200)
             ->build();
 
+        $expected = [
+            ['requestId' => '4'],
+            ['requestId' => '5']
+        ];
+
         $repository = $this->getRepository();
 
         $findRequestsSince = new DateTime('2019-10-12 16:00:00');
@@ -75,11 +80,6 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
             ->getFailedRequestIds(
                 $findRequestsSince
             );
-
-        $expected = [
-            ['requestId' => '4'],
-            ['requestId' => '5']
-        ];
 
         $results = [];
         \array_push($results, ...$resultsIterator);
@@ -109,14 +109,14 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
             ->createResponse(3, 200)
             ->build();
 
-        $repository = $this->getRepository();
-
-        $resultsIterator = $repository->getFailedRequestIds(new DateTime('2019-10-01'));
-
         $expected = [
             ['requestId' => '2'],
             ['requestId' => '4']
         ];
+
+        $repository = $this->getRepository();
+
+        $resultsIterator = $repository->getFailedRequestIds(new DateTime('2019-10-01'));
 
         $results = [];
         \array_push($results, ...$resultsIterator);
