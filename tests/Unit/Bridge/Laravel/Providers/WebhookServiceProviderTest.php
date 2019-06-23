@@ -21,6 +21,7 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use Illuminate\Container\Container;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
@@ -60,6 +61,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
             [RequestBuilderInterface::class],
             [RequestFactoryInterface::class],
             [RequestProcessorInterface::class],
+            [RetryProcessorInterface::class],
             [WebhookPersisterInterface::class]
         ];
     }

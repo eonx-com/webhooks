@@ -100,7 +100,7 @@ class WebhookResponseTest extends BaseEntityTestCase
     public function testToArray(): void
     {
         $expected = [
-            'created_at' => null,
+            'created_at' => '2099-10-10T00:00:00Z',
             'error_reason' => 'error_reason',
             'id' => 234,
             'request' => [
@@ -112,7 +112,7 @@ class WebhookResponseTest extends BaseEntityTestCase
                         'payload'
                     ]
                 ],
-                'created_at' => null,
+                'created_at' => '2099-10-10T00:00:00Z',
                 'id' => 123,
                 'request_format' => 'json',
                 'request_headers' => [

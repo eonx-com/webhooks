@@ -28,9 +28,11 @@ use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
+use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use EoneoPay\Webhooks\Webhooks\RequestBuilder;
 use EoneoPay\Webhooks\Webhooks\RequestFactory;
 use EoneoPay\Webhooks\Webhooks\RequestProcessor;
+use EoneoPay\Webhooks\Webhooks\RetryProcessor;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Zend\Diactoros\StreamFactory;
@@ -101,6 +103,7 @@ final class WebhookServiceProvider extends ServiceProvider
         });
         $this->app->singleton(RequestFactoryInterface::class, RequestFactory::class);
         $this->app->singleton(RequestProcessorInterface::class, RequestProcessor::class);
+        $this->app->singleton(RetryProcessorInterface::class, RetryProcessor::class);
         $this->app->singleton(WebhookPersisterInterface::class, WebhookPersister::class);
     }
 }

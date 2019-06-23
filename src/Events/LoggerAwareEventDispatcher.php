@@ -55,4 +55,16 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
 
         $this->dispatcher->dispatchRequestCreated($requestId);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function dispatchRequestRetry(int $requestId): void
+    {
+        $this->logger->info('Webhook Failed Request Retried', [
+            'request_id' => $requestId
+        ]);
+
+        $this->dispatcher->dispatchRequestRetry($requestId);
+    }
 }
