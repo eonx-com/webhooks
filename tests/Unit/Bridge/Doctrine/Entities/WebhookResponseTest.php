@@ -26,7 +26,8 @@ class WebhookResponseTest extends BaseEntityTestCase
         $response = $this->getResponseEntity();
 
         static::assertTrue($response->isSuccessful());
-        static::assertSame(234, $response->getId());
+        static::assertSame('234', $response->getId());
+        static::assertSame('234', $response->getResponseId());
     }
 
     /**
@@ -100,9 +101,9 @@ class WebhookResponseTest extends BaseEntityTestCase
     public function testToArray(): void
     {
         $expected = [
-            'created_at' => null,
+            'created_at' => '2099-10-10T00:00:00Z',
             'error_reason' => 'error_reason',
-            'id' => 234,
+            'id' => '234',
             'request' => [
                 'activity' => [
                     'activity_key' => 'activity.key',
@@ -112,7 +113,7 @@ class WebhookResponseTest extends BaseEntityTestCase
                         'payload'
                     ]
                 ],
-                'created_at' => null,
+                'created_at' => '2099-10-10T00:00:00Z',
                 'id' => 123,
                 'request_format' => 'json',
                 'request_headers' => [

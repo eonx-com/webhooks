@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="\EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository")
  * @ORM\Table(
  *     name="event_activity_requests",
  *     indexes={@ORM\Index(name="idx_created_at_webhook_request", columns={"created_at"})}

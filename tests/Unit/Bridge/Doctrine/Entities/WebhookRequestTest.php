@@ -113,7 +113,7 @@ class WebhookRequestTest extends BaseEntityTestCase
                     'payload'
                 ]
             ],
-            'created_at' => null,
+            'created_at' => '2099-10-10T00:00:00Z',
             'id' => 123,
             'request_format' => 'json',
             'request_headers' => [

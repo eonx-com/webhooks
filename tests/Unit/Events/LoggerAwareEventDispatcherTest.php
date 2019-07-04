@@ -70,6 +70,33 @@ class LoggerAwareEventDispatcherTest extends TestCase
     }
 
     /**
+     * Tests webhook request retry also adds a log
+     *
+     * @return void
+     */
+    public function testWebhookRequestRetryDispatcherLogs(): void
+    {
+        $innerDispatcher = new EventDispatcherStub();
+        $logger = new LoggerStub();
+
+        $expectedLogs = [
+            [
+                'message' => 'Webhook Failed Request Retried',
+                'context' => [
+                    'request_id' => 1
+                ]
+            ]
+        ];
+
+        $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
+
+        $dispatcher->dispatchRequestRetry(1);
+
+        self::assertSame([1], $innerDispatcher->getWebhooksRetried());
+        self::assertSame($expectedLogs, $logger->getLogs());
+    }
+
+    /**
      * Returns the instance under test
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher

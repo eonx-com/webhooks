@@ -9,3 +9,6 @@ parameters:
         -
             message: '#EoneoPay\\Webhooks\\Bridge\\Doctrine\\Entities\\[A-Z][\w]+::__construct\(\) does not call parent constructor from EoneoPay\\Externals\\ORM\\Entity\.#'
             path: src/Bridge/Doctrine/Entities
+        -
+            message: '#Variable method call on EoneoPay\\Webhooks\\Bridge\\Doctrine\\Entities\\Entity.#'
+            path: tests/Stubs/Vendor/Doctrine/ORM/RepositoryStub.php

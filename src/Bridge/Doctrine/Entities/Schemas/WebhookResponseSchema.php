@@ -12,13 +12,13 @@ use Psr\Http\Message\ResponseInterface;
  * @method DateTime|null getCreatedAt()
  * @method string|null getErrorReason()
  * @method string|null getResponse()
- * @method int|null getResponseId()
+ * @method string|null getResponseId()
  * @method int|null getStatusCode()
  * @method bool isSuccessful()
  * @method $this setCreatedAt(DateTime $createdAt)
  * @method $this setErrorReason(string $errorReason)
  * @method $this setResponse(string $response)
- * @method $this setResponseId(int $id)
+ * @method $this setResponseId(string $id)
  * @method $this setStatusCode(int $status)
  * @method $this setSuccessful(bool $successful)
  */
@@ -61,6 +61,8 @@ trait WebhookResponseSchema
 
     /**
      * The status code of the response if one was returned.
+     *
+     * @ORM\Column(type="integer", nullable=true, name="status_code")
      *
      * @var int|null
      */

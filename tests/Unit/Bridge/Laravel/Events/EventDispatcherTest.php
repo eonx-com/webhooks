@@ -49,4 +49,23 @@ class EventDispatcherTest extends TestCase
         static::assertCount(1, $dispatched);
         static::assertSame(5, $dispatched[0]->getRequestId());
     }
+
+    /**
+     * Test webhook request retry event dispatcher
+     *
+     * @return void
+     */
+    public function testWebhookRequestRetry(): void
+    {
+        $innerDispatcher = new EventDispatcherStub();
+        $dispatcher = new EventDispatcher($innerDispatcher);
+
+        $dispatcher->dispatchRequestRetry(2);
+
+        /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestRetryEvent[] $dispatched */
+        $dispatched = $innerDispatcher->getDispatched();
+
+        static::assertCount(1, $dispatched);
+        static::assertSame(2, $dispatched[0]->getRequestId());
+    }
 }
