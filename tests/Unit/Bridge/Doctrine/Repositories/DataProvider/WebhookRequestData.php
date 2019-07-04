@@ -103,7 +103,7 @@ class WebhookRequestData
     {
         $responseId = $this->lastResponseId++;
         $request = $this->requests[$requestId] ?? $this->getRequestEntity();
-        $entity = $this->getResponseEntity($request, $responseId, $statusCode);
+        $entity = $this->getResponseEntity($request, (string) $responseId, $statusCode);
 
         $this->entityManager->persist($entity);
 

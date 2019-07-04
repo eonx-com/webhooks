@@ -61,6 +61,14 @@ class WebhookResponseStub implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
+    public function getResponseId(): string
+    {
+        return '123';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isSuccessful(): bool
     {
         return $this->data['successful'] ?? false;

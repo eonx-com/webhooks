@@ -65,6 +65,14 @@ class WebhookResponse extends Entity implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
+    public function getResponseId(): string
+    {
+        return $this->responseId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isSuccessful(): bool
     {
         return $this->successful;

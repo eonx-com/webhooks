@@ -23,6 +23,13 @@ interface WebhookResponseInterface
     public function getRequest(): WebhookRequestInterface;
 
     /**
+     * Returns the identifier of the response.
+     *
+     * @return string
+     */
+    public function getResponseId(): string;
+
+    /**
      * If the webhook response is considered successful. This is most
      * likely to mean we got a 2xx response.
      *

@@ -85,7 +85,7 @@ trait ModelFactoryTrait
      * Returns a WebhookResponse entity.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest|null $request
-     * @param int|null $responseId
+     * @param string|null $responseId
      * @param int|null $statusCode
      *
      * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse
@@ -95,7 +95,7 @@ trait ModelFactoryTrait
      */
     protected function getResponseEntity(
         ?WebhookRequest $request = null,
-        ?int $responseId = null,
+        ?string $responseId = null,
         ?int $statusCode = null
     ): WebhookResponse {
         $reflectionClass = new ReflectionClass(WebhookResponse::class);
@@ -108,7 +108,7 @@ trait ModelFactoryTrait
         $response->setSuccessful(true);
         $response->setErrorReason('error_reason');
         $response->setResponse('RESPONSE');
-        $response->setResponseId($responseId ?? 234);
+        $response->setResponseId($responseId ?? '234');
         $response->setStatusCode($statusCode ?? 204);
         $response->setCreatedAt(new DateTime('2099-10-10'));
 
