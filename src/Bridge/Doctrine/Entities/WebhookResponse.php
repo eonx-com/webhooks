@@ -57,6 +57,14 @@ class WebhookResponse extends Entity implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
+    public function getErrorReason(): ?string
+    {
+        return $this->errorReason;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRequest(): WebhookRequestInterface
     {
         return $this->request;
