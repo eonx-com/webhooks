@@ -51,11 +51,29 @@ class WebhookResponseStub implements WebhookResponseInterface
     }
 
     /**
+     * Gets the error string if one is available.
+     *
+     * @return string
+     */
+    public function getErrorReason(): ?string
+    {
+        return $this->data['errorReason'];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getRequest(): WebhookRequestInterface
     {
         return $this->data['request'] ?? new WebhookRequestStub(1);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResponse(): ?string
+    {
+        return $this->data['response'] ?? null;
     }
 
     /**
