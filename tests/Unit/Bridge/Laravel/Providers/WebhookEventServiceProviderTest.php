@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
 use EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\RequestCreatedListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
@@ -23,6 +25,9 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
         $expectedListeners = [
             ActivityCreatedEvent::class => [
                 ActivityCreatedListener::class
+            ],
+            WebhookRequestCreatedEvent::class => [
+                RequestCreatedListener::class
             ]
         ];
 

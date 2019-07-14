@@ -48,9 +48,22 @@ you need to register the following service providers:
 Any implementation of this library will need to:
 
 - Implement and bind a service for the interface `EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface`
+- Implement a service for the interface `EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface`
+    - example 
+    ```
+    interface WebHookPayloadBuilderInterface extends PayloadBuilderInterface
+    { ... }
+    
+    final class PayloadBuilder implements WebHookPayloadBuilderInterface
+    { ... }
+    ```
+    - bind and tag the service for the interface  `YourNamespace\WebHookPayloadBuilderInterface`
+    ```
+    $this->app->bind(WebHookPayloadBuilderInterface::class, PayloadBuilder::class);
+    $this->app->tag([WebHookPayloadBuilderInterface::class], ['webhooks_payload_builders']);
+    ```
 - Add `EoneoPay\Externals\Bridge\Laravel\ORM\ResolveTargetEntityExtension` to
   `config/doctrine.php` under the `extensions` key
-  
 - Modify `config/doctrine.php` to add the following changes to the configuration:
 ```php
 <?php
@@ -99,4 +112,3 @@ return [
     ]
 ];
 ```
-
