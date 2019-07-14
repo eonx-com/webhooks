@@ -122,6 +122,7 @@ class WebhookResponseTest extends BaseEntityTestCase
                 'request_method' => 'POST',
                 'request_url' => 'https://localhost.com/webhook'
             ],
+            'response' => 'RESPONSE',
             'status_code' => 204,
             'successful' => true
         ];

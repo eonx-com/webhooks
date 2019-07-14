@@ -16,11 +16,25 @@ interface WebhookResponseInterface
     public function getCreatedAt(): ?DateTime;
 
     /**
+     * Gets the error string if one is available.
+     *
+     * @return string
+     */
+    public function getErrorReason(): ?string;
+
+    /**
      * Returns the request that the response was in response to.
      *
      * @return \EoneoPay\Webhooks\Model\WebhookRequestInterface
      */
     public function getRequest(): WebhookRequestInterface;
+
+    /**
+     * Returns the response content.
+     *
+     * @return string|null
+     */
+    public function getResponse(): ?string;
 
     /**
      * Returns the identifier of the response.
