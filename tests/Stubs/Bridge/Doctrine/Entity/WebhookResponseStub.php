@@ -71,6 +71,14 @@ class WebhookResponseStub implements WebhookResponseInterface
     /**
      * {@inheritdoc}
      */
+    public function getResponse(): ?string
+    {
+        return $this->data['response'] ?? null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getResponseId(): string
     {
         return '123';

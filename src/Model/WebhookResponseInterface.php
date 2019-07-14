@@ -30,6 +30,13 @@ interface WebhookResponseInterface
     public function getRequest(): WebhookRequestInterface;
 
     /**
+     * Returns the response content.
+     *
+     * @return string|null
+     */
+    public function getResponse(): ?string;
+
+    /**
      * Returns the identifier of the response.
      *
      * @return string
