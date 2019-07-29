@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
-use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use EoneoPay\Webhooks\Webhooks\RetryProcessor;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\WebhookRequestRepositoryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\ExternalEntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 
@@ -47,7 +47,7 @@ class RetryProcessorTest extends TestCase
         ]);
         $repositories = [WebhookRequest::class => $repositoryStub];
 
-        $entityManager = new EntityManagerStub(null, null, $repositories);
+        $entityManager = new ExternalEntityManagerStub($repositories);
         $eventDispatcher = new EventDispatcherStub();
 
         $expectedRequests = [1, 20, 34];
@@ -66,7 +66,7 @@ class RetryProcessorTest extends TestCase
     /**
      * Get instance of retry processor
      *
-     * @param \Doctrine\ORM\EntityManagerInterface|null $entityManager
+     * @param \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface|null $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface|null $eventDispatcher
      *
      * @return \EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface
@@ -76,7 +76,7 @@ class RetryProcessorTest extends TestCase
         ?EventDispatcherInterface $eventDispatcher = null
     ): RetryProcessorInterface {
         return new RetryProcessor(
-            $entityManager ?? new EntityManagerStub(),
+            $entityManager ?? new ExternalEntityManagerStub(),
             $eventDispatcher ?? new EventDispatcherStub()
         );
     }
