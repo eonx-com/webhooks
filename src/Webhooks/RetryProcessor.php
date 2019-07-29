@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Webhooks;
 
-use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
@@ -13,7 +13,7 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 class RetryProcessor implements RetryProcessorInterface
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface
      */
     private $entityManager;
 
@@ -25,7 +25,7 @@ class RetryProcessor implements RetryProcessorInterface
     /**
      * RetryProcessor constructor.
      *
-     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $eventDispatcher
      */
     public function __construct(

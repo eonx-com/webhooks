@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
-use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface as RealEventDispatcher;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;
@@ -28,7 +28,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Externals\HttpClientStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionResolverStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence\ManagerRegistryStub;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\ExternalEntityManagerStub;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
 /**
@@ -111,7 +111,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
         });
         $app->tag(['payload_builder_real', 'payload_builder_unreal'], ['webhooks_payload_builders']);
 
-        $app->bind(EntityManagerInterface::class, EntityManagerStub::class);
+        $app->bind(EntityManagerInterface::class, ExternalEntityManagerStub::class);
         $app->bind('registry', ManagerRegistryStub::class);
 
         /** @noinspection PhpParamsInspection Lumen application is a foundation application */
