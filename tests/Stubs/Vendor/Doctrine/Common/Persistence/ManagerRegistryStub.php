@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\Common\Persistence;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\DoctrineEntityManagerStub;
 
 /**
  * @coversNothing
@@ -58,7 +58,7 @@ class ManagerRegistryStub implements ManagerRegistry
      */
     public function getManager($name = null)
     {
-        return new EntityManagerStub();
+        return new DoctrineEntityManagerStub();
     }
 
     /**

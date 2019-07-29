@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Model\ActivityInterface;
 use Exception;
 use stdClass;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\DoctrineEntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -121,7 +121,7 @@ class ActivityHandlerTest extends TestCase
         ?ClassMetadata $classMetadata = null,
         $activity = null
     ): ActivityHandler {
-        return new ActivityHandler(new EntityManagerStub(
+        return new ActivityHandler(new DoctrineEntityManagerStub(
             $activity,
             [ActivityInterface::class => $classMetadata ?? new ClassMetadata(ActivityStub::class)]
         ));

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
-use Doctrine\ORM\EntityManagerInterface;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
@@ -47,7 +47,7 @@ class RetryProcessorTest extends TestCase
         ]);
         $repositories = [WebhookRequest::class => $repositoryStub];
 
-        $entityManager = new EntityManagerStub(null, null, $repositories);
+        $entityManager = new EntityManagerStub($repositories);
         $eventDispatcher = new EventDispatcherStub();
 
         $expectedRequests = [1, 20, 34];
@@ -66,7 +66,7 @@ class RetryProcessorTest extends TestCase
     /**
      * Get instance of retry processor
      *
-     * @param \Doctrine\ORM\EntityManagerInterface|null $entityManager
+     * @param \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface|null $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface|null $eventDispatcher
      *
      * @return \EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface

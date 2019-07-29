@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
-use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Externals\EventDispatcher\Interfaces\EventDispatcherInterface as RealEventDispatcher;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface as HttpClientInterface;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Externals\Logger\Logger;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\Interfaces\XmlConverterInterface;
 use EoneoPay\Utils\XmlConverter;
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;

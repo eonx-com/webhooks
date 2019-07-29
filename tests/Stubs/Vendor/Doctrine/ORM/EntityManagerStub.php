@@ -3,142 +3,65 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Query\ResultSetMapping;
+use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
+use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
+use EoneoPay\Externals\ORM\Interfaces\Query\FilterCollectionInterface;
+use EoneoPay\Externals\ORM\Interfaces\RepositoryInterface;
 
 /**
  * @coversNothing
- *
- * @SuppressWarnings(PHPMD.TooManyMethods) This class is implemented from a Doctrine interface
- * @SuppressWarnings(PHPMD.TooManyPublicMethods) This class is implemented from a Doctrine interface
  */
 class EntityManagerStub implements EntityManagerInterface
 {
     /**
-     * @var mixed
+     * What is returned by findByIds.
+     *
+     * @var object[][]
      */
-    private $entity;
+    private $findByIds = [];
 
     /**
-     * @var \Doctrine\ORM\Mapping\ClassMetadata[]|null
+     * Number of times flush has been called.
+     *
+     * @var int
      */
-    private $metadatas;
+    private $flushCount = 0;
 
     /**
-     * @var mixed
+     * Repositories loaded via constructor.
+     *
+     * @var \EoneoPay\Externals\ORM\Interfaces\RepositoryInterface[]
      */
     private $repositories;
 
     /**
-     * Create entity manager stub
+     * Create stub with loaded repositories.
      *
-     * @param mixed $entity
-     * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas
-     * @param mixed[]|null $repositories
+     * @param \EoneoPay\Externals\ORM\Interfaces\RepositoryInterface[]|null $repositories Repositories to load
      */
-    public function __construct(
-        $entity = null,
-        ?array $metadatas = null,
-        ?array $repositories = null
-    ) {
-        $this->entity = $entity;
-        $this->metadatas = $metadatas;
-        $this->repositories = $repositories;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction(): void
+    public function __construct(?array $repositories = null)
     {
+        $this->repositories = $repositories ?? [];
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function clear($objectName = null): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function close(): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function commit(): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function contains($object)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function copy($entity, $deep = null)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createNamedNativeQuery($name)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createNamedQuery($name)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createNativeQuery($sql, ResultSetMapping $rsm)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createQuery($dql = null)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createQueryBuilder()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function detach($object): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
+     * Adds a findByIds return.
      *
-     * @SuppressWarnings(PHPMD.ShortVariable) Parameter is inherited from interface
+     * @param object[] $findByIds
+     *
+     * @return void
      */
-    public function find($className, $id)
+    public function addFindByIds(array $findByIds): void
     {
-        return $this->entity;
+        $this->findByIds[] = $findByIds;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByIds(string $class, array $ids): array
+    {
+        return \array_shift($this->findByIds) ?? [];
     }
 
     /**
@@ -146,195 +69,53 @@ class EntityManagerStub implements EntityManagerInterface
      */
     public function flush(): void
     {
+        $this->flushCount++;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCache()
+    public function getFilters(): FilterCollectionInterface
     {
+        return new FilterCollectionStub();
     }
 
     /**
-     * @param mixed $className
+     * Gets the number of times the entity manager flush stub has been called.
      *
-     * @return \Doctrine\ORM\Mapping\ClassMetadata
+     * @return int
      */
-    public function getClassMetadata($className): ClassMetadata
+    public function getFlushCount(): int
     {
-        return $this->metadatas[$className] ?? new ClassMetadata($className);
+        return $this->flushCount;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration()
+    public function getRepository(string $class): RepositoryInterface
     {
+        return $this->repositories[$class] ?? new RepositoryStub();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getConnection()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEventManager()
+    public function merge(EntityInterface $entity): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getExpressionBuilder()
+    public function persist(EntityInterface $entity): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated
-     */
-    public function getHydrator($hydrationMode)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadataFactory()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPartialReference($entityName, $identifier)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getProxyFactory()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @SuppressWarnings(PHPMD.ShortVariable) Parameter is inherited from interface
-     */
-    public function getReference($entityName, $id)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRepository($className)
-    {
-        return $this->repositories[$className];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUnitOfWork()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasFilters()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function initializeObject($obj): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isFiltersStateClean()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isOpen()
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function lock($entity, $lockMode, $lockVersion = null): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function merge($object)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function newHydrator($hydrationMode)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function persist($object): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function refresh($object): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($object): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback(): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function transactional($func)
+    public function remove(EntityInterface $entity): void
     {
     }
 }

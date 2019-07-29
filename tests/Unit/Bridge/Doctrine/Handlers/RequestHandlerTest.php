@@ -11,7 +11,7 @@ use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
 use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use Exception;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\DoctrineEntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -107,7 +107,7 @@ class RequestHandlerTest extends TestCase
         ?WebhookRequestInterface $entity = null,
         ?ClassMetadata $classMetadata = null
     ): RequestHandler {
-        return new RequestHandler(new EntityManagerStub(
+        return new RequestHandler(new DoctrineEntityManagerStub(
             $entity,
             [WebhookRequestInterface::class => $classMetadata ?? new ClassMetadata(WebhookRequestStub::class)]
         ));

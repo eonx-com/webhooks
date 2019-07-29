@@ -33,6 +33,7 @@ class RepositoryStub implements RepositoryInterface
      */
     public function count(?array $criteria = null): int
     {
+        return \count($this->entities);
     }
 
     /**

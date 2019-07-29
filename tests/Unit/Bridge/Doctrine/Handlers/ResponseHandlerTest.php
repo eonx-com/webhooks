@@ -11,7 +11,7 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 use EoneoPay\Webhooks\Model\WebhookResponseInterface;
 use Exception;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\DoctrineEntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
@@ -82,7 +82,7 @@ class ResponseHandlerTest extends TestCase
         ?WebhookRequestInterface $entity = null,
         ?ClassMetadata $classMetadata = null
     ): ResponseHandler {
-        return new ResponseHandler(new EntityManagerStub(
+        return new ResponseHandler(new DoctrineEntityManagerStub(
             $entity,
             [WebhookResponseInterface::class => $classMetadata ?? new ClassMetadata(WebhookResponseStub::class)]
         ));
