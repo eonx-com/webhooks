@@ -5,8 +5,10 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Providers;
 
 use EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent;
+use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestRetryEvent;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\RequestCreatedListener;
+use EoneoPay\Webhooks\Bridge\Laravel\Listeners\RequestRetryListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookEventServiceProvider;
 use Tests\EoneoPay\Webhooks\WebhookTestCase;
 
@@ -19,6 +21,8 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
      * Test provider register container.
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function testListens(): void
     {
@@ -28,6 +32,9 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
             ],
             WebhookRequestCreatedEvent::class => [
                 RequestCreatedListener::class
+            ],
+            WebhookRequestRetryEvent::class => [
+                RequestRetryListener::class
             ]
         ];
 
