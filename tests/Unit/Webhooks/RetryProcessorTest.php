@@ -40,7 +40,7 @@ class RetryProcessorTest extends TestCase
         $webhookRequest2 = $this->getRequestEntity(null, null, 20);
         $webhookRequest3 = $this->getRequestEntity(null, null, 34);
 
-        $repositoryStub = new WebhookRequestRepositoryStub([
+        $repositoryStub = new WebhookRequestRepositoryStub(null, [
             $webhookRequest1,
             $webhookRequest2,
             $webhookRequest3

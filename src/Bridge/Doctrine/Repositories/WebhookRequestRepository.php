@@ -5,6 +5,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories;
 
 use DateTime;
 use EoneoPay\Externals\ORM\Repository;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
@@ -58,7 +59,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getLatestPayload(string $primaryClass, string $primaryId): ?array
+    public function getLatestActivity(string $primaryClass, string $primaryId): ?Activity
     {
         // Get latest request sequence number for an activity with given primary class and primary id
         $sequence = $this->getLatestSequence($primaryClass, $primaryId);
@@ -76,7 +77,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
 
         $results = $buildRequest->getQuery()->getResult();
 
-        return (\count($results) > 0) === true ? $results[0]->getActivity()->getPayload() : null;
+        return (\count($results) > 0) === true ? $results[0]->getActivity() : null;
     }
 
     /**

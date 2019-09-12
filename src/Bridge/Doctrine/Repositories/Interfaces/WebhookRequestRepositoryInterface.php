@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces;
 
 use DateTime;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 
 interface WebhookRequestRepositoryInterface
 {
@@ -17,12 +18,13 @@ interface WebhookRequestRepositoryInterface
     public function getFailedRequestIds(DateTime $since): iterable;
 
     /**
-     * Get the latest activity request payload for provided primary class with given primary id.
+     * Get the latest activity from webhook request for provided primary class with given
+     * primary id.
      *
      * @param string $primaryClass Primary class the request is associated with
      * @param string $primaryId Id of the provided primary class
      *
-     * @return mixed[]|null
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity|null
      */
-    public function getLatestPayload(string $primaryClass, string $primaryId): ?array;
+    public function getLatestActivity(string $primaryClass, string $primaryId): ?Activity;
 }

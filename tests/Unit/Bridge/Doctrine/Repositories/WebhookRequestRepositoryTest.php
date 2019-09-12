@@ -8,6 +8,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
+use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
 
 /**
@@ -15,6 +16,8 @@ use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\Webho
  */
 class WebhookRequestRepositoryTest extends DoctrineTestCase
 {
+    use ModelFactoryTrait;
+
     /**
      * Test get failed requests with basic data
      *
@@ -137,7 +140,11 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
      */
     public function testGetLatestPayloadReturnsExpectedArray(): void
     {
-        (new WebhookRequestData($this->getEntityManager()))
+        $expectedActivity = $this->getActivityEntity();
+
+        $this->getEntityManager()->persist($expectedActivity);
+
+        (new WebhookRequestData($this->getEntityManager(), $expectedActivity))
             ->createRequest(new DateTime('2020-10-10 12:00:00'), 1)
             ->createRequest(new DateTime('2020-10-11 12:00:00'), 2)
             ->createRequest(new DateTime('2020-10-11 12:00:00'), 3)
@@ -149,13 +156,11 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
             ->createResponse(3, 200)
             ->build();
 
-        $expectedPayload = ['payload'];
-
         $repository = $this->getRepository();
 
-        $actualPayload = $repository->getLatestPayload(EntityStub::class, '55');
+        $actualActivity = $repository->getLatestActivity(EntityStub::class, '55');
 
-        self::assertSame($expectedPayload, $actualPayload);
+        self::assertSame($expectedActivity, $actualActivity);
     }
 
     /**
@@ -170,9 +175,9 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
     {
         $repository = $this->getRepository();
 
-        $actualPayload = $repository->getLatestPayload(EntityStub::class, '55');
+        $actualActivity = $repository->getLatestActivity(EntityStub::class, '55');
 
-        self::assertNull($actualPayload);
+        self::assertNull($actualActivity);
     }
 
     /**
