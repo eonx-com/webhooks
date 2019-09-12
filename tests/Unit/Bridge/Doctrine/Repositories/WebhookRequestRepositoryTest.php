@@ -7,6 +7,7 @@ use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
 
 /**
@@ -122,6 +123,56 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
         \array_push($results, ...$resultsIterator);
 
         self::assertEquals($expected, $results);
+    }
+
+    /**
+     * Test that get latest activity payload for a given primary class and primary id will
+     * return expected payload.
+     *
+     * @return void
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     * @throws \ReflectionException
+     */
+    public function testGetLatestPayloadReturnsExpectedArray(): void
+    {
+        (new WebhookRequestData($this->getEntityManager()))
+            ->createRequest(new DateTime('2020-10-10 12:00:00'), 1)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 2)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 3)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 4)
+            ->createResponse(1, 200)
+            ->createResponse(2, 500)
+            ->createResponse(2, 500)
+            ->createResponse(3, 404)
+            ->createResponse(3, 200)
+            ->build();
+
+        $expectedPayload = ['payload'];
+
+        $repository = $this->getRepository();
+
+        $actualPayload = $repository->getLatestPayload(EntityStub::class, '55');
+
+        self::assertSame($expectedPayload, $actualPayload);
+    }
+
+    /**
+     * Test that get latest activity payload for a given primary class and primary id will
+     * return null when no requests exists.
+     *
+     * @return void
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function testGetLatestPayloadReturnsNull(): void
+    {
+        $repository = $this->getRepository();
+
+        $actualPayload = $repository->getLatestPayload(EntityStub::class, '55');
+
+        self::assertNull($actualPayload);
     }
 
     /**

@@ -52,6 +52,14 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getLatestPayload(string $primaryClass, string $primaryId): ?array
+    {
+        return null;
+    }
+
+    /**
      * Get date time set by getFailedRequestIds method
      *
      * @return \DateTime

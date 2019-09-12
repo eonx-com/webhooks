@@ -42,7 +42,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
             /**
              * Doctrine iterator increments index in the result value, this is other way around
              * when the iterator result is an object of entity in which case its always at
-             * 0th index. But with fetching just one column in query the result is formatted as
+             * 0th index. But with fetching just one column in query the result is formatted aso
              *
              * [
              *   0 => [0 => ['requestId' => 10]],
@@ -51,5 +51,65 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
              */
             yield $request[$key];
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLatestPayload(string $primaryClass, string $primaryId): ?array
+    {
+        // Get latest request sequence number for an activity with given primary class and primary id
+        $sequence = $this->getLatestSequence($primaryClass, $primaryId);
+
+        $buildRequest = $this->entityManager
+            ->createQueryBuilder()
+            ->select('q')
+            ->from(WebhookRequest::class, 'q')
+            ->join('q.activity', 'a');
+
+        if ($sequence !== null) {
+            $buildRequest->where($buildRequest->expr()->eq('q.requestId', ':sequence'))
+                ->setParameter('sequence', $sequence);
+        }
+
+        $results = $buildRequest->getQuery()->getResult();
+
+        return (\count($results) > 0) === true ? $results[0]->getActivity()->getPayload() : null;
+    }
+
+    /**
+     * Get latest sequence id of the activity request made for a provided primary class with given
+     * primary id.
+     *
+     * @param string $primaryClass Primary class the request is associated with
+     * @param string $primaryId Id of the provided primary class
+     *
+     * @return int|null Latest sequence number of the request
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function getLatestSequence(string $primaryClass, string $primaryId): ?int
+    {
+        $buildRequest = $this->entityManager
+            ->createQueryBuilder()
+            ->select('MAX(q.requestId) as maxSequence')
+            ->from(WebhookRequest::class, 'q');
+
+        $buildRequest
+            ->join('q.activity', 'a')
+            ->where($buildRequest->expr()->eq('a.primaryClass', ':primaryClass'))
+            ->andWhere($buildRequest->expr()->eq('a.primaryId', ':primaryId'));
+
+        // set parameters
+        $buildRequest->setParameters([
+            'primaryClass' => $primaryClass,
+            'primaryId' => $primaryId
+        ]);
+
+        $sequence = $buildRequest->getQuery()->getSingleScalarResult();
+
+        return $sequence !== null ? (int)$sequence : null;
     }
 }
