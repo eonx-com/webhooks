@@ -130,7 +130,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
 
     /**
      * Test that get latest activity payload for a given primary class and primary id will
-     * return expected payload.
+     * return expected activity.
      *
      * @return void
      *
@@ -138,8 +138,23 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
-    public function testGetLatestPayloadReturnsExpectedArray(): void
+    public function testGetLatestActivityReturnsExpectedActivity(): void
     {
+        //--------- other activity
+        $differentActivity = $this->getActivityEntity();
+        $differentActivity->setPrimaryClass('DifferentClass');
+        $differentActivity->setPrimaryId('DifferentClassId');
+
+        $this->getEntityManager()->persist($differentActivity);
+
+        (new WebhookRequestData($this->getEntityManager(), $differentActivity))
+            ->createRequest(new DateTime('2020-10-10 12:00:00'), 11)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 12)
+            ->createResponse(11, 500)
+            ->createResponse(12, 200)
+            ->build();
+
+        //--------- expected activity
         $expectedActivity = $this->getActivityEntity();
 
         $this->getEntityManager()->persist($expectedActivity);
@@ -171,7 +186,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function testGetLatestPayloadReturnsNull(): void
+    public function testGetLatestActivityReturnsNull(): void
     {
         $repository = $this->getRepository();
 

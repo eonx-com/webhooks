@@ -64,16 +64,19 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
         // Get latest request sequence number for an activity with given primary class and primary id
         $sequence = $this->getLatestSequence($primaryClass, $primaryId);
 
-        $buildRequest = $this->entityManager
-            ->createQueryBuilder()
+        if ($sequence === null) {
+            return null;
+        }
+
+        $buildRequest = $this->entityManager->createQueryBuilder();
+        $buildRequest
             ->select('q')
             ->from(WebhookRequest::class, 'q')
-            ->join('q.activity', 'a');
-
-        if ($sequence !== null) {
-            $buildRequest->where($buildRequest->expr()->eq('q.requestId', ':sequence'))
-                ->setParameter('sequence', $sequence);
-        }
+            ->join('q.activity', 'a')
+            ->where($buildRequest->expr()->eq('q.requestId', ':sequence'))
+            ->andWhere($buildRequest->expr()->eq('a.primaryClass', ':primaryClass'))
+            ->andWhere($buildRequest->expr()->eq('a.primaryId', ':primaryId'))
+            ->setParameters(\compact('sequence', 'primaryClass', 'primaryId'));
 
         $results = $buildRequest->getQuery()->getResult();
 
