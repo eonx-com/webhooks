@@ -43,7 +43,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
             /**
              * Doctrine iterator increments index in the result value, this is other way around
              * when the iterator result is an object of entity in which case its always at
-             * 0th index. But with fetching just one column in query the result is formatted aso
+             * 0th index. But with fetching just one column in query the result is formatted as
              *
              * [
              *   0 => [0 => ['requestId' => 10]],

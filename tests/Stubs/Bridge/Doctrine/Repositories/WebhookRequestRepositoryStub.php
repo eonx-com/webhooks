@@ -69,7 +69,7 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
      */
     public function getLatestActivity(string $primaryClass, string $primaryId): ?Activity
     {
-        return null;
+        return $this->latestActivity;
     }
 
     /**
