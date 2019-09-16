@@ -80,7 +80,7 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
 
         $result = $buildRequest->getQuery()->getOneOrNullResult();
 
-        return $result->getActivity();
+        return $result !== null ? $result->getActivity() : null;
     }
 
     /**
