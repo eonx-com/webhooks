@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces;
 
 use DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 
 interface WebhookRequestRepositoryInterface
 {
@@ -24,7 +24,7 @@ interface WebhookRequestRepositoryInterface
      * @param string $primaryClass Primary class the request is associated with
      * @param string $primaryId Id of the provided primary class
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity|null
+     * @return \EoneoPay\Webhooks\Model\ActivityInterface|null
      */
-    public function getLatestActivity(string $primaryClass, string $primaryId): ?Activity;
+    public function getLatestActivity(string $primaryClass, string $primaryId): ?ActivityInterface;
 }

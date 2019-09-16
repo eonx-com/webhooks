@@ -7,6 +7,7 @@ use ArrayIterator;
 use DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\RepositoryStub;
 
 /**
@@ -67,7 +68,7 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
     /**
      * {@inheritdoc}
      */
-    public function getLatestActivity(string $primaryClass, string $primaryId): ?Activity
+    public function getLatestActivity(string $primaryClass, string $primaryId): ?ActivityInterface
     {
         return $this->latestActivity;
     }
