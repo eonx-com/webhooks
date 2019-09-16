@@ -78,9 +78,9 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
             ->andWhere($buildRequest->expr()->eq('a.primaryId', ':primaryId'))
             ->setParameters(\compact('sequence', 'primaryClass', 'primaryId'));
 
-        $results = $buildRequest->getQuery()->getResult();
+        $result = $buildRequest->getQuery()->getOneOrNullResult();
 
-        return (\count($results) > 0) === true ? $results[0]->getActivity() : null;
+        return $result->getActivity();
     }
 
     /**
