@@ -8,6 +8,7 @@ use EoneoPay\Externals\ORM\Repository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 
 class WebhookRequestRepository extends Repository implements WebhookRequestRepositoryInterface
 {
@@ -51,5 +52,68 @@ class WebhookRequestRepository extends Repository implements WebhookRequestRepos
              */
             yield $request[$key];
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLatestActivity(string $primaryClass, string $primaryId): ?ActivityInterface
+    {
+        // Get latest request sequence number for an activity with given primary class and primary id
+        $sequence = $this->getLatestSequence($primaryClass, $primaryId);
+
+        if ($sequence === null) {
+            return null;
+        }
+
+        $buildRequest = $this->entityManager->createQueryBuilder();
+        $buildRequest
+            ->select('q')
+            ->from(WebhookRequest::class, 'q')
+            ->join('q.activity', 'a')
+            ->where($buildRequest->expr()->eq('q.requestId', ':sequence'))
+            ->andWhere($buildRequest->expr()->eq('a.primaryClass', ':primaryClass'))
+            ->andWhere($buildRequest->expr()->eq('a.primaryId', ':primaryId'))
+            ->setParameters(\compact('sequence', 'primaryClass', 'primaryId'));
+
+        $result = $buildRequest->getQuery()->getOneOrNullResult();
+
+        return ($result instanceof WebhookRequest) === true ? $result->getActivity() : null;
+    }
+
+    /**
+     * Get latest sequence id of the activity request made for a provided primary class with given
+     * primary id.
+     *
+     * @param string $primaryClass Primary class the request is associated with
+     * @param string $primaryId Id of the provided primary class
+     *
+     * @return int|null Latest sequence number of the request
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function getLatestSequence(string $primaryClass, string $primaryId): ?int
+    {
+        $buildRequest = $this->entityManager
+            ->createQueryBuilder()
+            ->select('MAX(q.requestId) as maxSequence')
+            ->from(WebhookRequest::class, 'q');
+
+        $buildRequest
+            ->join('q.activity', 'a')
+            ->where($buildRequest->expr()->eq('a.primaryClass', ':primaryClass'))
+            ->andWhere($buildRequest->expr()->eq('a.primaryId', ':primaryId'));
+
+        // set parameters
+        $buildRequest->setParameters([
+            'primaryClass' => $primaryClass,
+            'primaryId' => $primaryId
+        ]);
+
+        $sequence = $buildRequest->getQuery()->getSingleScalarResult();
+
+        return $sequence !== null ? (int)$sequence : null;
     }
 }

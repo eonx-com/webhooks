@@ -5,7 +5,9 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories;
 
 use ArrayIterator;
 use DateTime;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
+use EoneoPay\Webhooks\Model\ActivityInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\RepositoryStub;
 
 /**
@@ -13,6 +15,13 @@ use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\RepositoryStub;
  */
 class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequestRepositoryInterface
 {
+    /**
+     * Activity from latest webhook request.
+     *
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity|null
+     */
+    private $latestActivity;
+
     /**
      * Since date time set by getFailedRequestIds
      *
@@ -23,11 +32,16 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
     /**
      * WebhookRequestRepositoryStub constructor.
      *
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity|null $latestActivity
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest[]|null $requests
      */
-    public function __construct(?array $requests = null)
-    {
+    public function __construct(
+        ?Activity $latestActivity = null,
+        ?array $requests = null
+    ) {
         parent::__construct($requests);
+
+        $this->latestActivity = $latestActivity;
     }
 
     /**
@@ -49,6 +63,14 @@ class WebhookRequestRepositoryStub extends RepositoryStub implements WebhookRequ
         }
 
         return new ArrayIterator($requestIds);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLatestActivity(string $primaryClass, string $primaryId): ?ActivityInterface
+    {
+        return $this->latestActivity;
     }
 
     /**

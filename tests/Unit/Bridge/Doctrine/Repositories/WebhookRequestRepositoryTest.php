@@ -7,6 +7,8 @@ use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
+use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
+use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
 
 /**
@@ -14,6 +16,8 @@ use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\Webho
  */
 class WebhookRequestRepositoryTest extends DoctrineTestCase
 {
+    use ModelFactoryTrait;
+
     /**
      * Test get failed requests with basic data
      *
@@ -122,6 +126,73 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
         \array_push($results, ...$resultsIterator);
 
         self::assertEquals($expected, $results);
+    }
+
+    /**
+     * Test that get latest activity payload for a given primary class and primary id will
+     * return expected activity.
+     *
+     * @return void
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     * @throws \ReflectionException
+     */
+    public function testGetLatestActivityReturnsExpectedActivity(): void
+    {
+        //--------- other activity
+        $differentActivity = $this->getActivityEntity();
+        $differentActivity->setPrimaryClass('DifferentClass');
+        $differentActivity->setPrimaryId('DifferentClassId');
+
+        $this->getEntityManager()->persist($differentActivity);
+
+        (new WebhookRequestData($this->getEntityManager(), $differentActivity))
+            ->createRequest(new DateTime('2020-10-10 12:00:00'), 11)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 12)
+            ->createResponse(11, 500)
+            ->createResponse(12, 200)
+            ->build();
+
+        //--------- expected activity
+        $expectedActivity = $this->getActivityEntity();
+
+        $this->getEntityManager()->persist($expectedActivity);
+
+        (new WebhookRequestData($this->getEntityManager(), $expectedActivity))
+            ->createRequest(new DateTime('2020-10-10 12:00:00'), 1)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 2)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 3)
+            ->createRequest(new DateTime('2020-10-11 12:00:00'), 4)
+            ->createResponse(1, 200)
+            ->createResponse(2, 500)
+            ->createResponse(2, 500)
+            ->createResponse(3, 404)
+            ->createResponse(3, 200)
+            ->build();
+
+        $repository = $this->getRepository();
+
+        $actualActivity = $repository->getLatestActivity(EntityStub::class, '55');
+
+        self::assertSame($expectedActivity, $actualActivity);
+    }
+
+    /**
+     * Test that get latest activity payload for a given primary class and primary id will
+     * return null when no requests exists.
+     *
+     * @return void
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function testGetLatestActivityReturnsNull(): void
+    {
+        $repository = $this->getRepository();
+
+        $actualActivity = $repository->getLatestActivity(EntityStub::class, '55');
+
+        self::assertNull($actualActivity);
     }
 
     /**
