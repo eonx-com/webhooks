@@ -13,6 +13,8 @@ interface ActivityPersisterInterface
      * Add sequence number to existing activity payload.
      *
      * @param int $activityId Activity id.
+     *
+     * @return void
      */
     public function addSequenceToPayload(int $activityId): void;
 
