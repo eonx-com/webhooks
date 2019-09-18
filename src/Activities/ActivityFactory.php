@@ -60,6 +60,9 @@ final class ActivityFactory implements ActivityFactoryInterface
             $payload
         );
 
+        // Add sequence to newly persisted activity's payload.
+        $this->activityPersister->addSequenceToPayload($activityId);
+
         $this->eventDispatcher->dispatchActivityCreated($activityId);
     }
 }

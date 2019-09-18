@@ -84,6 +84,7 @@ class ActivityFactoryTest extends TestCase
 
         self::assertSame($expectedActivity, $activityPersister->getSaved());
         self::assertSame($expectedEvent, $dispatcher->getActivityCreated());
+        self::assertSame(5, $activityPersister->getAddedSequence());
     }
 
     /**

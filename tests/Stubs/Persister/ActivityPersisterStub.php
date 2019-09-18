@@ -14,6 +14,13 @@ use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 class ActivityPersisterStub implements ActivityPersisterInterface
 {
     /**
+     * Sequence added to the activity payload.
+     *
+     * @var int|null
+     */
+    private $addedSequence;
+
+    /**
      * @var \EoneoPay\Webhooks\Model\ActivityInterface|null
      */
     private $nextActivity;
@@ -31,9 +38,27 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     /**
      * {@inheritdoc}
      */
+    public function addSequenceToPayload(int $activityId): void
+    {
+        $this->addedSequence = $activityId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function get(int $activityId): ?ActivityInterface
     {
         return $this->nextActivity;
+    }
+
+    /**
+     * Get added sequence the payload.
+     *
+     * @return int|null
+     */
+    public function getAddedSequence(): ?int
+    {
+        return $this->addedSequence;
     }
 
     /**
