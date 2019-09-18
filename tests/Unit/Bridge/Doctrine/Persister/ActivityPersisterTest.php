@@ -6,6 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Persister;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\ActivityPersister;
+use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ActivityHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
@@ -16,6 +17,46 @@ use Tests\EoneoPay\Webhooks\TestCase;
  */
 class ActivityPersisterTest extends TestCase
 {
+    /**
+     * Test that adding sequence to activity payload returns payload with
+     * activity sequence.
+     *
+     * @return void
+     */
+    public function testAddSequenceToPayload(): void
+    {
+        $activity = new ActivityStub();
+        $activity->setPayload(['key' => 'value']);
+        $activityHandler = new ActivityHandlerStub();
+        $activityHandler->setNext($activity);
+        $expectedPayload = [
+            'key' => 'value',
+            '_sequence' => 5
+        ];
+        $persister = $this->getPersister($activityHandler);
+
+        $persister->addSequenceToPayload(5);
+
+        self::assertSame($expectedPayload, $activity->getPayload());
+    }
+
+    /**
+     * Test that adding sequence to activity payload throws exception when invalid or
+     * unknown activity id is provided.
+     *
+     * @return void
+     */
+    public function testAddSequenceToPayloadThrowsNotFoundException(): void
+    {
+        $activityHandler = new ActivityHandlerStub();
+        $persister = $this->getPersister($activityHandler);
+
+        $this->expectException(ActivityNotFoundException::class);
+        $this->expectExceptionMessage('No activity "111" found to add sequence to payload.');
+
+        $persister->addSequenceToPayload(111);
+    }
+
     /**
      * Tests get
      *
