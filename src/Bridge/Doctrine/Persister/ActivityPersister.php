@@ -36,7 +36,7 @@ final class ActivityPersister implements ActivityPersisterInterface
 
         if (($activity instanceof ActivityInterface) !== true) {
             throw new ActivityNotFoundException(
-                \sprintf('No activity "%s" found to add sequence.', $activityId)
+                \sprintf('No activity "%s" found to add sequence to payload.', $activityId)
             );
         }
 

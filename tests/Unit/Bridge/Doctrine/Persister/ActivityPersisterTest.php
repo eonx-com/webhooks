@@ -52,7 +52,7 @@ class ActivityPersisterTest extends TestCase
         $persister = $this->getPersister($activityHandler);
 
         $this->expectException(ActivityNotFoundException::class);
-        $this->expectExceptionMessage('No activity "111" found to add sequence.');
+        $this->expectExceptionMessage('No activity "111" found to add sequence to payload.');
 
         $persister->addSequenceToPayload(111);
     }
