@@ -6,6 +6,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Persister;
 use DateTime;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
+use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
 use EoneoPay\Webhooks\Model\ActivityInterface;
 use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
 
@@ -24,6 +25,27 @@ final class ActivityPersister implements ActivityPersisterInterface
     public function __construct(ActivityHandlerInterface $activityHandler)
     {
         $this->activityHandler = $activityHandler;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addSequenceToPayload(int $activityId): void
+    {
+        $activity = $this->get($activityId);
+
+        if (($activity instanceof ActivityInterface) !== true) {
+            throw new ActivityNotFoundException(
+                \sprintf('No activity "%s" found to add sequence.', $activityId)
+            );
+        }
+
+        $payload = $activity->getPayload();
+        $activity->setPayload(\array_merge($payload, [
+            '_sequence' => $activityId
+        ]));
+
+        $this->activityHandler->save($activity);
     }
 
     /**

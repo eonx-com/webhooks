@@ -10,6 +10,13 @@ use EoneoPay\Webhooks\Model\ActivityInterface;
 interface ActivityPersisterInterface
 {
     /**
+     * Add sequence number to existing activity payload.
+     *
+     * @param int $activityId Activity id.
+     */
+    public function addSequenceToPayload(int $activityId): void;
+
+    /**
      * Returns an activity.
      *
      * @param int $activityId
