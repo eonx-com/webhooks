@@ -38,7 +38,7 @@ return PhpCsFixer\Config::create()
         'class_attributes_separation' => true,
 
         // When using annotations, a comment block is converted to a phpdoc
-        'comment_to_phpdoc' => true,
+        'comment_to_phpdoc' => false,
 
         // Enforces no space around the concat operator
         'concat_space' => true,
@@ -65,9 +65,6 @@ return PhpCsFixer\Config::create()
         // Enforces explicit variables
         'explicit_indirect_variable' => true,
         'explicit_string_variable' => true,
-
-        // Enforce all classes are final or abstract
-//        'final_class' => true,
 
         // Replaces some core function calls to statics
         'function_to_constant' => true,
