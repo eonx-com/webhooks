@@ -19,7 +19,7 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
     private $logger;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
      * @param \EoneoPay\Externals\Logger\Interfaces\LoggerInterface $logger
@@ -38,7 +38,7 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
     public function dispatchActivityCreated(int $activityId): void
     {
         $this->logger->info('Activity Created', [
-            'activity_id' => $activityId
+            'activity_id' => $activityId,
         ]);
 
         $this->dispatcher->dispatchActivityCreated($activityId);
@@ -50,7 +50,7 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
     public function dispatchRequestCreated(int $requestId): void
     {
         $this->logger->info('Webhook Request Created', [
-            'request_id' => $requestId
+            'request_id' => $requestId,
         ]);
 
         $this->dispatcher->dispatchRequestCreated($requestId);
@@ -62,7 +62,7 @@ final class LoggerAwareEventDispatcher implements EventDispatcherInterface
     public function dispatchRequestRetry(int $requestId): void
     {
         $this->logger->info('Webhook Failed Request Retried', [
-            'request_id' => $requestId
+            'request_id' => $requestId,
         ]);
 
         $this->dispatcher->dispatchRequestRetry($requestId);

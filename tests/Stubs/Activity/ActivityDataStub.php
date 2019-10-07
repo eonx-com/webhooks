@@ -18,7 +18,7 @@ class ActivityDataStub implements ActivityDataInterface
     private $entity;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {

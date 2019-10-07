@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Payload;
 
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface;
 
 /**
  * @coversNothing

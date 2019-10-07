@@ -4,22 +4,22 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories;
 
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
-use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request;
+use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Webhooks\RequestRepository;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Webhooks\RequestRepository
  */
 class WebhookRequestRepositoryTest extends DoctrineTestCase
 {
     use ModelFactoryTrait;
 
     /**
-     * Test get failed requests with basic data
+     * Test get failed requests with basic data.
      *
      * @return void
      *
@@ -39,7 +39,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
 
         $expected = [
             ['requestId' => '1'],
-            ['requestId' => '2']
+            ['requestId' => '2'],
         ];
 
         $repository = $this->getRepository();
@@ -53,7 +53,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
     }
 
     /**
-     * Test query obeys date filter and response status
+     * Test query obeys date filter and response status.
      *
      * @return void
      *
@@ -74,7 +74,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
 
         $expected = [
             ['requestId' => '4'],
-            ['requestId' => '5']
+            ['requestId' => '5'],
         ];
 
         $repository = $this->getRepository();
@@ -92,7 +92,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
     }
 
     /**
-     * Test query omits requests that have already succeeded
+     * Test query omits requests that have already succeeded.
      *
      * @return void
      *
@@ -115,7 +115,7 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
 
         $expected = [
             ['requestId' => '2'],
-            ['requestId' => '4']
+            ['requestId' => '4'],
         ];
 
         $repository = $this->getRepository();
@@ -196,16 +196,16 @@ class WebhookRequestRepositoryTest extends DoctrineTestCase
     }
 
     /**
-     * Get repository
+     * Get repository.
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Webhooks\RequestRepository
      */
-    private function getRepository(): WebhookRequestRepository
+    private function getRepository(): RequestRepository
     {
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository $repository
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Webhooks\RequestRepository $repository
          */
-        $repository = $this->getEntityManager()->getRepository(WebhookRequest::class);
+        $repository = $this->getEntityManager()->getRepository(Request::class);
 
         return $repository;
     }

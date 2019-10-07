@@ -11,9 +11,9 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\ResponseStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ResponseHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
@@ -29,7 +29,7 @@ use Zend\Diactoros\Response\EmptyResponse;
 class WebhookPersisterTest extends TestCase
 {
     /**
-     * Tests Save
+     * Tests Save.
      *
      * @return void
      *
@@ -40,7 +40,7 @@ class WebhookPersisterTest extends TestCase
         $activity = new ActivityStub();
         $subscription = new SubscriptionStub();
 
-        $request = new WebhookRequestStub(1);
+        $request = new RequestStub(1);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
@@ -48,18 +48,20 @@ class WebhookPersisterTest extends TestCase
 
         $sequence = $persister->saveRequest($activity, $subscription);
 
-        static::assertSame(1, $sequence);
-        static::assertContains($request, $requestHandler->getSaved());
-        static::assertSame($activity, $request->getData()['activity']);
+        self::assertSame(1, $sequence);
+        self::assertContains($request, $requestHandler->getSaved());
+        self::assertSame($activity, $request->getData()['activity']);
         // make sure date is set in persister
-        static::assertInstanceOf(\DateTime::class, $request->getCreatedAt());
-        static::assertEqualsWithDelta(new DateTime('now'), $request->getCreatedAt(), 10);
+        self::assertInstanceOf(\DateTime::class, $request->getCreatedAt());
+        self::assertEqualsWithDelta(new DateTime('now'), $request->getCreatedAt(), 10);
     }
 
     /**
-     * Tests Save without a sequence being returned
+     * Tests Save without a sequence being returned.
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSaveRequestNoSequence(): void
     {
@@ -68,7 +70,7 @@ class WebhookPersisterTest extends TestCase
         $activity = new ActivityStub();
         $subscription = new SubscriptionStub();
 
-        $request = new WebhookRequestStub(null);
+        $request = new RequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
@@ -78,7 +80,7 @@ class WebhookPersisterTest extends TestCase
     }
 
     /**
-     * Tests saveResponse
+     * Tests saveResponse.
      *
      * @return void
      *
@@ -89,11 +91,11 @@ class WebhookPersisterTest extends TestCase
         $response = new EmptyResponse();
         $expectedHttpString = "HTTP/1.1 204 No Content\r\n\r\n";
 
-        $request = new WebhookRequestStub(null);
+        $request = new RequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
-        $webhookResponse = new WebhookResponseStub();
+        $webhookResponse = new ResponseStub();
         $responseHandler = new ResponseHandlerStub();
         $responseHandler->setNextResponse($webhookResponse);
 
@@ -101,17 +103,17 @@ class WebhookPersisterTest extends TestCase
         $persister->saveResponse($request, $response);
 
         $saved = $responseHandler->getSaved();
-        static::assertContains($webhookResponse, $saved);
-        static::assertSame($request, $webhookResponse->getData()['request']);
-        static::assertSame($response, $webhookResponse->getData()['response']);
-        static::assertSame($expectedHttpString, $webhookResponse->getData()['truncatedResponse']);
+        self::assertContains($webhookResponse, $saved);
+        self::assertSame($request, $webhookResponse->getData()['request']);
+        self::assertSame($response, $webhookResponse->getData()['response']);
+        self::assertSame($expectedHttpString, $webhookResponse->getData()['truncatedResponse']);
         // make sure date is set in persister
-        static::assertInstanceOf(\DateTime::class, $webhookResponse->getCreatedAt());
-        static::assertEqualsWithDelta(new DateTime('now'), $webhookResponse->getCreatedAt(), 10);
+        self::assertInstanceOf(\DateTime::class, $webhookResponse->getCreatedAt());
+        self::assertEqualsWithDelta(new DateTime('now'), $webhookResponse->getCreatedAt(), 10);
     }
 
     /**
-     * Tests saveResponseException
+     * Tests saveResponseException.
      *
      * @return void
      */
@@ -119,11 +121,11 @@ class WebhookPersisterTest extends TestCase
     {
         $exception = new NetworkException(new Request(), new Exception('Message'));
 
-        $request = new WebhookRequestStub(null);
+        $request = new RequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
-        $webhookResponse = new WebhookResponseStub();
+        $webhookResponse = new ResponseStub();
         $responseHandler = new ResponseHandlerStub();
         $responseHandler->setNextResponse($webhookResponse);
 
@@ -131,13 +133,13 @@ class WebhookPersisterTest extends TestCase
         $persister->saveResponseException($request, $exception);
 
         $saved = $responseHandler->getSaved();
-        static::assertContains($webhookResponse, $saved);
-        static::assertFalse($webhookResponse->isSuccessful());
-        static::assertSame('Message', $webhookResponse->getData()['errorReason']);
+        self::assertContains($webhookResponse, $saved);
+        self::assertFalse($webhookResponse->isSuccessful());
+        self::assertSame('Message', $webhookResponse->getData()['errorReason']);
     }
 
     /**
-     * Tests saveResponseException
+     * Tests saveResponseException.
      *
      * @return void
      */
@@ -145,11 +147,11 @@ class WebhookPersisterTest extends TestCase
     {
         $exception = new RequestException('Broken', new Request());
 
-        $request = new WebhookRequestStub(null);
+        $request = new RequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
-        $webhookResponse = new WebhookResponseStub();
+        $webhookResponse = new ResponseStub();
         $responseHandler = new ResponseHandlerStub();
         $responseHandler->setNextResponse($webhookResponse);
 
@@ -157,13 +159,13 @@ class WebhookPersisterTest extends TestCase
         $persister->saveResponseException($request, $exception);
 
         $saved = $responseHandler->getSaved();
-        static::assertContains($webhookResponse, $saved);
-        static::assertFalse($webhookResponse->isSuccessful());
-        static::assertSame('Broken', $webhookResponse->getData()['errorReason']);
+        self::assertContains($webhookResponse, $saved);
+        self::assertFalse($webhookResponse->isSuccessful());
+        self::assertSame('Broken', $webhookResponse->getData()['errorReason']);
     }
 
     /**
-     * Tests saveResponseException
+     * Tests saveResponseException.
      *
      * @return void
      */
@@ -171,11 +173,11 @@ class WebhookPersisterTest extends TestCase
     {
         $exception = new RequestException('Broken', new Request(), new EmptyResponse(400));
 
-        $request = new WebhookRequestStub(null);
+        $request = new RequestStub(null);
         $requestHandler = new RequestHandlerStub();
         $requestHandler->setNextRequest($request);
 
-        $webhookResponse = new WebhookResponseStub();
+        $webhookResponse = new ResponseStub();
         $responseHandler = new ResponseHandlerStub();
         $responseHandler->setNextResponse($webhookResponse);
 
@@ -183,13 +185,13 @@ class WebhookPersisterTest extends TestCase
         $persister->saveResponseException($request, $exception);
 
         $saved = $responseHandler->getSaved();
-        static::assertContains($webhookResponse, $saved);
-        static::assertFalse($webhookResponse->isSuccessful());
-        static::assertSame('Broken', $webhookResponse->getData()['errorReason']);
+        self::assertContains($webhookResponse, $saved);
+        self::assertFalse($webhookResponse->isSuccessful());
+        self::assertSame('Broken', $webhookResponse->getData()['errorReason']);
     }
 
     /**
-     * Get instance under test
+     * Get instance under test.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface|null $requestHandler
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface|null $responseHandler

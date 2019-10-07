@@ -6,8 +6,8 @@ namespace Tests\EoneoPay\Webhooks\Unit\Activities;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Activities\ActivityFactory;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadManagerStub;
@@ -22,9 +22,9 @@ class ActivityFactoryTest extends TestCase
     /**
      * Returns the instance under test.
      *
-     * @param \EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface $activityPersister
+     * @param \EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface $activityPersister
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
-     * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface $payloadManager
+     * @param \EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface $payloadManager
      *
      * @return \EoneoPay\Webhooks\Activities\ActivityFactory
      */
@@ -41,7 +41,7 @@ class ActivityFactoryTest extends TestCase
     }
 
     /**
-     * Test send method
+     * Test send method.
      *
      * @return void
      *
@@ -60,9 +60,9 @@ class ActivityFactoryTest extends TestCase
                 'entity' => $activityData->getPrimaryEntity(),
                 'occurredAt' => $occurredAt,
                 'payload' => [
-                    'payload' => 'wot'
-                ]
-            ]
+                    'payload' => 'wot',
+                ],
+            ],
         ];
 
         $activityPersister = new ActivityPersisterStub();
@@ -88,7 +88,7 @@ class ActivityFactoryTest extends TestCase
     }
 
     /**
-     * Test send method with default time
+     * Test send method with default time.
      *
      * @return void
      *
@@ -119,10 +119,10 @@ class ActivityFactoryTest extends TestCase
         $saved = $activityPersister->getSaved();
         $activity = \reset($saved);
 
-        static::assertArrayHasKey('occurredAt', $activity);
+        self::assertArrayHasKey('occurredAt', $activity);
 
         // Asserts the expected date is within 10 seconds of the generated now inside the
         // service.
-        static::assertEqualsWithDelta($expectedDate, $activity['occurredAt'], 10);
+        self::assertEqualsWithDelta($expectedDate, $activity['occurredAt'], 10);
     }
 }

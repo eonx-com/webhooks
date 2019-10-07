@@ -7,7 +7,7 @@ use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Persister\ActivityPersister;
 use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\ActivityHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCase;
@@ -31,7 +31,7 @@ class ActivityPersisterTest extends TestCase
         $activityHandler->setNext($activity);
         $expectedPayload = [
             'key' => 'value',
-            '_sequence' => 5
+            '_sequence' => 5,
         ];
         $persister = $this->getPersister($activityHandler);
 
@@ -58,7 +58,7 @@ class ActivityPersisterTest extends TestCase
     }
 
     /**
-     * Tests get
+     * Tests get.
      *
      * @return void
      */
@@ -72,11 +72,11 @@ class ActivityPersisterTest extends TestCase
 
         $result = $persister->get(5);
 
-        static::assertSame($activity, $result);
+        self::assertSame($activity, $result);
     }
 
     /**
-     * Tests Save
+     * Tests Save.
      *
      * @return void
      *
@@ -89,7 +89,7 @@ class ActivityPersisterTest extends TestCase
         $expectedSaved = [
             'constant' => 'activity.constant',
             'occurredAt' => $occurredAt,
-            'payload' => ['payload']
+            'payload' => ['payload'],
         ];
 
         $activityHandler = new ActivityHandlerStub();
@@ -102,15 +102,15 @@ class ActivityPersisterTest extends TestCase
             ['payload']
         );
 
-        static::assertSame(1, $activityId);
+        self::assertSame(1, $activityId);
 
-        /** @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub $saved */
+        /** @var \Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub $saved */
         $saved = $activityHandler->getSaved()[0];
-        static::assertSame($expectedSaved, $saved->getData());
+        self::assertSame($expectedSaved, $saved->getData());
     }
 
     /**
-     * Get instance under test
+     * Get instance under test.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface|null $activityHandler
      *

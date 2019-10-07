@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use EoneoPay\Externals\ORM\Entity;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Utils\Interfaces\UtcDateTimeInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\ActivitySchema;
-use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Schemas\ActivitySchema;
+use EoneoPay\Webhooks\Models\ActivityInterface;
 
 /**
  * @ORM\Entity()
@@ -19,18 +19,17 @@ class Activity extends Entity implements ActivityInterface
 {
     use ActivitySchema;
 
-    // @codeCoverageIgnoreStart
-
     /**
      * The Activity entity in this package is not intended to be created
      * manually. Use the ActivityPersister to create new Activity objects.
      *
      * @noinspection MagicMethodsValidityInspection PhpMissingParentConstructorInspection
+     *
+     * @codeCoverageIgnore
      */
     private function __construct()
     {
     }
-    // @codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -126,7 +125,7 @@ class Activity extends Entity implements ActivityInterface
             'occurred_at' => $this->getOccurredAt() !== null
                 ? $this->getOccurredAt()->format(UtcDateTimeInterface::FORMAT_ZULU)
                 : null,
-            'payload' => $this->getPayload()
+            'payload' => $this->getPayload(),
         ];
     }
 

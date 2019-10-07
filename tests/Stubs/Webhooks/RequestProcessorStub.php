@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Webhooks;
 
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
 
 /**
@@ -12,14 +12,14 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
 class RequestProcessorStub implements RequestProcessorInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface[]
+     * @var \EoneoPay\Webhooks\Models\WebhookRequestInterface[]
      */
     private $processed = [];
 
     /**
-     * Returns processed
+     * Returns processed.
      *
-     * @return \EoneoPay\Webhooks\Model\WebhookRequestInterface[]
+     * @return \EoneoPay\Webhooks\Models\WebhookRequestInterface[]
      */
     public function getProcessed(): array
     {

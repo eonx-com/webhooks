@@ -14,7 +14,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class CoversTest extends TestCase
 {
     /**
-     * Test all tests contains a covers* annotation
+     * Test all tests contains a covers* annotation.
      *
      * @return void
      */
@@ -58,7 +58,7 @@ class CoversTest extends TestCase
     }
 
     /**
-     * Get test files from the tests directory
+     * Get test files from the tests directory.
      *
      * @param string $path The path to search within
      *
@@ -76,6 +76,6 @@ class CoversTest extends TestCase
             $filenames[] = $files;
         }
 
-        return \count($filenames) === 0 ? [] : \array_merge(... $filenames);
+        return \count($filenames) === 0 ? [] : \array_merge(...$filenames);
     }
 }

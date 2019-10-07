@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Webhooks;
 
-use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 
 /**
@@ -12,14 +12,14 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 class RequestFactoryStub implements RequestFactoryInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Model\ActivityInterface[]
+     * @var \EoneoPay\Webhooks\Models\ActivityInterface[]
      */
     private $processed = [];
 
     /**
      * Returns processed activities.
      *
-     * @return \EoneoPay\Webhooks\Model\ActivityInterface[]
+     * @return \EoneoPay\Webhooks\Models\ActivityInterface[]
      */
     public function getProcessed(): array
     {

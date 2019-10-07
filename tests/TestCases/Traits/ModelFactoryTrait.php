@@ -6,9 +6,9 @@ namespace Tests\EoneoPay\Webhooks\TestCases\Traits;
 use DateTime as BaseDateTime;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
-use EoneoPay\Webhooks\Model\ActivityInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Response;
+use EoneoPay\Webhooks\Models\ActivityInterface;
 use ReflectionClass;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 
@@ -50,11 +50,11 @@ trait ModelFactoryTrait
     /**
      * Returns a WebhookRequest entity.
      *
-     * @param \EoneoPay\Webhooks\Model\ActivityInterface|null $activity
+     * @param \EoneoPay\Webhooks\Models\ActivityInterface|null $activity
      * @param \DateTime|null $createdAt
      * @param int|null $requestId
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
@@ -63,11 +63,11 @@ trait ModelFactoryTrait
         ?ActivityInterface $activity = null,
         ?BaseDateTime $createdAt = null,
         ?int $requestId = null
-    ): WebhookRequest {
-        $reflectionClass = new ReflectionClass(WebhookRequest::class);
+    ): Request {
+        $reflectionClass = new ReflectionClass(Request::class);
 
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest $request
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request $request
          */
         $request = $reflectionClass->newInstanceWithoutConstructor();
         $request->setActivity($activity ?? $this->getActivityEntity());
@@ -84,24 +84,24 @@ trait ModelFactoryTrait
     /**
      * Returns a WebhookResponse entity.
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest|null $request
+     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request|null $request
      * @param string|null $responseId
      * @param int|null $statusCode
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Response
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
     protected function getResponseEntity(
-        ?WebhookRequest $request = null,
+        ?Request $request = null,
         ?string $responseId = null,
         ?int $statusCode = null
-    ): WebhookResponse {
-        $reflectionClass = new ReflectionClass(WebhookResponse::class);
+    ): Response {
+        $reflectionClass = new ReflectionClass(Response::class);
 
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse $response
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Response $response
          */
         $response = $reflectionClass->newInstanceWithoutConstructor();
         $response->setRequest($request ?? $this->getRequestEntity());

@@ -12,7 +12,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class ActivityCreatedEventTest extends TestCase
 {
     /**
-     * Test get activity id
+     * Test get activity id.
      *
      * @return void
      */
@@ -20,6 +20,6 @@ class ActivityCreatedEventTest extends TestCase
     {
         $event = new ActivityCreatedEvent(5);
 
-        static::assertSame(5, $event->getActivityId());
+        self::assertSame(5, $event->getActivityId());
     }
 }

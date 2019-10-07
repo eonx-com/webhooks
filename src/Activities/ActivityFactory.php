@@ -7,13 +7,13 @@ use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityFactoryInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface;
 
 final class ActivityFactory implements ActivityFactoryInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface
+     * @var \EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface
      */
     private $activityPersister;
 
@@ -23,16 +23,16 @@ final class ActivityFactory implements ActivityFactoryInterface
     private $eventDispatcher;
 
     /**
-     * @var \EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface
+     * @var \EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface
      */
     private $payloadManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param \EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface $activityPersister
+     * @param \EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface $activityPersister
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $eventDispatcher
-     * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface $payloadManager
+     * @param \EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface $payloadManager
      */
     public function __construct(
         ActivityPersisterInterface $activityPersister,

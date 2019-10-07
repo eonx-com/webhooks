@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Subscription;
 
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionResolverInterface;
 
 /**
  * @coversNothing
@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
 class SubscriptionResolverStub implements SubscriptionResolverInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface[]
+     * @var \EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionInterface[]
      */
     private $subscriptions = [];
 
@@ -25,9 +25,9 @@ class SubscriptionResolverStub implements SubscriptionResolverInterface
     }
 
     /**
-     * Sets subscriptions
+     * Sets subscriptions.
      *
-     * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface[] $subscriptions
+     * @param \EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionInterface[] $subscriptions
      *
      * @return void
      */

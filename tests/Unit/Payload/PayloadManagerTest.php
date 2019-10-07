@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Payload;
 
 use EoneoPay\Webhooks\Exceptions\PayloadBuilderNotFoundException;
-use EoneoPay\Webhooks\Payload\PayloadManager;
+use EoneoPay\Webhooks\Payloads\PayloadManager;
 use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadBuilderStub;
 use Tests\EoneoPay\Webhooks\Stubs\Payload\UnsupportedPayloadBuilderStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Payload\PayloadManager
+ * @covers \EoneoPay\Webhooks\Payloads\PayloadManager
  */
 class PayloadManagerTest extends TestCase
 {
@@ -40,7 +40,7 @@ class PayloadManagerTest extends TestCase
     {
         $manager = $this->getManager([
             new UnsupportedPayloadBuilderStub(),
-            new PayloadBuilderStub(['payload'])
+            new PayloadBuilderStub(['payload']),
         ]);
 
         $expectedPayload = ['payload'];
@@ -83,9 +83,9 @@ class PayloadManagerTest extends TestCase
     /**
      * Returns the instance under test.
      *
-     * @param \EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface[]|null $builders
+     * @param \EoneoPay\Webhooks\Payloads\Interfaces\PayloadBuilderInterface[]|null $builders
      *
-     * @return \EoneoPay\Webhooks\Payload\PayloadManager
+     * @return \EoneoPay\Webhooks\Payloads\PayloadManager
      */
     private function getManager(?array $builders = null): PayloadManager
     {

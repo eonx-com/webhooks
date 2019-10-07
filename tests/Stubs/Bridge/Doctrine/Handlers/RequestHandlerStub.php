@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers;
 
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 
 /**
  * @coversNothing
@@ -12,12 +12,12 @@ use EoneoPay\Webhooks\Model\WebhookRequestInterface;
 class RequestHandlerStub implements RequestHandlerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface
+     * @var \EoneoPay\Webhooks\Models\WebhookRequestInterface
      */
     private $nextRequest;
 
     /**
-     * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface[]
+     * @var \EoneoPay\Webhooks\Models\WebhookRequestInterface[]
      */
     private $saved = [];
 
@@ -30,19 +30,19 @@ class RequestHandlerStub implements RequestHandlerInterface
     }
 
     /**
-     * @return \EoneoPay\Webhooks\Model\WebhookRequestInterface[]
-     */
-    public function getSaved(): array
-    {
-        return $this->saved;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getBySequence(int $sequence): WebhookRequestInterface
     {
         return $this->nextRequest;
+    }
+
+    /**
+     * @return \EoneoPay\Webhooks\Models\WebhookRequestInterface[]
+     */
+    public function getSaved(): array
+    {
+        return $this->saved;
     }
 
     /**
@@ -54,9 +54,9 @@ class RequestHandlerStub implements RequestHandlerInterface
     }
 
     /**
-     * Set next webhook
+     * Set next webhook.
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $entity
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface $entity
      *
      * @return void
      */

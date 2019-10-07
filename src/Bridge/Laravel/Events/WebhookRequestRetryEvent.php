@@ -11,7 +11,7 @@ final class WebhookRequestRetryEvent
     private $requestId;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int $requestId
      */

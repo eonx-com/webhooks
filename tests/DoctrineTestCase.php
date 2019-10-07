@@ -28,14 +28,14 @@ class DoctrineTestCase extends BaseEntityTestCase
     private $entityManager;
 
     /**
-     * Whether the database has been seeded or not
+     * Whether the database has been seeded or not.
      *
      * @var bool
      */
     private $seeded = false;
 
     /**
-     * Get doctrine entity manager instance
+     * Get doctrine entity manager instance.
      *
      * @return \Doctrine\ORM\EntityManagerInterface
      *
@@ -54,7 +54,7 @@ class DoctrineTestCase extends BaseEntityTestCase
     }
 
     /**
-     * Get entity manager
+     * Get entity manager.
      *
      * @return \Doctrine\ORM\EntityManagerInterface
      */
@@ -71,7 +71,7 @@ class DoctrineTestCase extends BaseEntityTestCase
     }
 
     /**
-     * Lazy load database schema only when required
+     * Lazy load database schema only when required.
      *
      * @return void
      */

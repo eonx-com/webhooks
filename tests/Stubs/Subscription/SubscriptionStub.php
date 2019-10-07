@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Subscription;
 
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionInterface;
 
 /**
  * @coversNothing
@@ -16,9 +16,9 @@ class SubscriptionStub implements SubscriptionInterface
     private $format;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param null|string $format
+     * @param string|null $format
      */
     public function __construct(?string $format = null)
     {

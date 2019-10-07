@@ -7,10 +7,10 @@ use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
-use EoneoPay\Webhooks\Model\WebhookResponseInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use Exception;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookResponseStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\ResponseStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
@@ -20,7 +20,32 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class ResponseHandlerTest extends TestCase
 {
     /**
-     * Create new
+     * Create new fails.
+     *
+     * @return void
+     */
+    public function testCreateFails(): void
+    {
+        $this->expectException(EntityNotCreatedException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'An error occurred creating an %s instance.',
+            WebhookResponseInterface::class
+        ));
+
+        $classMetadata = $this->createMock(ClassMetadata::class);
+        $classMetadata->expects(self::once())
+            ->method('newInstance')
+            ->willThrowException(new class() extends Exception implements ExceptionInterface {
+            });
+
+        $responseHandler = $this->createInstance(null, $classMetadata);
+        $response = $responseHandler->createNewWebhookResponse();
+
+        self::assertInstanceOf(ResponseStub::class, $response);
+    }
+
+    /**
+     * Create new.
      *
      * @return void
      */
@@ -30,50 +55,27 @@ class ResponseHandlerTest extends TestCase
         $responseHandler = $this->createInstance();
         $response = $responseHandler->createNewWebhookResponse();
 
-        static::assertInstanceOf(WebhookResponseStub::class, $response);
+        self::assertInstanceOf(ResponseStub::class, $response);
     }
 
     /**
-     * Create new fails
-     *
-     * @return void
-     */
-    public function testCreateFails(): void
-    {
-        $this->expectException(EntityNotCreatedException::class);
-        $this->expectExceptionMessage('An error occurred creating an EoneoPay\Webhooks\Model\WebhookResponseInterface instance.'); // phpcs:ignore
-
-        $classMetadata = $this->createMock(ClassMetadata::class);
-        $classMetadata->expects(static::once())
-            ->method('newInstance')
-            ->willThrowException(new class extends Exception implements ExceptionInterface
-            {
-            });
-
-        $responseHandler = $this->createInstance(null, $classMetadata);
-        $response = $responseHandler->createNewWebhookResponse();
-
-        static::assertInstanceOf(WebhookResponseStub::class, $response);
-    }
-
-    /**
-     * Save
+     * Save.
      *
      * @return void
      */
     public function testSave(): void
     {
         $responseHandler = $this->createInstance();
-        $responseHandler->save(new WebhookResponseStub());
+        $responseHandler->save(new ResponseStub());
 
         // If no exception was thrown it's all good
         $this->addToAssertionCount(1);
     }
 
     /**
-     * Create handler instance
+     * Create handler instance.
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface|null $entity
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface|null $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata $classMetadata
      *
      * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler
@@ -84,7 +86,7 @@ class ResponseHandlerTest extends TestCase
     ): ResponseHandler {
         return new ResponseHandler(new EntityManagerStub(
             $entity,
-            [WebhookResponseInterface::class => $classMetadata ?? new ClassMetadata(WebhookResponseStub::class)]
+            [WebhookResponseInterface::class => $classMetadata ?? new ClassMetadata(ResponseStub::class)]
         ));
     }
 }

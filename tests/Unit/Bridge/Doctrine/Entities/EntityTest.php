@@ -6,7 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Utils\Interfaces\UtcDateTimeInterface;
 use PHPStan\Testing\TestCase;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\EntityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\EntityStub;
 
 /**
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity
@@ -14,7 +14,7 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\EntityStub;
 class EntityTest extends TestCase
 {
     /**
-     * Test date formatter
+     * Test date formatter.
      *
      * @return void
      *

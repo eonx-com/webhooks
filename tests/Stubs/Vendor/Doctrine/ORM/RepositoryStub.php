@@ -12,14 +12,14 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity;
 class RepositoryStub implements RepositoryInterface
 {
     /**
-     * Entities
+     * Entities.
      *
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity[]
      */
     private $entities;
 
     /**
-     * Create repository stub
+     * Create repository stub.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity[]|null $entities Entities to load into repository
      */
@@ -33,6 +33,7 @@ class RepositoryStub implements RepositoryInterface
      */
     public function count(?array $criteria = null): int
     {
+        return 0;
     }
 
     /**
@@ -71,7 +72,7 @@ class RepositoryStub implements RepositoryInterface
                 }
 
                 $method = \sprintf('get%s', \ucfirst($key));
-                $entityValue = $entity->$method();
+                $entityValue = $entity->{$method}();
 
                 if ($entityValue !== $value) {
                     $matched = false;

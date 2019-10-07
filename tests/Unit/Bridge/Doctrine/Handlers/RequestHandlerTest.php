@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use Exception;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
@@ -20,7 +20,30 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class RequestHandlerTest extends TestCase
 {
     /**
-     * Create new webhook from interface
+     * Create new fails.
+     *
+     * @return void
+     */
+    public function testCreateFails(): void
+    {
+        $this->expectException(EntityNotCreatedException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'An error occurred creating an %s instance.',
+            WebhookRequestInterface::class
+        ));
+
+        $classMetadata = $this->createMock(ClassMetadata::class);
+        $classMetadata->expects(self::once())
+            ->method('newInstance')
+            ->willThrowException(new class() extends Exception implements ExceptionInterface {
+            });
+
+        $requestHandler = $this->createInstance(null, $classMetadata);
+        $requestHandler->create();
+    }
+
+    /**
+     * Create new webhook from interface.
      *
      * @return void
      */
@@ -29,47 +52,26 @@ class RequestHandlerTest extends TestCase
         $requestHandler = $this->createInstance();
         $request = $requestHandler->create();
 
-        static::assertInstanceOf(WebhookRequestStub::class, $request);
+        self::assertInstanceOf(RequestStub::class, $request);
     }
 
     /**
-     * Create new fails
-     *
-     * @return void
-     */
-    public function testCreateFails(): void
-    {
-        $this->expectException(EntityNotCreatedException::class);
-        $this->expectExceptionMessage('An error occurred creating an EoneoPay\Webhooks\Model\WebhookRequestInterface instance.'); // phpcs:ignore
-
-        $classMetadata = $this->createMock(ClassMetadata::class);
-        $classMetadata->expects(static::once())
-            ->method('newInstance')
-            ->willThrowException(new class extends Exception implements ExceptionInterface
-            {
-            });
-
-        $requestHandler = $this->createInstance(null, $classMetadata);
-        $requestHandler->create();
-    }
-
-    /**
-     * Get webhook
+     * Get webhook.
      *
      * @return void
      */
     public function testGetWebhook(): void
     {
-        $stub = new WebhookRequestStub(1);
+        $stub = new RequestStub(1);
 
         $requestHandler = $this->createInstance($stub);
         $request = $requestHandler->getBySequence(1);
 
-        static::assertSame($stub, $request);
+        self::assertSame($stub, $request);
     }
 
     /**
-     * Get webhook not found
+     * Get webhook not found.
      *
      * @return void
      */
@@ -82,23 +84,23 @@ class RequestHandlerTest extends TestCase
     }
 
     /**
-     * Save
+     * Save.
      *
      * @return void
      */
     public function testSave(): void
     {
         $requestHandler = $this->createInstance();
-        $requestHandler->save(new WebhookRequestStub(null));
+        $requestHandler->save(new RequestStub(null));
 
         // If no exception is thrown it's all good
         $this->addToAssertionCount(1);
     }
 
     /**
-     * Create handler instance
+     * Create handler instance.
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface|null $entity
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface|null $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata $classMetadata
      *
      * @return \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler
@@ -109,7 +111,7 @@ class RequestHandlerTest extends TestCase
     ): RequestHandler {
         return new RequestHandler(new EntityManagerStub(
             $entity,
-            [WebhookRequestInterface::class => $classMetadata ?? new ClassMetadata(WebhookRequestStub::class)]
+            [WebhookRequestInterface::class => $classMetadata ?? new ClassMetadata(RequestStub::class)]
         ));
     }
 }

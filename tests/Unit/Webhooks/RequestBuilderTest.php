@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
 use EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Webhooks\RequestBuilder;
 use Psr\Http\Message\MessageInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Zend\Diactoros\StreamFactory;
 use function GuzzleHttp\Psr7\str;
@@ -27,15 +27,15 @@ class RequestBuilderTest extends TestCase
     {
         $activity = new ActivityStub();
         $activity->setPayload(['payload' => 'here']);
-        $webhookRequest = new WebhookRequestStub(99, [
+        $webhookRequest = new RequestStub(99, [
             'activity' => $activity,
             'format' => 'json',
             'headers' => ['authorization' => 'Bearer purple'],
             'method' => 'POST',
-            'url' => 'https://localhost.com/webhook/receive'
+            'url' => 'https://localhost.com/webhook/receive',
         ]);
 
-        $expectedJsonRequest = <<<HTTP
+        $expectedJsonRequest = <<<'HTTP'
 POST /webhook/receive HTTP/1.1
 authorization: Bearer purple
 content-type: application/json
@@ -46,18 +46,18 @@ HTTP;
 
         yield 'json success' => [
             'webhookRequest' => $webhookRequest,
-            'expectedHttpRequest' => $expectedJsonRequest
+            'expectedHttpRequest' => $expectedJsonRequest,
         ];
 
-        $webhookRequest = new WebhookRequestStub(99, [
+        $webhookRequest = new RequestStub(99, [
             'activity' => $activity,
             'format' => 'xml',
             'headers' => ['authorization' => 'Bearer purple'],
             'method' => 'POST',
-            'url' => 'https://localhost.com/webhook/receive'
+            'url' => 'https://localhost.com/webhook/receive',
         ]);
 
-        $expectedXmlRequest = <<<HTTP
+        $expectedXmlRequest = <<<'HTTP'
 POST /webhook/receive HTTP/1.1
 authorization: Bearer purple
 content-type: application/xml
@@ -72,14 +72,14 @@ HTTP;
 
         yield 'xml success' => [
             'webhookRequest' => $webhookRequest,
-            'expectedHttpRequest' => $expectedXmlRequest
+            'expectedHttpRequest' => $expectedXmlRequest,
         ];
     }
 
     /**
      * Tests processing successfully.
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface $webhookRequest
      * @param string $expectedHttpRequest
      *
      * @return void
@@ -108,9 +108,9 @@ HTTP;
     {
         $activity = new ActivityStub();
         $activity->setPayload(['payload' => 'here']);
-        $webhookRequest = new WebhookRequestStub(99, [
+        $webhookRequest = new RequestStub(99, [
             'activity' => $activity,
-            'format' => 'unknown'
+            'format' => 'unknown',
         ]);
 
         $this->expectException(UnknownSerialisationFormatException::class);
@@ -133,11 +133,11 @@ HTTP;
     {
         $httpString = \str_replace("\r\n", "\n", str($request));
 
-        static::assertSame($expected, $httpString);
+        self::assertSame($expected, $httpString);
     }
 
     /**
-     * Builds unit under test
+     * Builds unit under test.
      *
      * @return \EoneoPay\Webhooks\Webhooks\RequestBuilder
      */
