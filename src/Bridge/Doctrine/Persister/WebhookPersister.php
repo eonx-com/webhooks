@@ -8,15 +8,18 @@ use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceMissingException;
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionInterface;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 use function GuzzleHttp\Psr7\str;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Coupling required to handle webhook request and response persistence
+ */
 final class WebhookPersister implements WebhookPersisterInterface
 {
     /**
@@ -35,7 +38,7 @@ final class WebhookPersister implements WebhookPersisterInterface
     private $responseHandler;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface $requestHandler
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface $responseHandler
@@ -50,6 +53,8 @@ final class WebhookPersister implements WebhookPersisterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function saveRequest(ActivityInterface $activity, SubscriptionInterface $subscription): int
     {
@@ -68,6 +73,8 @@ final class WebhookPersister implements WebhookPersisterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function saveResponse(WebhookRequestInterface $webhookRequest, ResponseInterface $response): void
     {
@@ -95,7 +102,7 @@ final class WebhookPersister implements WebhookPersisterInterface
             ($exception instanceof InvalidApiResponseException) === true) {
             // phpcs:disable Generic.Files.LineLength
             /**
-             * @var \GuzzleHttp\Exception\RequestException|\EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException $exception
+             * @var \EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException|\GuzzleHttp\Exception\RequestException $exception
              *
              * @see https://youtrack.jetbrains.com/issue/WI-37859 - typehint required until PhpStorm recognises === check
              */
@@ -118,7 +125,7 @@ final class WebhookPersister implements WebhookPersisterInterface
     }
 
     /**
-     * Truncates and returns a string of the response
+     * Truncates and returns a string of the response.
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      *

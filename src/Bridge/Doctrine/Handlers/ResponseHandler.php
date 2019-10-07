@@ -7,7 +7,7 @@ use Doctrine\Instantiator\Exception\ExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
-use EoneoPay\Webhooks\Model\WebhookResponseInterface;
+use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 
 final class ResponseHandler implements ResponseHandlerInterface
 {
@@ -35,11 +35,11 @@ final class ResponseHandler implements ResponseHandlerInterface
     {
         try {
             /**
-             * @var \EoneoPay\Webhooks\Model\WebhookResponseInterface $instance
+             * @var \EoneoPay\Webhooks\Models\WebhookResponseInterface $instance
              */
             $instance = $this->entityManager->getClassMetadata(WebhookResponseInterface::class)
                 ->newInstance();
-        } catch (ExceptionInterface $exception) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (ExceptionInterface $exception) {
             throw new EntityNotCreatedException(
                 \sprintf(
                     'An error occurred creating an %s instance.',

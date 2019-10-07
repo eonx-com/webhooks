@@ -7,8 +7,8 @@ use DateTime;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface;
 
 final class ActivityPersister implements ActivityPersisterInterface
 {
@@ -18,7 +18,7 @@ final class ActivityPersister implements ActivityPersisterInterface
     private $activityHandler;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface $activityHandler
      */
@@ -42,7 +42,7 @@ final class ActivityPersister implements ActivityPersisterInterface
 
         $payload = $activity->getPayload();
         $activity->setPayload(\array_merge($payload, [
-            '_sequence' => $activityId
+            '_sequence' => $activityId,
         ]));
 
         $this->activityHandler->save($activity);

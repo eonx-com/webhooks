@@ -20,11 +20,11 @@ use EoneoPay\Webhooks\Bridge\Laravel\Events\EventDispatcher;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadManagerInterface;
-use EoneoPay\Webhooks\Payload\PayloadManager;
-use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\PayloadBuilderInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface;
+use EoneoPay\Webhooks\Payloads\PayloadManager;
+use EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
@@ -38,7 +38,7 @@ use Illuminate\Support\ServiceProvider;
 use Zend\Diactoros\StreamFactory;
 
 /**
- * Class WebhookServiceProvider
+ * Class WebhookServiceProvider.
  *
  * @package EoneoPay\Webhooks\Bridge\Laravel\Providers
  *

@@ -12,7 +12,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class WebhookRequestRetryEventTest extends TestCase
 {
     /**
-     * Test get request id
+     * Test get request id.
      *
      * @return void
      */
@@ -20,6 +20,6 @@ class WebhookRequestRetryEventTest extends TestCase
     {
         $event = new WebhookRequestRetryEvent(5);
 
-        static::assertSame(5, $event->getRequestId());
+        self::assertSame(5, $event->getRequestId());
     }
 }

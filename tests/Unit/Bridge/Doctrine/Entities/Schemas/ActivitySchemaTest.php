@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\Schemas;
 
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\ActivitySchema
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Schemas\ActivitySchema
  */
 class ActivitySchemaTest extends TestCase
 {
     /**
-     * Tests setPrimaryEntity
+     * Tests setPrimaryEntity.
      *
      * @return void
      */
@@ -22,7 +22,7 @@ class ActivitySchemaTest extends TestCase
         $schema = new ActivityStub();
         $schema->setPrimaryEntity(new EntityStub());
 
-        static::assertSame(EntityStub::class, $schema->getPrimaryClass());
-        static::assertSame('1', $schema->getPrimaryId());
+        self::assertSame(EntityStub::class, $schema->getPrimaryClass());
+        self::assertSame('1', $schema->getPrimaryId());
     }
 }

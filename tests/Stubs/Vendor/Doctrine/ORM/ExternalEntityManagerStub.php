@@ -20,7 +20,7 @@ class ExternalEntityManagerStub implements EntityManagerInterface
     private $findByIds = [];
 
     /**
-     * Repositories loaded via constructor
+     * Repositories loaded via constructor.
      *
      * @var \EoneoPay\Externals\ORM\Interfaces\RepositoryInterface[]
      */

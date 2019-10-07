@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers;
 
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ActivityHandlerInterface;
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
 
 /**
  * @coversNothing
@@ -13,12 +13,12 @@ use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
 class ActivityHandlerStub implements ActivityHandlerInterface
 {
     /**
-     * @var \EoneoPay\Webhooks\Model\ActivityInterface|null
+     * @var \EoneoPay\Webhooks\Models\ActivityInterface|null
      */
     private $next;
 
     /**
-     * @var \EoneoPay\Webhooks\Model\ActivityInterface[]
+     * @var \EoneoPay\Webhooks\Models\ActivityInterface[]
      */
     private $saved = [];
 
@@ -41,7 +41,7 @@ class ActivityHandlerStub implements ActivityHandlerInterface
     /**
      * Returns saved activities.
      *
-     * @return \EoneoPay\Webhooks\Model\ActivityInterface[]
+     * @return \EoneoPay\Webhooks\Models\ActivityInterface[]
      */
     public function getSaved(): array
     {
@@ -57,9 +57,9 @@ class ActivityHandlerStub implements ActivityHandlerInterface
     }
 
     /**
-     * Set next
+     * Set next.
      *
-     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
+     * @param \EoneoPay\Webhooks\Models\ActivityInterface $activity
      *
      * @return void
      */

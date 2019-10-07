@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
 use EoneoPay\Webhooks\Webhooks\RequestFactory;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Persister\WebhookPersisterStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionResolverStub;
@@ -33,7 +33,7 @@ class RequestFactoryTest extends TestCase
         $subscriptionResolver = new SubscriptionResolverStub();
 
         $subscriptionResolver->setSubscriptions([
-            $subscription
+            $subscription,
         ]);
         $webhookPersister = new WebhookPersisterStub();
         $webhookPersister->setNextSequence(15);
@@ -48,7 +48,7 @@ class RequestFactoryTest extends TestCase
 
         $factory->processActivity($activity);
 
-        static::assertSame($expectedDispatches, $dispatcher->getWebhooksRequested());
-        static::assertSame($expectedSave, $webhookPersister->getSaved());
+        self::assertSame($expectedDispatches, $dispatcher->getWebhooksRequested());
+        self::assertSame($expectedSave, $webhookPersister->getSaved());
     }
 }

@@ -19,7 +19,7 @@ abstract class WebhookTestCase extends TestCase
      * @var mixed[]
      */
     protected static $httpPayload = [
-        'ping' => 'OK'
+        'ping' => 'OK',
     ];
 
     /**
@@ -40,9 +40,9 @@ abstract class WebhookTestCase extends TestCase
         'attachments' => [
             'color' => 'good',
             'fields' => [
-                'title' => 'Incoming Webhook Test'
-            ]
-        ]
+                'title' => 'Incoming Webhook Test',
+            ],
+        ],
     ];
 
     /**
@@ -60,11 +60,9 @@ abstract class WebhookTestCase extends TestCase
     private $app;
 
     /**
-     * Create Illuminate application
+     * Create Illuminate application.
      *
      * @return \Illuminate\Container\Container
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function createApplication(): IlluminateContainer
     {

@@ -6,7 +6,7 @@ namespace EoneoPay\Webhooks\Exceptions;
 class UnknownSerialisationFormatException extends \RuntimeException implements WebhooksException
 {
     /**
-     * Create exception
+     * Create exception.
      *
      * @param string $format
      * @param int $code

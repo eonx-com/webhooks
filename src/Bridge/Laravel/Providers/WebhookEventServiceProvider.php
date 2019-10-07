@@ -23,14 +23,14 @@ final class WebhookEventServiceProvider extends EventServiceProvider
         // Set listeners
         $this->listen = [
             ActivityCreatedEvent::class => [
-                ActivityCreatedListener::class
+                ActivityCreatedListener::class,
             ],
             WebhookRequestCreatedEvent::class => [
-                RequestCreatedListener::class
+                RequestCreatedListener::class,
             ],
             WebhookRequestRetryEvent::class => [
-                RequestRetryListener::class
-            ]
+                RequestRetryListener::class,
+            ],
         ];
     }
 }

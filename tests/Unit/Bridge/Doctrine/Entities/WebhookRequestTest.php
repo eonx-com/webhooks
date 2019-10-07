@@ -5,12 +5,13 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities;
 
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\UnexpectedObjectException;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
 use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request
  */
 class WebhookRequestTest extends BaseEntityTestCase
 {
@@ -26,14 +27,14 @@ class WebhookRequestTest extends BaseEntityTestCase
     {
         $request = $this->getRequestEntity();
 
-        static::assertSame(123, $request->getId());
-        static::assertInstanceOf(Activity::class, $request->getActivity());
-        static::assertSame('json', $request->getRequestFormat());
-        static::assertSame(['header' => 'value'], $request->getRequestHeaders());
-        static::assertSame('POST', $request->getRequestMethod());
-        static::assertSame('https://localhost.com/webhook', $request->getRequestUrl());
-        static::assertSame(123, $request->getSequence());
-        static::assertSame('123', $request->getExternalId());
+        self::assertSame(123, $request->getId());
+        self::assertInstanceOf(Activity::class, $request->getActivity());
+        self::assertSame('json', $request->getRequestFormat());
+        self::assertSame(['header' => 'value'], $request->getRequestHeaders());
+        self::assertSame('POST', $request->getRequestMethod());
+        self::assertSame('https://localhost.com/webhook', $request->getRequestUrl());
+        self::assertSame(123, $request->getSequence());
+        self::assertSame('123', $request->getExternalId());
     }
 
     /**
@@ -51,10 +52,10 @@ class WebhookRequestTest extends BaseEntityTestCase
 
         $request->populate($activity, new SubscriptionStub());
 
-        static::assertSame('json', $request->getRequestFormat());
-        static::assertSame(['authorization' => 'Bearer ABC123'], $request->getRequestHeaders());
-        static::assertSame('POST', $request->getRequestMethod());
-        static::assertSame('https://127.0.0.1/webhook', $request->getRequestUrl());
+        self::assertSame('json', $request->getRequestFormat());
+        self::assertSame(['authorization' => 'Bearer ABC123'], $request->getRequestHeaders());
+        self::assertSame('POST', $request->getRequestMethod());
+        self::assertSame('https://127.0.0.1/webhook', $request->getRequestUrl());
     }
 
     /**
@@ -69,14 +70,19 @@ class WebhookRequestTest extends BaseEntityTestCase
     public function testSetActivityWrongEntity(): void
     {
         $this->expectException(UnexpectedObjectException::class);
-        $this->expectExceptionMessage('The EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest class expects a EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity for the activity property, got Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\ActivityStub'); // phpcs:ignore
+        $this->expectExceptionMessage(\sprintf(
+            'The %s class expects a %s for the activity property, got %s',
+            Request::class,
+            Activity::class,
+            ActivityStub::class
+        ));
 
         $request = $this->getRequestEntity();
         $request->setActivity(new ActivityStub());
     }
 
     /**
-     * Test if setCreatedAt method sets the created at date and it can be retrieved by getCreatedAt
+     * Test if setCreatedAt method sets the created at date and it can be retrieved by getCreatedAt.
      *
      * @return void
      *
@@ -110,21 +116,21 @@ class WebhookRequestTest extends BaseEntityTestCase
                 'id' => 123,
                 'occurred_at' => '2100-01-01T10:11:12Z',
                 'payload' => [
-                    'payload'
-                ]
+                    'payload',
+                ],
             ],
             'created_at' => '2099-10-10T00:00:00Z',
             'id' => 123,
             'request_format' => 'json',
             'request_headers' => [
-                'header' => 'value'
+                'header' => 'value',
             ],
             'request_method' => 'POST',
-            'request_url' => 'https://localhost.com/webhook'
+            'request_url' => 'https://localhost.com/webhook',
         ];
 
         $request = $this->getRequestEntity();
 
-        static::assertSame($expected, $request->toArray());
+        self::assertSame($expected, $request->toArray());
     }
 }

@@ -6,7 +6,7 @@ namespace EoneoPay\Webhooks\Webhooks;
 use EoneoPay\Utils\XmlConverter;
 use EoneoPay\Webhooks\Exceptions\JsonSerialisationException;
 use EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -20,7 +20,7 @@ class RequestBuilder implements RequestBuilderInterface
     private $streamFactory;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Psr\Http\Message\StreamFactoryInterface $streamFactory
      */
@@ -61,7 +61,7 @@ class RequestBuilder implements RequestBuilderInterface
                     $method,
                     $this->streamFactory->createStream($json),
                     \array_merge($headers, [
-                        'content-type' => 'application/json'
+                        'content-type' => 'application/json',
                     ])
                 );
 
@@ -73,7 +73,7 @@ class RequestBuilder implements RequestBuilderInterface
                         (new XmlConverter())->arrayToXml($body)
                     ),
                     \array_merge($headers, [
-                        'content-type' => 'application/xml'
+                        'content-type' => 'application/xml',
                     ])
                 );
         }

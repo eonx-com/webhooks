@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -63,7 +63,7 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     {
         $this->updates[] = [
             'response' => $response,
-            'sequence' => $webhookRequest->getSequence()
+            'sequence' => $webhookRequest->getSequence(),
         ];
     }
 
@@ -74,12 +74,12 @@ class WebhookPersisterStub implements WebhookPersisterInterface
     {
         $this->updates[] = [
             'exception' => $exception,
-            'sequence' => $webhookRequest->getSequence()
+            'sequence' => $webhookRequest->getSequence(),
         ];
     }
 
     /**
-     * Sets the next sequence
+     * Sets the next sequence.
      *
      * @param int $seq
      *

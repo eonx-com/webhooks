@@ -31,7 +31,7 @@ class EntityManagerStub implements EntityManagerInterface
     private $repositories;
 
     /**
-     * Create entity manager stub
+     * Create entity manager stub.
      *
      * @param mixed $entity
      * @param \Doctrine\ORM\Mapping\ClassMetadata[]|null $metadatas

@@ -26,14 +26,14 @@ class WebhookRequestData
     private $entityManager;
 
     /**
-     * Last known response id generated
+     * Last known response id generated.
      *
      * @var int
      */
     private $lastResponseId = 0;
 
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest[]|null
+     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request[]|null
      */
     private $requests;
 
@@ -50,7 +50,7 @@ class WebhookRequestData
     }
 
     /**
-     * Build the data
+     * Build the data.
      *
      * @return \Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData
      */
@@ -62,7 +62,7 @@ class WebhookRequestData
     }
 
     /**
-     * Create a webhook request entity
+     * Create a webhook request entity.
      *
      * @param \DateTime $createdAt
      * @param int $requestId
@@ -92,7 +92,7 @@ class WebhookRequestData
     }
 
     /**
-     * Create a webhook response entity
+     * Create a webhook response entity.
      *
      * @param int $requestId
      * @param int $statusCode
@@ -106,7 +106,7 @@ class WebhookRequestData
     {
         $responseId = $this->lastResponseId++;
         $request = $this->requests[$requestId] ?? $this->getRequestEntity();
-        $entity = $this->getResponseEntity($request, (string) $responseId, $statusCode);
+        $entity = $this->getResponseEntity($request, (string)$responseId, $statusCode);
 
         $this->entityManager->persist($entity);
 

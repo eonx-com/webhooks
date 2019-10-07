@@ -19,7 +19,7 @@ class ThrowingHttpClientStub extends HttpClientStub
     private $exception;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Throwable $exception
      */

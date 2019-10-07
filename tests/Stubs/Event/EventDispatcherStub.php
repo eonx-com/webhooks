@@ -50,7 +50,7 @@ class EventDispatcherStub implements EventDispatcherInterface
     }
 
     /**
-     * Returns raised activities
+     * Returns raised activities.
      *
      * @return int[]
      */
@@ -60,7 +60,7 @@ class EventDispatcherStub implements EventDispatcherInterface
     }
 
     /**
-     * Returns webhooks requested
+     * Returns webhooks requested.
      *
      * @return int[]
      */
@@ -70,7 +70,7 @@ class EventDispatcherStub implements EventDispatcherInterface
     }
 
     /**
-     * Returns webhooks retried
+     * Returns webhooks retried.
      *
      * @return int[]
      */

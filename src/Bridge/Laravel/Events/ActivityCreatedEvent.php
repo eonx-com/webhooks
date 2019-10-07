@@ -15,7 +15,7 @@ final class ActivityCreatedEvent implements ShouldQueue
     private $activityId;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int $activityId
      */

@@ -11,7 +11,7 @@ use EoneoPay\Externals\ORM\Entity;
 class EntityStub extends Entity
 {
     /**
-     * The entity id
+     * The entity id.
      *
      * @var int
      */

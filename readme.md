@@ -69,12 +69,12 @@ Any implementation of this library will need to:
 <?php
 
 use EoneoPay\Externals\Bridge\LaravelDoctrine\Extensions\ResolveTargetEntityExtension;
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
-use EoneoPay\Webhooks\Model\WebhookResponseInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookResponse;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Request;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Response;
 
 return [
     'managers' => [
@@ -107,8 +107,8 @@ return [
     'replacements' => [
         // Add replacements so Doctrine can look up entities by interface
         ActivityInterface::class => Activity::class,
-        WebhookRequestInterface::class => WebhookRequest::class,
-        WebhookResponseInterface::class => WebhookResponse::class
+        WebhookRequestInterface::class => Request::class,
+        WebhookResponseInterface::class => Response::class
     ]
 ];
 ```

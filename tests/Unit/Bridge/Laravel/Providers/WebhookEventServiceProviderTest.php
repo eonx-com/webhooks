@@ -21,21 +21,19 @@ class WebhookEventServiceProviderTest extends WebhookTestCase
      * Test provider register container.
      *
      * @return void
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function testListens(): void
     {
         $expectedListeners = [
             ActivityCreatedEvent::class => [
-                ActivityCreatedListener::class
+                ActivityCreatedListener::class,
             ],
             WebhookRequestCreatedEvent::class => [
-                RequestCreatedListener::class
+                RequestCreatedListener::class,
             ],
             WebhookRequestRetryEvent::class => [
-                RequestRetryListener::class
-            ]
+                RequestRetryListener::class,
+            ],
         ];
 
         // create provider
