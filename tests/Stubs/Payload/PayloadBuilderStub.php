@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Stubs\Payload;
 
 use EoneoPay\Webhooks\Activities\Interfaces\ActivityDataInterface;
-use EoneoPay\Webhooks\Payload\Interfaces\PayloadBuilderInterface;
+use EoneoPay\Webhooks\Payloads\Interfaces\PayloadBuilderInterface;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ class PayloadBuilderStub implements PayloadBuilderInterface
     private $payload;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param mixed[] $payload
      */

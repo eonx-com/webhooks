@@ -6,7 +6,7 @@ namespace EoneoPay\Webhooks\Webhooks;
 use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 
@@ -44,9 +44,9 @@ class RetryProcessor implements RetryProcessorInterface
     public function retry(DateInterval $dateInterval): void
     {
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\WebhookRequestRepository $repository
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Webhooks\RequestRepository $repository
          */
-        $repository = $this->entityManager->getRepository(WebhookRequest::class);
+        $repository = $this->entityManager->getRepository(Request::class);
 
         $date = new DateTime();
         $date->sub($dateInterval);

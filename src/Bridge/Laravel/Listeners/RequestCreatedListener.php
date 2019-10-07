@@ -28,7 +28,7 @@ class RequestCreatedListener
     private $requestProcessor;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface $requestHandler
      * @param \EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface $requestProcessor

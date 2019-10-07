@@ -16,7 +16,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class LoggerAwareEventDispatcherTest extends TestCase
 {
     /**
-     * Tests activityCreated
+     * Tests activityCreated.
      *
      * @return void
      */
@@ -29,9 +29,9 @@ class LoggerAwareEventDispatcherTest extends TestCase
             [
                 'message' => 'Activity Created',
                 'context' => [
-                    'activity_id' => 1
-                ]
-            ]
+                    'activity_id' => 1,
+                ],
+            ],
         ];
 
         $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
@@ -43,7 +43,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
     }
 
     /**
-     * Tests webhook request
+     * Tests webhook request.
      *
      * @return void
      */
@@ -56,9 +56,9 @@ class LoggerAwareEventDispatcherTest extends TestCase
             [
                 'message' => 'Webhook Request Created',
                 'context' => [
-                    'request_id' => 1
-                ]
-            ]
+                    'request_id' => 1,
+                ],
+            ],
         ];
 
         $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
@@ -70,7 +70,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
     }
 
     /**
-     * Tests webhook request retry also adds a log
+     * Tests webhook request retry also adds a log.
      *
      * @return void
      */
@@ -83,9 +83,9 @@ class LoggerAwareEventDispatcherTest extends TestCase
             [
                 'message' => 'Webhook Failed Request Retried',
                 'context' => [
-                    'request_id' => 1
-                ]
-            ]
+                    'request_id' => 1,
+                ],
+            ],
         ];
 
         $dispatcher = $this->getDispatcher($innerDispatcher, $logger);
@@ -97,7 +97,7 @@ class LoggerAwareEventDispatcherTest extends TestCase
     }
 
     /**
-     * Returns the instance under test
+     * Returns the instance under test.
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
      * @param \EoneoPay\Externals\Logger\Interfaces\LoggerInterface $logger

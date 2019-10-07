@@ -11,7 +11,7 @@ final class WebhookRequestCreatedEvent
     private $requestId;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int $requestId
      */

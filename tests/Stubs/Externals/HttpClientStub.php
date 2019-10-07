@@ -21,7 +21,7 @@ class HttpClientStub implements ClientInterface
     private $requests = [];
 
     /**
-     * Return requests
+     * Return requests.
      *
      * @return mixed[]
      */
@@ -47,9 +47,9 @@ class HttpClientStub implements ClientInterface
     {
         $this->requests[] = [
             'method' => $request->getMethod(),
-            'uri' => $request->getUri()->__toString(),
+            'uri' => (string)$request->getUri(),
             'options' => $options,
-            'request' => $request
+            'request' => $request,
         ];
 
         return new EmptyResponse();

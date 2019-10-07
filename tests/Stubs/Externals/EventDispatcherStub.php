@@ -26,7 +26,7 @@ class EventDispatcherStub implements EventDispatcherInterface
     }
 
     /**
-     * Returns dispatched events
+     * Returns dispatched events.
      *
      * @return mixed[]
      */

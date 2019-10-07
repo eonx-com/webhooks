@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Webhooks\Interfaces;
 
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 
 interface RequestProcessorInterface
 {
     /**
      * Processes a request and emits the webhook request, saving the response.
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface $webhookRequest
      *
      * @return void
      */

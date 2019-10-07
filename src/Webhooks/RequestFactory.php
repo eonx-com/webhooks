@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Webhooks;
 
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionResolverInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 
 class RequestFactory implements RequestFactoryInterface
@@ -17,21 +17,21 @@ class RequestFactory implements RequestFactoryInterface
     private $dispatcher;
 
     /**
-     * @var \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface
+     * @var \EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionResolverInterface
      */
     private $subscriptionResolver;
 
     /**
-     * @var \EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface
+     * @var \EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface
      */
     private $webhookPersister;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
-     * @param \EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface $subscriptionResolver
-     * @param \EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface $webhookPersister
+     * @param \EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionResolverInterface $subscriptionResolver
+     * @param \EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface $webhookPersister
      */
     public function __construct(
         EventDispatcherInterface $dispatcher,

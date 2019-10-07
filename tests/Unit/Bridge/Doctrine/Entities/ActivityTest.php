@@ -26,13 +26,13 @@ class ActivityTest extends BaseEntityTestCase
             'id' => 123,
             'occurred_at' => '2100-01-01T10:11:12Z',
             'payload' => [
-                'payload'
-            ]
+                'payload',
+            ],
         ];
 
         $activity = $this->getActivityEntity();
 
-        static::assertSame($expected, $activity->toArray());
+        self::assertSame($expected, $activity->toArray());
     }
 
     /**
@@ -47,12 +47,12 @@ class ActivityTest extends BaseEntityTestCase
     {
         $activity = $this->getActivityEntity();
 
-        static::assertSame(123, $activity->getId());
-        static::assertSame(123, $activity->getActivityId());
-        static::assertSame('activity.key', $activity->getActivityKey());
-        static::assertSame(['payload'], $activity->getPayload());
-        static::assertSame(EntityStub::class, $activity->getPrimaryClass());
-        static::assertSame('55', $activity->getPrimaryId());
-        static::assertEquals(new DateTime('2100-01-01T10:11:12Z'), $activity->getOccurredAt());
+        self::assertSame(123, $activity->getId());
+        self::assertSame(123, $activity->getActivityId());
+        self::assertSame('activity.key', $activity->getActivityKey());
+        self::assertSame(['payload'], $activity->getPayload());
+        self::assertSame(EntityStub::class, $activity->getPrimaryClass());
+        self::assertSame('55', $activity->getPrimaryId());
+        self::assertEquals(new DateTime('2100-01-01T10:11:12Z'), $activity->getOccurredAt());
     }
 }

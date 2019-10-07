@@ -5,8 +5,8 @@ namespace Tests\EoneoPay\Webhooks\Stubs\Persister;
 
 use DateTime;
 use EoneoPay\Externals\ORM\Interfaces\EntityInterface;
-use EoneoPay\Webhooks\Model\ActivityInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\ActivityPersisterInterface;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface;
 
 /**
  * @coversNothing
@@ -21,7 +21,7 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     private $addedSequence;
 
     /**
-     * @var \EoneoPay\Webhooks\Model\ActivityInterface|null
+     * @var \EoneoPay\Webhooks\Models\ActivityInterface|null
      */
     private $nextActivity;
 
@@ -82,7 +82,7 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     /**
      * Sets next activity returned by get.
      *
-     * @param \EoneoPay\Webhooks\Model\ActivityInterface $activity
+     * @param \EoneoPay\Webhooks\Models\ActivityInterface $activity
      *
      * @return void
      */
@@ -92,7 +92,7 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     }
 
     /**
-     * Sets the next sequence
+     * Sets the next sequence.
      *
      * @param int $seq
      *

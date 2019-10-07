@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\Schemas;
 
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\Schemas\ResponseSchemaStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entity\WebhookRequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Schemas\Webhooks\ResponseSchemaStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Zend\Diactoros\Response\EmptyResponse;
 
 /**
- * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Schemas\WebhookResponseSchema
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Schemas\Webhooks\ResponseSchema
  */
 class ResponseSchemaTest extends TestCase
 {
     /**
-     * Tests webhook response schema populate
+     * Tests webhook response schema populate.
      *
      * @return void
      */
@@ -22,12 +22,12 @@ class ResponseSchemaTest extends TestCase
     {
         $schema = new ResponseSchemaStub();
         $schema->populate(
-            new WebhookRequestStub(1),
+            new RequestStub(1),
             new EmptyResponse(),
             'RESPONSE'
         );
 
-        static::assertSame('RESPONSE', $schema->getResponse());
-        static::assertSame(204, $schema->getStatusCode());
+        self::assertSame('RESPONSE', $schema->getResponse());
+        self::assertSame(204, $schema->getStatusCode());
     }
 }

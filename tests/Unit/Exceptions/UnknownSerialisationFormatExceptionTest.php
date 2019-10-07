@@ -12,7 +12,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class UnknownSerialisationFormatExceptionTest extends TestCase
 {
     /**
-     * Test exception message is correctly formatted
+     * Test exception message is correctly formatted.
      *
      * @return void
      */
@@ -20,6 +20,6 @@ class UnknownSerialisationFormatExceptionTest extends TestCase
     {
         $exception = new UnknownSerialisationFormatException('json');
 
-        static::assertSame('Unknown serialisation format "json"', $exception->getMessage());
+        self::assertSame('Unknown serialisation format "json"', $exception->getMessage());
     }
 }

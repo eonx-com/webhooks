@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Exceptions\EntityNotCreatedException;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 
 final class RequestHandler implements RequestHandlerInterface
 {
@@ -36,11 +36,11 @@ final class RequestHandler implements RequestHandlerInterface
     {
         try {
             /**
-             * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface $instance
+             * @var \EoneoPay\Webhooks\Models\WebhookRequestInterface $instance
              */
             $instance = $this->entityManager->getClassMetadata(WebhookRequestInterface::class)
                 ->newInstance();
-        } catch (ExceptionInterface $exception) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (ExceptionInterface $exception) {
             throw new EntityNotCreatedException(
                 \sprintf(
                     'An error occurred creating an %s instance.',
@@ -71,7 +71,7 @@ final class RequestHandler implements RequestHandlerInterface
         }
 
         /**
-         * @var \EoneoPay\Webhooks\Model\WebhookRequestInterface $entity
+         * @var \EoneoPay\Webhooks\Models\WebhookRequestInterface $entity
          *
          * @see https://youtrack.jetbrains.com/issue/WI-37859 - typehint required until PhpStorm recognises === check
          */

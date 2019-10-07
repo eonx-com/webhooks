@@ -6,8 +6,8 @@ namespace EoneoPay\Webhooks\Webhooks;
 use EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException;
 use EoneoPay\Externals\HttpClient\Interfaces\ClientInterface;
 use EoneoPay\Webhooks\Exceptions\InvalidRequestException;
-use EoneoPay\Webhooks\Model\WebhookRequestInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
 use Psr\Http\Client\NetworkExceptionInterface;
@@ -25,16 +25,16 @@ class RequestProcessor implements RequestProcessorInterface
     private $requestBuilder;
 
     /**
-     * @var \EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface
+     * @var \EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface
      */
     private $webhookPersister;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Externals\HttpClient\Interfaces\ClientInterface $client
      * @param \EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface $requestBuilder
-     * @param \EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface $webhookPersister
+     * @param \EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface $webhookPersister
      */
     public function __construct(
         ClientInterface $client,
@@ -49,11 +49,10 @@ class RequestProcessor implements RequestProcessorInterface
     /**
      * Processes a request and emits the webhook request.
      *
-     * @param \EoneoPay\Webhooks\Model\WebhookRequestInterface $webhookRequest
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface $webhookRequest
      *
      * @return void
      *
-     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlTagException
      * @throws \EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException
      */
     public function process(WebhookRequestInterface $webhookRequest): void
@@ -67,9 +66,9 @@ class RequestProcessor implements RequestProcessorInterface
         try {
             $response = $this->client->sendRequest($request);
             $this->webhookPersister->saveResponse($webhookRequest, $response);
-        } catch (NetworkExceptionInterface $networkException) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (NetworkExceptionInterface $networkException) {
             $this->webhookPersister->saveResponseException($webhookRequest, $networkException);
-        } catch (InvalidApiResponseException $exception) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (InvalidApiResponseException $exception) {
             $this->webhookPersister->saveResponseException($webhookRequest, $exception);
         }
     }

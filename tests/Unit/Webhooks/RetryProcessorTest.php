@@ -6,11 +6,11 @@ namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\WebhookRequest;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use EoneoPay\Webhooks\Webhooks\RetryProcessor;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\WebhookRequestRepositoryStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\Webhooks\RequestRepositoryStub;
 use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\ExternalEntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
@@ -26,7 +26,7 @@ class RetryProcessorTest extends TestCase
     use ModelFactoryTrait;
 
     /**
-     * Test retry method adds list of provided failed request to queue
+     * Test retry method adds list of provided failed request to queue.
      *
      * @return void
      *
@@ -40,12 +40,12 @@ class RetryProcessorTest extends TestCase
         $webhookRequest2 = $this->getRequestEntity(null, null, 20);
         $webhookRequest3 = $this->getRequestEntity(null, null, 34);
 
-        $repositoryStub = new WebhookRequestRepositoryStub(null, [
+        $repositoryStub = new RequestRepositoryStub(null, [
             $webhookRequest1,
             $webhookRequest2,
-            $webhookRequest3
+            $webhookRequest3,
         ]);
-        $repositories = [WebhookRequest::class => $repositoryStub];
+        $repositories = [Request::class => $repositoryStub];
 
         $entityManager = new ExternalEntityManagerStub($repositories);
         $eventDispatcher = new EventDispatcherStub();
@@ -64,7 +64,7 @@ class RetryProcessorTest extends TestCase
     }
 
     /**
-     * Get instance of retry processor
+     * Get instance of retry processor.
      *
      * @param \EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface|null $entityManager
      * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface|null $eventDispatcher

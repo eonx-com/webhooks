@@ -9,7 +9,7 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
 
 /**
  * This listener will listen for retry events created by Laravel bridge's event dispatcher
- * and call request processor to process the webhook request
+ * and call request processor to process the webhook request.
  */
 class RequestRetryListener
 {
@@ -24,7 +24,7 @@ class RequestRetryListener
     private $requestProcessor;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface $requestHandler
      * @param \EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface $requestProcessor

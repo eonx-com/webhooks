@@ -26,7 +26,7 @@ interface EventDispatcherInterface
     public function dispatchRequestCreated(int $requestId): void;
 
     /**
-     * Raises a webhook request id to be retired by queue workers
+     * Raises a webhook request id to be retired by queue workers.
      *
      * @param int $requestId
      *

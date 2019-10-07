@@ -13,7 +13,7 @@ use Tests\EoneoPay\Webhooks\TestCase;
 class EventDispatcherTest extends TestCase
 {
     /**
-     * Tests activity created
+     * Tests activity created.
      *
      * @return void
      */
@@ -27,12 +27,12 @@ class EventDispatcherTest extends TestCase
         /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent[] $dispatched */
         $dispatched = $innerDispatcher->getDispatched();
 
-        static::assertCount(1, $dispatched);
-        static::assertSame(5, $dispatched[0]->getActivityId());
+        self::assertCount(1, $dispatched);
+        self::assertSame(5, $dispatched[0]->getActivityId());
     }
 
     /**
-     * Tests webhook request
+     * Tests webhook request.
      *
      * @return void
      */
@@ -46,12 +46,12 @@ class EventDispatcherTest extends TestCase
         /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent[] $dispatched */
         $dispatched = $innerDispatcher->getDispatched();
 
-        static::assertCount(1, $dispatched);
-        static::assertSame(5, $dispatched[0]->getRequestId());
+        self::assertCount(1, $dispatched);
+        self::assertSame(5, $dispatched[0]->getRequestId());
     }
 
     /**
-     * Test webhook request retry event dispatcher
+     * Test webhook request retry event dispatcher.
      *
      * @return void
      */
@@ -65,7 +65,7 @@ class EventDispatcherTest extends TestCase
         /** @var \EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestRetryEvent[] $dispatched */
         $dispatched = $innerDispatcher->getDispatched();
 
-        static::assertCount(1, $dispatched);
-        static::assertSame(2, $dispatched[0]->getRequestId());
+        self::assertCount(1, $dispatched);
+        self::assertSame(2, $dispatched[0]->getRequestId());
     }
 }

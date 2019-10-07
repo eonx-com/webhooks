@@ -10,7 +10,7 @@ use EoneoPay\Utils\Interfaces\UtcDateTimeInterface;
 abstract class Entity extends BaseEntity
 {
     /**
-     * Format a date/time into zulu format
+     * Format a date/time into zulu format.
      *
      * @param \DateTime|null $datetime The datetime object to format
      * @param string|null $format How to format the date

@@ -16,8 +16,8 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterfa
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Bridge\Laravel\Providers\WebhookServiceProvider;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
-use EoneoPay\Webhooks\Persister\Interfaces\WebhookPersisterInterface;
-use EoneoPay\Webhooks\Subscription\Interfaces\SubscriptionResolverInterface;
+use EoneoPay\Webhooks\Persisters\Interfaces\WebhookPersisterInterface;
+use EoneoPay\Webhooks\Subscriptions\Interfaces\SubscriptionResolverInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestBuilderInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestFactoryInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
@@ -52,17 +52,17 @@ class WebhookServiceProviderTest extends WebhookTestCase
     public function getRegisteredInterfaces(): array
     {
         return [
-            [ActivityCreatedListener::class],
-            [ActivityFactoryInterface::class],
-            [EventDispatcherInterface::class],
-            [RealEventDispatcher::class],
-            [RequestHandlerInterface::class],
-            [ResponseHandlerInterface::class],
-            [RequestBuilderInterface::class],
-            [RequestFactoryInterface::class],
-            [RequestProcessorInterface::class],
-            [RetryProcessorInterface::class],
-            [WebhookPersisterInterface::class]
+            'activity created listener' => [ActivityCreatedListener::class],
+            'activity factory' => [ActivityFactoryInterface::class],
+            'event dispatcher' => [EventDispatcherInterface::class],
+            'externals event dispatcher' => [RealEventDispatcher::class],
+            'request handler' => [RequestHandlerInterface::class],
+            'response handler' => [ResponseHandlerInterface::class],
+            'request builder' => [RequestBuilderInterface::class],
+            'request factory' => [RequestFactoryInterface::class],
+            'request processor' => [RequestProcessorInterface::class],
+            'retry processor' => [RetryProcessorInterface::class],
+            'webhook persister' => [WebhookPersisterInterface::class],
         ];
     }
 
@@ -72,8 +72,6 @@ class WebhookServiceProviderTest extends WebhookTestCase
      * @param string $interface
      *
      * @return void
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @dataProvider getRegisteredInterfaces
      */
@@ -85,11 +83,9 @@ class WebhookServiceProviderTest extends WebhookTestCase
     }
 
     /**
-     * Get application instance
+     * Get application instance.
      *
      * @return \Illuminate\Container\Container
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function getApplication(): Container
     {
@@ -106,8 +102,7 @@ class WebhookServiceProviderTest extends WebhookTestCase
         $app->bind(LoggerInterface::class, Logger::class);
 
         $app->instance('payload_builder_real', new PayloadBuilderStub([]));
-        $app->instance('payload_builder_unreal', new class
-        {
+        $app->instance('payload_builder_unreal', new class() {
         });
         $app->tag(['payload_builder_real', 'payload_builder_unreal'], ['webhooks_payload_builders']);
 
