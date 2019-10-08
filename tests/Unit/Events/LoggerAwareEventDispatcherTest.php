@@ -6,7 +6,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Events;
 use EoneoPay\Externals\Logger\Interfaces\LoggerInterface;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Events\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\LoggerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
@@ -15,6 +15,21 @@ use Tests\EoneoPay\Webhooks\TestCase;
  */
 class LoggerAwareEventDispatcherTest extends TestCase
 {
+    /**
+     * Returns the instance under test.
+     *
+     * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
+     * @param \EoneoPay\Externals\Logger\Interfaces\LoggerInterface $logger
+     *
+     * @return \EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher
+     */
+    public function getDispatcher(
+        EventDispatcherInterface $dispatcher,
+        LoggerInterface $logger
+    ): LoggerAwareEventDispatcher {
+        return new LoggerAwareEventDispatcher($dispatcher, $logger);
+    }
+
     /**
      * Tests activityCreated.
      *
@@ -94,20 +109,5 @@ class LoggerAwareEventDispatcherTest extends TestCase
 
         self::assertSame([1], $innerDispatcher->getWebhooksRetried());
         self::assertSame($expectedLogs, $logger->getLogs());
-    }
-
-    /**
-     * Returns the instance under test.
-     *
-     * @param \EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface $dispatcher
-     * @param \EoneoPay\Externals\Logger\Interfaces\LoggerInterface $logger
-     *
-     * @return \EoneoPay\Webhooks\Events\LoggerAwareEventDispatcher
-     */
-    public function getDispatcher(
-        EventDispatcherInterface $dispatcher,
-        LoggerInterface $logger
-    ): LoggerAwareEventDispatcher {
-        return new LoggerAwareEventDispatcher($dispatcher, $logger);
     }
 }

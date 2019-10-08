@@ -41,7 +41,9 @@ return PhpCsFixer\Config::create()
         'comment_to_phpdoc' => false,
 
         // Enforces no space around the concat operator
-        'concat_space' => true,
+        'concat_space' => [
+            'spacing' => 'one'
+        ],
 
         // No spaces around declare equals
         'declare_equal_normalize' => [

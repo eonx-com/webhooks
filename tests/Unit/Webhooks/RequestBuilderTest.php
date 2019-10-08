@@ -8,7 +8,7 @@ use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Webhooks\RequestBuilder;
 use Psr\Http\Message\MessageInterface;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Lifecycle\RequestStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Zend\Diactoros\StreamFactory;
 use function GuzzleHttp\Psr7\str;

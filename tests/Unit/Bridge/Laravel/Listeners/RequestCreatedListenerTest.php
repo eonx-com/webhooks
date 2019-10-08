@@ -5,7 +5,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Laravel\Listeners;
 
 use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\RequestCreatedListener;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Lifecycle\RequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Handlers\RequestHandlerStub;
 use Tests\EoneoPay\Webhooks\Stubs\Webhooks\RequestProcessorStub;
 use Tests\EoneoPay\Webhooks\TestCase;
