@@ -10,7 +10,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler;
 use EoneoPay\Webhooks\Exceptions\WebhookSequenceNotFoundException;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use Exception;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\RequestStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Lifecycle\RequestStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 

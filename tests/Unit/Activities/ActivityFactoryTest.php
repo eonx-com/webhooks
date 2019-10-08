@@ -8,10 +8,10 @@ use EoneoPay\Webhooks\Activities\ActivityFactory;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
 use EoneoPay\Webhooks\Payloads\Interfaces\PayloadManagerInterface;
 use EoneoPay\Webhooks\Persisters\Interfaces\ActivityPersisterInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Activity\ActivityDataStub;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\Payload\PayloadManagerStub;
-use Tests\EoneoPay\Webhooks\Stubs\Persister\ActivityPersisterStub;
+use Tests\EoneoPay\Webhooks\Stubs\Activities\ActivityDataStub;
+use Tests\EoneoPay\Webhooks\Stubs\Events\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Payloads\PayloadManagerStub;
+use Tests\EoneoPay\Webhooks\Stubs\Persisters\ActivityPersisterStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**

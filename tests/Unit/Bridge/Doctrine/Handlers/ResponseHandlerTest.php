@@ -10,7 +10,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use Exception;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Webhooks\ResponseStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\Lifecycle\ResponseStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\EntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 

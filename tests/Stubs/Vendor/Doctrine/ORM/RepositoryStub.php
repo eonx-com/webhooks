@@ -14,14 +14,14 @@ class RepositoryStub implements RepositoryInterface
     /**
      * Entities.
      *
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity[]
+     * @var mixed[]
      */
     private $entities;
 
     /**
      * Create repository stub.
      *
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity[]|null $entities Entities to load into repository
+     * @param mixed[]|null $entities Entities to load into repository
      */
     public function __construct(?array $entities = null)
     {
@@ -72,7 +72,8 @@ class RepositoryStub implements RepositoryInterface
                 }
 
                 $method = \sprintf('get%s', \ucfirst($key));
-                $entityValue = $entity->{$method}();
+                $callable = [$entity, $method];
+                $entityValue = \is_callable($callable) === true ? $callable() : null;
 
                 if ($entityValue !== $value) {
                     $matched = false;

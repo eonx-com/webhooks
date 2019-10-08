@@ -5,7 +5,7 @@ namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider
 
 use DateTime as BaseDateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
+use EoneoPay\Webhooks\Models\ActivityInterface;
 use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 
 /**
@@ -16,7 +16,7 @@ class WebhookRequestData
     use ModelFactoryTrait;
 
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity|null
+     * @var \EoneoPay\Webhooks\Models\ActivityInterface|null
      */
     private $activity;
 
@@ -33,7 +33,7 @@ class WebhookRequestData
     private $lastResponseId = 0;
 
     /**
-     * @var \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request[]|null
+     * @var \EoneoPay\Webhooks\Models\WebhookRequestInterface[]|null
      */
     private $requests;
 
@@ -41,9 +41,9 @@ class WebhookRequestData
      * WebhookRequestData constructor.
      *
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
-     * @param \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity|null $activity
+     * @param \EoneoPay\Webhooks\Models\ActivityInterface|null $activity
      */
-    public function __construct(EntityManagerInterface $entityManager, ?Activity $activity = null)
+    public function __construct(EntityManagerInterface $entityManager, ?ActivityInterface $activity = null)
     {
         $this->entityManager = $entityManager;
         $this->activity = $activity;

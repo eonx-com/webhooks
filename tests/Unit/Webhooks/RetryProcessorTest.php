@@ -6,12 +6,12 @@ namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 use EoneoPay\Externals\ORM\Interfaces\EntityManagerInterface;
 use EoneoPay\Utils\DateInterval;
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Webhooks\Request;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RetryProcessorInterface;
 use EoneoPay\Webhooks\Webhooks\RetryProcessor;
-use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\Webhooks\RequestRepositoryStub;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\Lifecycle\RequestRepositoryStub;
+use Tests\EoneoPay\Webhooks\Stubs\Events\EventDispatcherStub;
 use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\ExternalEntityManagerStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
@@ -45,7 +45,7 @@ class RetryProcessorTest extends TestCase
             $webhookRequest2,
             $webhookRequest3,
         ]);
-        $repositories = [Request::class => $repositoryStub];
+        $repositories = [WebhookRequestInterface::class => $repositoryStub];
 
         $entityManager = new ExternalEntityManagerStub($repositories);
         $eventDispatcher = new EventDispatcherStub();

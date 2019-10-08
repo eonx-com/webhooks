@@ -7,7 +7,7 @@ use EoneoPay\Webhooks\Bridge\Laravel\Events\ActivityCreatedEvent;
 use EoneoPay\Webhooks\Bridge\Laravel\Exceptions\ActivityNotFoundException;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Persister\ActivityPersisterStub;
+use Tests\EoneoPay\Webhooks\Stubs\Persisters\ActivityPersisterStub;
 use Tests\EoneoPay\Webhooks\Stubs\Webhooks\RequestFactoryStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 

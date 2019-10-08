@@ -5,10 +5,10 @@ namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
 use EoneoPay\Webhooks\Webhooks\RequestFactory;
 use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Entities\ActivityStub;
-use Tests\EoneoPay\Webhooks\Stubs\Event\EventDispatcherStub;
-use Tests\EoneoPay\Webhooks\Stubs\Persister\WebhookPersisterStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionResolverStub;
-use Tests\EoneoPay\Webhooks\Stubs\Subscription\SubscriptionStub;
+use Tests\EoneoPay\Webhooks\Stubs\Events\EventDispatcherStub;
+use Tests\EoneoPay\Webhooks\Stubs\Persisters\WebhookPersisterStub;
+use Tests\EoneoPay\Webhooks\Stubs\Subscriptions\SubscriptionResolverStub;
+use Tests\EoneoPay\Webhooks\Stubs\Subscriptions\SubscriptionStub;
 use Tests\EoneoPay\Webhooks\TestCase;
 
 /**

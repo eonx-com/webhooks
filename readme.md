@@ -67,14 +67,15 @@ Any implementation of this library will need to:
 - Modify `config/doctrine.php` to add the following changes to the configuration:
 ```php
 <?php
+declare(strict_types=1);
 
 use EoneoPay\Externals\Bridge\LaravelDoctrine\Extensions\ResolveTargetEntityExtension;
 use EoneoPay\Webhooks\Models\ActivityInterface;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Request;
-use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Response;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Lifecycle\Request;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Lifecycle\Response;
 
 return [
     'managers' => [

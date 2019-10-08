@@ -14,8 +14,8 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterfac
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\ResponseHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\RequestHandler;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\ResponseHandler;
-use EoneoPay\Webhooks\Bridge\Doctrine\Persister\ActivityPersister;
-use EoneoPay\Webhooks\Bridge\Doctrine\Persister\WebhookPersister;
+use EoneoPay\Webhooks\Bridge\Doctrine\Persisters\ActivityPersister;
+use EoneoPay\Webhooks\Bridge\Doctrine\Persisters\WebhookPersister;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\EventDispatcher;
 use EoneoPay\Webhooks\Bridge\Laravel\Listeners\ActivityCreatedListener;
 use EoneoPay\Webhooks\Events\Interfaces\EventDispatcherInterface;

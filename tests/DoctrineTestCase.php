@@ -3,15 +3,26 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks;
 
+use Doctrine\Common\EventManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Events;
+use Doctrine\ORM\Tools\ResolveTargetEntityListener;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Activity;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Lifecycle\Request;
+use EoneoPay\Webhooks\Bridge\Doctrine\Entities\Lifecycle\Response;
+use EoneoPay\Webhooks\Models\ActivityInterface;
+use EoneoPay\Webhooks\Models\WebhookRequestInterface;
+use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use Exception;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Entities\BaseEntityTestCase;
 
 /**
  * @coversNothing
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Coupling required to configure entity manager
  */
 class DoctrineTestCase extends BaseEntityTestCase
 {
@@ -45,12 +56,20 @@ class DoctrineTestCase extends BaseEntityTestCase
      */
     protected function getDoctrineEntityManager(): EntityManagerInterface
     {
-        $paths = [__DIR__.'/../src'];
+        $paths = [__DIR__ . '/../src/Bridge/Doctrine/Entities'];
         $setup = new Setup();
         $config = $setup::createAnnotationMetadataConfiguration($paths, true, null, null, false);
         $dbParams = ['driver' => 'pdo_sqlite', 'memory' => true];
 
-        return EntityManager::create($dbParams, $config);
+        // Resolve interfaces to default entities
+        $eventManager = new EventManager();
+        $rtel = new ResolveTargetEntityListener();
+        $rtel->addResolveTargetEntity(ActivityInterface::class, Activity::class, []);
+        $rtel->addResolveTargetEntity(WebhookRequestInterface::class, Request::class, []);
+        $rtel->addResolveTargetEntity(WebhookResponseInterface::class, Response::class, []);
+        $eventManager->addEventListener(Events::loadClassMetadata, $rtel);
+
+        return EntityManager::create($dbParams, $config, $eventManager);
     }
 
     /**
