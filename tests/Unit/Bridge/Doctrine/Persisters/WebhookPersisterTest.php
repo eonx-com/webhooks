@@ -116,9 +116,12 @@ class WebhookPersisterTest extends TestCase
      * Tests saveResponseException.
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSaveResponseNetworkException(): void
     {
+        $now = new DateTime();
         $exception = new NetworkException(new Request(), new Exception('Message'));
 
         $request = new RequestStub(null);
@@ -136,12 +139,15 @@ class WebhookPersisterTest extends TestCase
         self::assertContains($webhookResponse, $saved);
         self::assertFalse($webhookResponse->isSuccessful());
         self::assertSame('Message', $webhookResponse->getData()['errorReason']);
+        self::assertEqualsWithDelta($now, $webhookResponse->getCreatedAt(), 10);
     }
 
     /**
      * Tests saveResponseException.
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSaveResponseRequestExceptionNoResponse(): void
     {
@@ -168,6 +174,8 @@ class WebhookPersisterTest extends TestCase
      * Tests saveResponseException.
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testSaveResponseRequestExceptionWithResponse(): void
     {
