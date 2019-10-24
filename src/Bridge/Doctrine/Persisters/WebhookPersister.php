@@ -90,6 +90,8 @@ final class WebhookPersister implements WebhookPersisterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function saveResponseException(
         WebhookRequestInterface $webhookRequest,
@@ -118,6 +120,7 @@ final class WebhookPersister implements WebhookPersisterInterface
             );
         }
 
+        $webhookResponse->setCreatedAt(new DateTime());
         $webhookResponse->setSuccessful(false);
         $webhookResponse->setErrorReason($exception->getMessage());
 
