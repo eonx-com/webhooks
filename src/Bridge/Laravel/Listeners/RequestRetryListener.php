@@ -6,12 +6,13 @@ namespace EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestRetryEvent;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * This listener will listen for retry events created by Laravel bridge's event dispatcher
  * and call request processor to process the webhook request.
  */
-class RequestRetryListener
+class RequestRetryListener implements ShouldQueue
 {
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface

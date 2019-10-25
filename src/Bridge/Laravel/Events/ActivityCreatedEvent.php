@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Laravel\Events;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-
-final class ActivityCreatedEvent implements ShouldQueue
+final class ActivityCreatedEvent
 {
     /**
      * The activity identifier for the newly created activity.
