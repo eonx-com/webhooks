@@ -6,6 +6,7 @@ namespace EoneoPay\Webhooks\Bridge\Laravel\Listeners;
 use EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface;
 use EoneoPay\Webhooks\Bridge\Laravel\Events\WebhookRequestCreatedEvent;
 use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * This listener will listen for events created by the Laravel Bridge's EventDispatcher
@@ -15,7 +16,7 @@ use EoneoPay\Webhooks\Webhooks\Interfaces\RequestProcessorInterface;
  * and calls out to the Request Processor to notify it that a request has been created
  * and needs to be actioned.
  */
-class RequestCreatedListener
+class RequestCreatedListener implements ShouldQueue
 {
     /**
      * @var \EoneoPay\Webhooks\Bridge\Doctrine\Handlers\Interfaces\RequestHandlerInterface
