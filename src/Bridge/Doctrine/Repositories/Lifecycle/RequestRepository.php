@@ -10,7 +10,7 @@ use EoneoPay\Webhooks\Models\ActivityInterface;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 
-class RequestRepository extends FillableRepository implements WebhookRequestRepositoryInterface
+final class RequestRepository extends FillableRepository implements WebhookRequestRepositoryInterface
 {
     /**
      * {@inheritdoc}
