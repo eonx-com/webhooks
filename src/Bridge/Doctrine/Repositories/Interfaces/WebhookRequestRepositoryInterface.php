@@ -6,7 +6,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces;
 use DateTime;
 use EoneoPay\Webhooks\Models\ActivityInterface;
 
-interface WebhookRequestRepositoryInterface extends FillableRepositoryInterface
+interface WebhookRequestRepositoryInterface
 {
     /**
      * Get list of webhook requests that have failed since provided date time.

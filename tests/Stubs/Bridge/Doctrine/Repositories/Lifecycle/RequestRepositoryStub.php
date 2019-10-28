@@ -7,12 +7,12 @@ use ArrayIterator;
 use DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
 use EoneoPay\Webhooks\Models\ActivityInterface;
-use Tests\EoneoPay\Webhooks\Stubs\Vendor\Doctrine\ORM\RepositoryStub;
+use Tests\EoneoPay\Webhooks\Stubs\Bridge\Doctrine\Repositories\FillableRespositoryStub;
 
 /**
  * @coversNothing
  */
-class RequestRepositoryStub extends RepositoryStub implements WebhookRequestRepositoryInterface
+class RequestRepositoryStub extends FillableRespositoryStub implements WebhookRequestRepositoryInterface
 {
     /**
      * Activity from latest webhook request.
@@ -80,13 +80,5 @@ class RequestRepositoryStub extends RepositoryStub implements WebhookRequestRepo
     public function getSince(): DateTime
     {
         return $this->since;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFillIterable(): iterable
-    {
-        return new ArrayIterator($this->findAll());
     }
 }

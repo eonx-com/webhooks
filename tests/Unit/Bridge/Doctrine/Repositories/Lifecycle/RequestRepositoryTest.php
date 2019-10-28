@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\Lifecycle;
 
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
@@ -12,6 +12,7 @@ use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
 
 /**
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\FillableRepository
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository
  */
 class RequestRepositoryTest extends DoctrineTestCase
@@ -133,6 +134,7 @@ class RequestRepositoryTest extends DoctrineTestCase
      *
      * @return void
      *
+     * @throws \Doctrine\ORM\ORMException
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
@@ -165,6 +167,7 @@ class RequestRepositoryTest extends DoctrineTestCase
      *
      * @return void
      *
+     * @throws \Doctrine\ORM\ORMException
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
@@ -215,6 +218,8 @@ class RequestRepositoryTest extends DoctrineTestCase
      * @return void
      *
      * @runInSeparateProcess
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function testGetLatestActivityReturnsNull(): void
     {
@@ -228,12 +233,12 @@ class RequestRepositoryTest extends DoctrineTestCase
     /**
      * Get repository.
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository
      */
-    private function getRepository(): WebhookRequestRepositoryInterface
+    private function getRepository(): RequestRepository
     {
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface $repository
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository $repository
          */
         $repository = $this->getEntityManager()->getRepository(WebhookRequestInterface::class);
 

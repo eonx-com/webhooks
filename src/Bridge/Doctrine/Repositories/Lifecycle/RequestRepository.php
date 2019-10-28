@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle;
 
 use DateTime;
-use EoneoPay\Externals\ORM\Repository;
+use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\FillableRepository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
 use EoneoPay\Webhooks\Models\ActivityInterface;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 
-class RequestRepository extends Repository implements WebhookRequestRepositoryInterface
+class RequestRepository extends FillableRepository implements WebhookRequestRepositoryInterface
 {
     /**
      * {@inheritdoc}
@@ -51,20 +51,6 @@ class RequestRepository extends Repository implements WebhookRequestRepositoryIn
              * ]
              */
             yield $request[$key];
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Doctrine\ORM\ORMException
-     */
-    public function getFillIterable(): iterable
-    {
-        $builder = $this->createQueryBuilder('q');
-
-        foreach ($builder->getQuery()->iterate() as $result) {
-            yield $result[0];
         }
     }
 
