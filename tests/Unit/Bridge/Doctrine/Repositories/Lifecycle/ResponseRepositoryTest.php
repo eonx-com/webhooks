@@ -39,7 +39,6 @@ class ResponseRepositoryTest extends DoctrineTestCase
         $repository = $this->getRepository();
 
         $iterable = $repository->getFillIterable();
-        /** @noinspection PhpParamsInspection Phpstorm is wrong. iterator is acceptable. */
         $responses = \iterator_to_array($iterable);
 
         self::assertCount(2, $responses);

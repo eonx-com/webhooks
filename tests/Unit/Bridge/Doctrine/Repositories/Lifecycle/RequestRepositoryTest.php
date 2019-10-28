@@ -152,7 +152,6 @@ class RequestRepositoryTest extends DoctrineTestCase
         $repository = $this->getRepository();
 
         $iterable = $repository->getFillIterable();
-        /** @noinspection PhpParamsInspection Phpstorm is wrong. iterator is acceptable. */
         $requests = \iterator_to_array($iterable);
 
         self::assertCount(3, $requests);

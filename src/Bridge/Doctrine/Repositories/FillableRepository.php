@@ -6,7 +6,7 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories;
 use EoneoPay\Externals\ORM\Repository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\FillableRepositoryInterface;
 
-class FillableRepository extends Repository implements FillableRepositoryInterface
+abstract class FillableRepository extends Repository implements FillableRepositoryInterface
 {
     /**
      * {@inheritdoc}

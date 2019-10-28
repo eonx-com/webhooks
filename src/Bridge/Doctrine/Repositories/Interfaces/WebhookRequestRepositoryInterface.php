@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces;
 
 use DateTime;
+use EoneoPay\Externals\ORM\Interfaces\RepositoryInterface;
 use EoneoPay\Webhooks\Models\ActivityInterface;
 
-interface WebhookRequestRepositoryInterface
+interface WebhookRequestRepositoryInterface extends RepositoryInterface
 {
     /**
      * Get list of webhook requests that have failed since provided date time.

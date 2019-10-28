@@ -6,6 +6,6 @@ namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\FillableRepository;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookResponseRepositoryInterface;
 
-class ResponseRepository extends FillableRepository implements WebhookResponseRepositoryInterface
+final class ResponseRepository extends FillableRepository implements WebhookResponseRepositoryInterface
 {
 }
