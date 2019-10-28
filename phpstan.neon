@@ -9,3 +9,7 @@ parameters:
         -
             message: '#EoneoPay\\Webhooks\\Bridge\\Doctrine\\Entities\\([A-Z][\w]+\\)?[A-Z][\w]+::__construct\(\) does not call parent constructor from EoneoPay\\Externals\\ORM\\Entity\.#'
             path: src/Bridge/Doctrine/Entities
+
+        -
+            message: '#Parameter \#1 \$it of function iterator_to_array expects Traversable, iterable<EoneoPay\\Webhooks\\Bridge\\Doctrine\\Entities\\Entity> given.#'
+            path: tests/Unit/Bridge/Doctrine/Repositories
