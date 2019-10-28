@@ -81,4 +81,12 @@ class RequestRepositoryStub extends RepositoryStub implements WebhookRequestRepo
     {
         return $this->since;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFillIterable(): iterable
+    {
+        return new ArrayIterator($this->findAll());
+    }
 }

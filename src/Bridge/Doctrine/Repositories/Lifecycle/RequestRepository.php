@@ -57,6 +57,20 @@ class RequestRepository extends Repository implements WebhookRequestRepositoryIn
     /**
      * {@inheritdoc}
      *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function getFillIterable(): iterable
+    {
+        $builder = $this->createQueryBuilder('q');
+
+        foreach ($builder->getQuery()->iterate() as $result) {
+            yield $result[0];
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getLatestActivity(string $primaryClass, string $primaryId): ?ActivityInterface

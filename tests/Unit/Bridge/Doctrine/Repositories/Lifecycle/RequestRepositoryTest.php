@@ -129,6 +129,37 @@ class RequestRepositoryTest extends DoctrineTestCase
     }
 
     /**
+     * Tests that getFillIterable returns expected data.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     * @throws \ReflectionException
+     */
+    public function testGetFillIterable(): void
+    {
+        $requestData = new WebhookRequestData($this->getEntityManager());
+        $requestData
+            ->createRequest(new DateTime('2019-10-10 12:00:00'), 1)
+            ->createRequest(new DateTime('2019-10-11 12:00:00'), 2)
+            ->createRequest(new DateTime('2019-10-12 12:00:00'), 3)
+            ->build();
+
+        $expectedRequests = $requestData->getRequests();
+
+        $repository = $this->getRepository();
+
+        $iterable = $repository->getFillIterable();
+        /** @noinspection PhpParamsInspection Phpstorm is wrong. iterator is acceptable. */
+        $requests = \iterator_to_array($iterable);
+
+        self::assertCount(3, $requests);
+        self::assertSame($expectedRequests[1], $requests[0]);
+        self::assertSame($expectedRequests[2], $requests[1]);
+        self::assertSame($expectedRequests[3], $requests[2]);
+    }
+
+    /**
      * Test that get latest activity payload for a given primary class and primary id will
      * return expected activity.
      *

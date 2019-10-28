@@ -112,4 +112,14 @@ class WebhookRequestData
 
         return $this;
     }
+
+    /**
+     * Get requests created.
+     *
+     * @return \EoneoPay\Webhooks\Models\WebhookRequestInterface[]|null
+     */
+    public function getRequests(): ?array
+    {
+        return $this->requests;
+    }
 }
