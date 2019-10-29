@@ -9,7 +9,7 @@ interface FillableRepositoryInterface
      * Returns an iterable that is used to fill search indicies with the entity
      * that the repository belongs to.
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity[]
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Entities\Entity[]|\Iterator
      */
     public function getFillIterable(): iterable;
 }
