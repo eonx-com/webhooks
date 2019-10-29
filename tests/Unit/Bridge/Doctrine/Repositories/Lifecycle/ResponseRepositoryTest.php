@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\Lifecycle;
 
+use ArrayIterator;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookResponseRepositoryInterface;
 use EoneoPay\Webhooks\Models\WebhookResponseInterface;
@@ -39,7 +40,7 @@ class ResponseRepositoryTest extends DoctrineTestCase
         $repository = $this->getRepository();
 
         $iterable = $repository->getFillIterable();
-        $responses = \iterator_to_array($iterable);
+        $responses = \iterator_to_array(new ArrayIterator($iterable));
 
         self::assertCount(2, $responses);
         self::assertSame($expectedResponses[1], $responses[0]);

@@ -10,6 +10,7 @@ use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
+use Traversable;
 
 /**
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\FillableRepository
@@ -152,12 +153,14 @@ class RequestRepositoryTest extends DoctrineTestCase
         $repository = $this->getRepository();
 
         $iterable = $repository->getFillIterable();
-        $requests = \iterator_to_array($iterable);
+        $requests = $iterable instanceof Traversable
+            ? \iterator_to_array($iterable) :
+            $iterable;
 
         self::assertCount(3, $requests);
-        self::assertSame($expectedRequests[1], $requests[0]);
-        self::assertSame($expectedRequests[2], $requests[1]);
-        self::assertSame($expectedRequests[3], $requests[2]);
+        self::assertContains($expectedRequests[1], $requests);
+        self::assertContains($expectedRequests[2], $requests);
+        self::assertContains($expectedRequests[3], $requests);
     }
 
     /**
