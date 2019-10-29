@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\Lifecycle;
 
-use ArrayIterator;
 use EoneoPay\Utils\DateTime;
 use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookResponseRepositoryInterface;
 use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
+use Traversable;
 
 /**
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\FillableRepository
@@ -40,11 +40,14 @@ class ResponseRepositoryTest extends DoctrineTestCase
         $repository = $this->getRepository();
 
         $iterable = $repository->getFillIterable();
-        $responses = \iterator_to_array(new ArrayIterator($iterable));
+
+        $responses = $iterable instanceof Traversable
+            ? \iterator_to_array($iterable) :
+            $iterable;
 
         self::assertCount(2, $responses);
-        self::assertSame($expectedResponses[1], $responses[0]);
-        self::assertSame($expectedResponses[2], $responses[1]);
+        self::assertContains($expectedResponses[1], $responses);
+        self::assertContains($expectedResponses[2], $responses);
     }
 
     /**
