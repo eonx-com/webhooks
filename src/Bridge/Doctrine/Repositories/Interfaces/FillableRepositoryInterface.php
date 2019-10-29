@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces;
 
-interface FillableRepositoryInterface
+use EoneoPay\Externals\ORM\Interfaces\RepositoryInterface;
+
+interface FillableRepositoryInterface extends RepositoryInterface
 {
     /**
      * Returns an iterable that is used to fill search indicies with the entity
