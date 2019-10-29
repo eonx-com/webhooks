@@ -38,6 +38,11 @@ class WebhookRequestData
     private $requests;
 
     /**
+     * @var \EoneoPay\Webhooks\Models\WebhookResponseInterface[]|null
+     */
+    private $responses;
+
+    /**
      * WebhookRequestData constructor.
      *
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
@@ -47,6 +52,8 @@ class WebhookRequestData
     {
         $this->entityManager = $entityManager;
         $this->activity = $activity;
+        $this->requests = [];
+        $this->responses = [];
     }
 
     /**
@@ -110,6 +117,28 @@ class WebhookRequestData
 
         $this->entityManager->persist($entity);
 
+        $this->responses[$requestId] = $entity;
+
         return $this;
+    }
+
+    /**
+     * Get requests created.
+     *
+     * @return \EoneoPay\Webhooks\Models\WebhookRequestInterface[]|null
+     */
+    public function getRequests(): ?array
+    {
+        return $this->requests;
+    }
+
+    /**
+     * Get responses created.
+     *
+     * @return \EoneoPay\Webhooks\Models\WebhookResponseInterface[]|null
+     */
+    public function getResponses(): ?array
+    {
+        return $this->responses;
     }
 }

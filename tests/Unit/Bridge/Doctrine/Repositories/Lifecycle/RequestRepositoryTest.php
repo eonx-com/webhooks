@@ -4,14 +4,16 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\Lifecycle;
 
 use EoneoPay\Utils\DateTime;
-use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface;
+use EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use Tests\EoneoPay\Webhooks\DoctrineTestCase;
 use Tests\EoneoPay\Webhooks\Stubs\Externals\EntityStub;
 use Tests\EoneoPay\Webhooks\TestCases\Traits\ModelFactoryTrait;
 use Tests\EoneoPay\Webhooks\Unit\Bridge\Doctrine\Repositories\DataProvider\WebhookRequestData;
+use Traversable;
 
 /**
+ * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\FillableRepository
  * @covers \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository
  */
 class RequestRepositoryTest extends DoctrineTestCase
@@ -129,11 +131,45 @@ class RequestRepositoryTest extends DoctrineTestCase
     }
 
     /**
+     * Tests that getFillIterable returns expected data.
+     *
+     * @return void
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
+     * @throws \ReflectionException
+     */
+    public function testGetFillIterable(): void
+    {
+        $requestData = new WebhookRequestData($this->getEntityManager());
+        $requestData
+            ->createRequest(new DateTime('2019-10-10 12:00:00'), 1)
+            ->createRequest(new DateTime('2019-10-11 12:00:00'), 2)
+            ->createRequest(new DateTime('2019-10-12 12:00:00'), 3)
+            ->build();
+
+        $expectedRequests = $requestData->getRequests();
+
+        $repository = $this->getRepository();
+
+        $iterable = $repository->getFillIterable();
+        $requests = $iterable instanceof Traversable
+            ? \iterator_to_array($iterable) :
+            $iterable;
+
+        self::assertCount(3, $requests);
+        self::assertContains($expectedRequests[1], $requests);
+        self::assertContains($expectedRequests[2], $requests);
+        self::assertContains($expectedRequests[3], $requests);
+    }
+
+    /**
      * Test that get latest activity payload for a given primary class and primary id will
      * return expected activity.
      *
      * @return void
      *
+     * @throws \Doctrine\ORM\ORMException
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      * @throws \ReflectionException
      */
@@ -184,6 +220,8 @@ class RequestRepositoryTest extends DoctrineTestCase
      * @return void
      *
      * @runInSeparateProcess
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function testGetLatestActivityReturnsNull(): void
     {
@@ -197,12 +235,12 @@ class RequestRepositoryTest extends DoctrineTestCase
     /**
      * Get repository.
      *
-     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface
+     * @return \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository
      */
-    private function getRepository(): WebhookRequestRepositoryInterface
+    private function getRepository(): RequestRepository
     {
         /**
-         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Interfaces\WebhookRequestRepositoryInterface $repository
+         * @var \EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\RequestRepository $repository
          */
         $repository = $this->getEntityManager()->getRepository(WebhookRequestInterface::class);
 

@@ -13,7 +13,7 @@ use EoneoPay\Webhooks\Models\WebhookResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="\EoneoPay\Webhooks\Bridge\Doctrine\Repositories\Lifecycle\ResponseRepository")
  * @ORM\Table(
  *     name="event_activity_responses",
  *     indexes={
