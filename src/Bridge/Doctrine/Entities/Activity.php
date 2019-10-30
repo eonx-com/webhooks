@@ -12,7 +12,7 @@ use EoneoPay\Webhooks\Bridge\Doctrine\Schemas\ActivitySchema;
 use EoneoPay\Webhooks\Models\ActivityInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="EoneoPay\Webhooks\Bridge\Doctrine\Repositories\ActivityRepository")
  * @ORM\Table(name="event_activities")
  */
 class Activity extends Entity implements ActivityInterface
