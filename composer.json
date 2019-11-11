@@ -1,5 +1,5 @@
 {
-  "name": "eoneopay/webhooks",
+  "name": "eonx-com/webhooks",
   "description": "Package to allow payloads to be sent based on event triggers",
   "keywords": [
     "eoneopay",
@@ -10,14 +10,14 @@
   "require": {
     "php": ">=7.3",
     "doctrine/orm": "^2.6.3",
-    "eoneopay/externals": "^1.0",
-    "eoneopay/utils": "^0.2",
+    "eonx-com/externals": "^1.0",
+    "eonx-com/utils": "^1.0",
     "ext-json": "*",
     "ext-mbstring": "*",
     "guzzlehttp/guzzle": "^6.0.0"
   },
   "require-dev": {
-    "eoneopay/standards": "^0.1",
+    "eonx-com/standards": "^0.2",
     "laravel/lumen-framework": "^5.5",
     "mockery/mockery": "^1.0",
     "phpmd/phpmd": "^2.6",
@@ -29,6 +29,9 @@
     "sebastian/phpcpd": "^4.0",
     "squizlabs/php_codesniffer": "3.*",
     "symfony/security": "^4.3"
+  },
+  "replace": {
+    "eoneopay/webhooks": "*"
   },
   "autoload": {
     "psr-4": {
