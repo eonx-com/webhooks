@@ -99,6 +99,8 @@ class ResponseTest extends BaseEntityTestCase
                 'request_format' => 'json',
                 'request_headers' => [
                     'header' => 'value',
+                    'webhook-activity' => 'activity.key',
+                    'webhook-sequence' => 123,
                 ],
                 'request_method' => 'POST',
                 'request_url' => 'https://localhost.com/webhook',

@@ -28,7 +28,10 @@ class RequestTest extends BaseEntityTestCase
         self::assertSame(123, $request->getId());
         self::assertInstanceOf(Activity::class, $request->getActivity());
         self::assertSame('json', $request->getRequestFormat());
-        self::assertSame(['header' => 'value'], $request->getRequestHeaders());
+        self::assertSame(
+            ['header' => 'value', 'webhook-activity' => 'activity.key', 'webhook-sequence' => 123],
+            $request->getRequestHeaders()
+        );
         self::assertSame('POST', $request->getRequestMethod());
         self::assertSame('https://localhost.com/webhook', $request->getRequestUrl());
         self::assertSame(123, $request->getSequence());
@@ -51,7 +54,10 @@ class RequestTest extends BaseEntityTestCase
         $request->populate($activity, new SubscriptionStub());
 
         self::assertSame('json', $request->getRequestFormat());
-        self::assertSame(['authorization' => 'Bearer ABC123'], $request->getRequestHeaders());
+        self::assertSame(
+            ['authorization' => 'Bearer ABC123', 'webhook-activity' => 'activity.key', 'webhook-sequence' => 123],
+            $request->getRequestHeaders()
+        );
         self::assertSame('POST', $request->getRequestMethod());
         self::assertSame('https://127.0.0.1/webhook', $request->getRequestUrl());
     }
@@ -99,6 +105,8 @@ class RequestTest extends BaseEntityTestCase
             'request_format' => 'json',
             'request_headers' => [
                 'header' => 'value',
+                'webhook-activity' => 'activity.key',
+                'webhook-sequence' => 123,
             ],
             'request_method' => 'POST',
             'request_url' => 'https://localhost.com/webhook',

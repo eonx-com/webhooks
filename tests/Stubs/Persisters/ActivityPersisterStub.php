@@ -38,14 +38,6 @@ class ActivityPersisterStub implements ActivityPersisterInterface
     /**
      * {@inheritdoc}
      */
-    public function addSequenceToPayload(int $activityId): void
-    {
-        $this->addedSequence = $activityId;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function get(int $activityId): ?ActivityInterface
     {
         return $this->nextActivity;
