@@ -83,7 +83,13 @@ class Request extends Entity implements WebhookRequestInterface
      */
     public function getRequestHeaders(): array
     {
-        return $this->requestHeaders;
+        return \array_merge(
+            $this->requestHeaders,
+            [
+                'webhook-activity' => $this->getActivity()->getActivityKey(),
+                'webhook-sequence' => $this->getSequence(),
+            ]
+        );
     }
 
     /**
