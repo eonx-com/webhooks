@@ -10,3 +10,9 @@ parameters:
         -
             message: '#EoneoPay\\Webhooks\\Bridge\\Doctrine\\Entities\\([A-Z][\w]+\\)?[A-Z][\w]+::__construct\(\) does not call parent constructor from EoneoPay\\Externals\\ORM\\Entity\.#'
             path: src/Bridge/Doctrine/Entities
+        -
+            message: '#Call to function is_scalar\(\) with string will always evaluate to true\.#'
+            path: src/Webhooks/RequestBuilder.php
+        -
+            message: '#Strict comparison using === between true and false will always evaluate to false\.#'
+            path: src/Webhooks/RequestBuilder.php

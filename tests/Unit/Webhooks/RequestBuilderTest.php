@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\Webhooks\Unit\Webhooks;
 
+use EoneoPay\Webhooks\Exceptions\InvalidRequestException;
 use EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
 use EoneoPay\Webhooks\Webhooks\RequestBuilder;
@@ -95,6 +96,29 @@ HTTP;
         $request = $processor->build($webhookRequest);
 
         static::assertHttpString($expectedHttpRequest, $request);
+    }
+
+    /**
+     * Ensure an exception will get thrown if a multi-dimensional header array is provided
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlTagException
+     */
+    public function testBuildingWithMultidimensionalArrayThrowsException(): void
+    {
+        $this->expectException(InvalidRequestException::class);
+        $this->expectExceptionMessage('Request headers must be a scalar value');
+        $activity = new ActivityStub();
+        $activity->setPayload(['payload' => 'here']);
+        $webhookRequest = new RequestStub(99, [
+            'activity' => $activity,
+            'format' => 'json',
+            'headers' => [['X-Header' => '1'], ['X-Header2' => '2']]
+        ]);
+        $processor = $this->getBuilder();
+
+        $processor->build($webhookRequest);
     }
 
     /**

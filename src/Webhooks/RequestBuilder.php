@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EoneoPay\Webhooks\Webhooks;
 
 use EoneoPay\Utils\XmlConverter;
+use EoneoPay\Webhooks\Exceptions\InvalidRequestException;
 use EoneoPay\Webhooks\Exceptions\JsonSerialisationException;
 use EoneoPay\Webhooks\Exceptions\UnknownSerialisationFormatException;
 use EoneoPay\Webhooks\Models\WebhookRequestInterface;
@@ -38,6 +39,8 @@ class RequestBuilder implements RequestBuilderInterface
      */
     public function build(WebhookRequestInterface $webhookRequest): RequestInterface
     {
+        $this->validateRequest($webhookRequest);
+
         $body = $webhookRequest->getActivity()->getPayload();
         $headers = $webhookRequest->getRequestHeaders();
         $method = $webhookRequest->getRequestMethod();
@@ -82,5 +85,34 @@ class RequestBuilder implements RequestBuilderInterface
             'The "%s" format is unknown.',
             $webhookRequest->getRequestFormat()
         ));
+    }
+
+    /**
+     * Validate the request object contains values that are compatible with the Diactoros request object
+     *
+     * @param \EoneoPay\Webhooks\Models\WebhookRequestInterface $webhookRequest
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Webhooks\Exceptions\InvalidRequestException
+     */
+    private function validateRequest(WebhookRequestInterface $webhookRequest): void
+    {
+        $invalidHeaders = [];
+
+        /**
+         * Whilst this check should not be required due to type-hinting, due to magic setters on the model not enforcing
+         * strict type-hinting, it is possible that this array may contain 'mixed' values
+         */
+        foreach ($webhookRequest->getRequestHeaders() as $header => $value) {
+            /** @var mixed $value */
+            if (\is_scalar($value) === false) {
+                $invalidHeaders[] = $header;
+            }
+        }
+
+        if (\count($invalidHeaders) > 0) {
+            throw new InvalidRequestException('Request headers must be a scalar value');
+        }
     }
 }
