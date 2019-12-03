@@ -98,8 +98,6 @@ class RequestBuilder implements RequestBuilderInterface
      */
     private function validateRequest(WebhookRequestInterface $webhookRequest): void
     {
-        $invalidHeaders = [];
-
         /**
          * Whilst this check should not be required due to type-hinting, due to magic setters on the model not enforcing
          * strict type-hinting, it is possible that this array may contain 'mixed' values
@@ -107,12 +105,12 @@ class RequestBuilder implements RequestBuilderInterface
         foreach ($webhookRequest->getRequestHeaders() as $header => $value) {
             /** @var mixed $value */
             if (\is_scalar($value) === false) {
-                $invalidHeaders[] = $header;
+                /**
+                 * The type & value of the header & value could be *anything* & any type, being verbose about
+                 * the structure & types would be complex to handle
+                 */
+                throw new InvalidRequestException('Request headers must be a scalar value');
             }
-        }
-
-        if (\count($invalidHeaders) > 0) {
-            throw new InvalidRequestException('Request headers must be a scalar value');
         }
     }
 }
